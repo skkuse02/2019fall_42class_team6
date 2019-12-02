@@ -9,10 +9,11 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#">Download</b-nav-item>
-          <b-nav-item-dropdown text="User" right v-if="propsstate[0]">
+          <b-nav-item href="#" v-if="isLoggedIn">Download</b-nav-item>
+          <b-nav-item-dropdown text="User" right v-if="isLoggedIn">
             <b-dropdown-item v-on:click="moveTo('/userinfo')">Account Information</b-dropdown-item>
             <b-dropdown-item v-on:click="moveTo('/paymentmethod')">Payment Methods</b-dropdown-item>
+            <b-dropdown-item v-on:click="logout">Log out</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="User" right v-else>
             <b-dropdown-item v-on:click="moveTo('/signup')">Sign UP</b-dropdown-item>
@@ -26,10 +27,18 @@
 
 <script>
 export default {
-  props: [ 'propsstate' ],
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn
+    }
+  },
   methods: {
+    logout() {
+      this.$store.dispatch('logout')
+      .then(() => this.$router.push('/login'))
+    },
     moveTo(path){
-      this.$router.push(path);
+      this.$router.push(path).catch(err => {});
     }
   }
 }

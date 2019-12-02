@@ -123,7 +123,20 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       // 추후 DB로 보내는 식으로 수정
-      alert(JSON.stringify(this.form))
+      console.log("회원가입")
+      let form = new FormData()
+      form.append('function', 'RegisterID')
+      form.append('user_id', this.form.id)
+      form.append('password', this.form.pw)
+      form.append('user_name', this.form.name)
+      form.append('address', this.form.address)
+      form.append('phonenumber', this.form.phonenumber) // 추가 요망
+      form.append('email_address', this.form.email)
+      form.append('role', this.form.checked.length > 0 ? 1 : 0)
+
+      this.$store.dispatch('signup', form)
+      .then(() => {this.onReset(); this.$router.push("/"); } )
+      .catch(err => console.log(err))
     },
     onReset(evt) {
       evt.preventDefault()

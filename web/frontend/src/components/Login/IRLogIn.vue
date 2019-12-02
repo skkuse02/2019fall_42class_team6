@@ -56,7 +56,14 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       // 추후 DB로 보내는 식으로 수정
-      alert(JSON.stringify(this.form))
+      console.log("로그인")
+      let form = new FormData()
+      form.append('function', 'CheckLogin')
+      form.append('user_id', this.form.id)
+      form.append('password', this.form.pw)
+      this.$store.dispatch('login', form)
+      .then(() => this.$router.push("/"))
+      .catch(err => console.log(err))
     },
     moveTo() {
       this.$router.push('/signup')

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <IRHeader v-bind:propsstate="LoginState"></IRHeader>
+    <IRHeader></IRHeader>
     <router-view class="body"></router-view>
   </div>
 </template>
@@ -10,23 +10,6 @@ import IRHeader from './components/IRHeader.vue'
 //import IRBody from './components/IRBody.vue'
 
 export default {
-  data(){
-    return{
-      LoginState: [ true ],
-      UserInfo: {}
-    }
-  },
-  /*created() {
-    if(SessionStorage.length > 0){
-      for(var i=0; i < SessionStorage.length; i++){
-        // 세션스토리지 데이터를 뷰 데이터에 저장
-        this.UserInfo[SessionStorage.key(i)] = SessionStorage.value(i));
-      }
-    }
-  },*/
-  methods: {
-
-  },
   components: {
     IRHeader: IRHeader,
   }
