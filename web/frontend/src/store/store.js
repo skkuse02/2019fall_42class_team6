@@ -36,15 +36,25 @@ export default new Vuex.Store({
 		login({commit}, user){
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
-				axios({url: '/api/inteReal/user', data: user, method: 'POST' })
+				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					const token = resp.data.token
-					const user = resp.data.user
-					localStorage.setItem('token', token)
-					// Add the following line:
-					axios.defaults.headers.common['Authorization'] = token
-					commit('auth_success', token, user)
-					resolve(resp)
+					console.log(resp)
+					if (!resp.data){
+						commit('auth_error')
+						alert("존재하지 않는 회원정보입니다.")
+						reject(resp)
+					}else{
+						//const token = resp.data.token
+						//const user = resp.data.user
+						const token = resp
+						const user = resp.user_id
+
+						localStorage.setItem('token', token)
+						// Add the following line:
+						axios.defaults.headers.common['Authorization'] = token
+						commit('auth_success', token, user)
+						resolve(resp)
+					}
 				})
 				.catch(err => {
 					commit('auth_error')
