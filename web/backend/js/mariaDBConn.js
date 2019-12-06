@@ -21,7 +21,7 @@ async function SearchID(user_id){
     }
     finally{
         if (conn) conn.end();
-        if (rows) result = true;
+        if (rows.length > 0) result = true;
         else result = false;
         return result;
     }
@@ -655,7 +655,7 @@ async function CheckPaymentPW(payment_id, payment_pw){
     }
     finally{
         if (conn) conn.end();
-        if (rows) result = true;
+        if (rows.length > 0) result = true;
         else result = false;
         return result;
     }

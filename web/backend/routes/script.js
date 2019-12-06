@@ -26,7 +26,7 @@ router.post('/user', parser, function (req, res){
   };
   if (req.body.function=='ModifyInfo'){
     mdbConn.modifyInfo(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, req.body.payment_method, req.body.role).then((result)=>{
-      req.send(result);
+      res.send(result);
       console.log('modifyInfo');
     }).catch((errMsg)=>{
       res.send(errMsg);
@@ -34,7 +34,7 @@ router.post('/user', parser, function (req, res){
   };
   if (req.body.function=='ResetPW'){
     mdbConn.resetPW(req.body.user_id).then((result)=>{
-      req.send(result);
+      res.send(result);
       console.log('resetPW');
     }).catch((errMsg)=>{
       res.send(errMsg);
