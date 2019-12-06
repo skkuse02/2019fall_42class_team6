@@ -404,7 +404,7 @@ async function GetProductfile(product_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `SELECT product_file FROM product WHERE product_id = '`+product_id+`';`;
+        var query = `SELECT product_file FROM product_file WHERE product_id = '`+product_id+`';`;
         rows = await conn.query(query);
     }
     catch(err){
