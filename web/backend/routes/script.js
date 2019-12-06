@@ -3,6 +3,8 @@ var router = express.Router();
 var mdbConn   = require('../js/mariaDBConn');
 var bodyParser = require('body-parser')
 var parser = bodyParser.urlencoded({ extended: false});
+var multer = require('multer');
+var upload = multer({dest: '../file'});
 
 /* GET home page. */
 router.post('/user', parser, function (req, res){
@@ -357,5 +359,8 @@ router.post('/keyword', function (req, res){
     });
   };
 });
-
+router.post('/upload', function (req, res){
+  res.send('Uploaded! : '+req.file);
+  console.log(req.file);
+});
 module.exports = router;
