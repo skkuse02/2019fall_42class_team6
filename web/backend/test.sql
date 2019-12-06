@@ -11,8 +11,8 @@ CREATE TABLE users(
 	user_pw VARCHAR(50) NOT NULL,
 	user_name VARCHAR(30) NOT NULL,
 	address VARCHAR(50) NOT NULL,
-	email_address VARCHAR(20) NOT NULL,
-	payment_id VARCHAR(20) NOT NULL,
+	email_address VARCHAR(20),
+	payment_id VARCHAR(20),
 	role BOOLEAN NOT NULL,
 	PRIMARY KEY (user_id)
 );
@@ -41,6 +41,12 @@ CREATE TABLE product
 	color VARCHAR(20) NOT NULL,
 	category VARCHAR(20) NOT NULL,
 	PRIMARY KEY (product_id)
+);
+DROP TABLE IF EXISTS product_file;
+CREATE TABLE product_file
+(
+	product_id VARCHAR(20) NOT NULL,
+	product_file VARCHAR(30) NOT NULL
 );
 DROP TABLE IF EXISTS cart;
 CREATE TABLE cart
@@ -109,6 +115,10 @@ INSERT INTO product(product_id, product_name, product_file, company, width, heig
 INSERT INTO product(product_id, product_name, product_file, company, width, height, depth, color, category) VALUES('product_8', 'product_name_8', 'product_8.obj', 'ILOOM', 1.8, 1.8, 2, 'BROWN', 'CLOSET');
 INSERT INTO product(product_id, product_name, product_file, company, width, height, depth, color, category) VALUES('product_9', 'product_name_9', 'product_9.obj', 'ILOOM', 1.5, 1, 1.5, 'WHITE', 'TABLE');
 
+INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.mtl');
+
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_1', 'user1', 'product_1');
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_1', 'user1', 'product_3');
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_1', 'user1', 'product_4');
@@ -153,6 +163,7 @@ INSERT INTO keyword(keyword_id, product_id) VALUES('classic','product_2');
 SELECT * FROM users;
 SELECT * FROM model;
 SELECT * FROM product;
+SELECT * FROM product_file;
 SELECT * FROM cart;
 SELECT * FROM purchase;
 SELECT * FROM payment;
