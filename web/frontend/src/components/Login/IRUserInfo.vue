@@ -12,15 +12,35 @@ export default {
   data(){
     return {
       infoItems: [{
-        'ID': 'shb0107',
-        'Name': '서해빈',
-        'Address': '수원시 장안구 화산로 203번길 9-9',
-        'Phone Number': '01073073446',
-        'Email': 'shb0107@gmail.com',
-        'Role': 'seller'
+        'ID': '',
+        'Name': '',
+        'Address': '',
+        'Email': '',
+        'Role': ''
       }]
     }
   },
+  created() {
+    let info =  JSON.parse(localStorage.getItem('token'))
+    this.infoItems[0].ID = info.user_id
+    this.infoItems[0].Name = info.user_name
+    this.infoItems[0].Address = info.address
+    this.infoItems[0].Email = info.email_address
+    this.infoItems[0].Role = info.role == 0 ? 'customer' : 'seller'
+  },
+  /*computed: {
+    getUserStatus() {
+      let info =  JSON.parse(localStorage.getItem('token'))
+      console.log(info)
+      return [info]
+      //this.infoItems['ID'] = info.user_id
+      //this.infoItems['Name'] = info.user_name
+      //this.infoItems['Address'] = info.address
+      //this.infoItems['Email'] = info.email_address
+      //this.infoItems['Role'] = info.role == 0 ? 'customer' : 'seller'
+      return this.infoItems
+    }
+  },*/
   methods: {
     moveTo(){
       this.$router.push('/modifyuserinfo');
