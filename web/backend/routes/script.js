@@ -3,8 +3,8 @@ var router = express.Router();
 var mdbConn   = require('../js/mariaDBConn');
 var bodyParser = require('body-parser')
 var parser = bodyParser.urlencoded({ extended: false});
-var multer = require('multer');
-var upload = multer({dest: '../file'});
+var fs = require('fs');
+var path = require('path');
 
 /* GET home page. */
 router.post('/user', parser, function (req, res){
@@ -188,6 +188,13 @@ router.post('/product', function (req, res){
   };
   if (req.body.function=='GetProductfile'){
     mdbConn.getProductfile(req.body.product_id).then((result)=>{
+      for(var i in result){
+        var productfile = result[i].product_file;
+        var filename = path.join(__dirname,'..','public','file',productfile);
+        fs.readFile(filename,function(err,buf){
+          console.log(buf);
+        });
+      };
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -198,7 +205,7 @@ router.post('/product', function (req, res){
 
 router.post('/cart', function (req, res){
   if (req.body.function=='GetCartid'){
-    mdbConn.getProductfile(req.body.user_id).then((result)=>{
+    mdbConn.getCartid(req.body.user_id).then((result)=>{
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -206,7 +213,7 @@ router.post('/cart', function (req, res){
     });
   };
   if (req.body.function=='GetProductListByCartid'){
-    mdbConn.getProductfile(req.body.cart_id).then((result)=>{
+    mdbConn.getProductListByCartid(req.body.cart_id).then((result)=>{
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -358,9 +365,5 @@ router.post('/keyword', function (req, res){
       res.send(errMsg);
     });
   };
-});
-router.post('/upload', function (req, res){
-  res.send('Uploaded! : '+req.file);
-  console.log(req.file);
 });
 module.exports = router;

@@ -4,6 +4,7 @@ var logger = require('morgan');
 
 //var inteRealRouter = require('./routes/script');
 var router = require('./routes/script');
+var unityComm = require('./js/unityComm');
 
 var app = express();
 
@@ -11,12 +12,14 @@ var app = express();
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'pug');
 
+app.set('port', process.env.PORT|| 3000);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(router);
+unityComm.socketconn(app);
 //app.use('/api/inteReal', inteRealRouter);
 /*
 // catch 404 and forward to error handler
@@ -35,4 +38,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 */
+app.listen(app.get('port'),function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
 module.exports = app;
