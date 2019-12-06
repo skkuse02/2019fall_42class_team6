@@ -46,8 +46,9 @@ export default new Vuex.Store({
 					}else{
 						//const token = resp.data.token
 						//const user = resp.data.user
-						const token = resp
-						const user = resp.user_id
+						const token = resp.data
+						const user = resp.data.user_id
+						console.log("login된 user id : ",user)
 
 						localStorage.setItem('token', token)
 						// Add the following line:
