@@ -145,11 +145,10 @@ router.post('/model', function (req, res){
 });
 
 router.post('/product', function (req, res){
-  product_id, product_name, company, width, height, depth, color, category, price, descrip
   if (req.body.function=='AddProduct'){
     var query = `SELECT count(*) as cnt FROM product LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var product_id = 'product_'+result[0].cnt;
+      var product_id = 'product_'+(result[0].cnt*1+1)*"";
       mdbConn.addProduct(product_id, req.body.product_name, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category, req.body.price, req.body.descrip).then((result)=>{
         res.send(result);
         console.log('addProduct');
@@ -353,7 +352,7 @@ router.post('/payment', function (req, res){
   if (req.body.function=='AddPayment'){
     var query = `SELECT count(*) as cnt FROM payment LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var payment_id = 'payment_'+result[0].cnt;
+      var payment_id = 'payment_'+(result[0].cnt*1+1)*"";
       mdbConn.addPayment(payment_id, req.body.user_id, req.body.card_company, req.body.card_number, req.body.valid_month, req.body.valid_year, req.body.CVC, req.body.payment_pw).then((result)=>{
         res.send(result);
         console.log('addPayment');
