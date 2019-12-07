@@ -21,7 +21,7 @@ export default {
     }
   },
   created() {
-    let info =  JSON.parse(localStorage.getItem('token'))
+    let info =  JSON.parse(localStorage.getItem('userToken'))
     this.infoItems[0].ID = info.user_id
     this.infoItems[0].Name = info.user_name
     this.infoItems[0].Address = info.address
