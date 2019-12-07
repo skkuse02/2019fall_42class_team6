@@ -5,9 +5,8 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.IO;
 
-public class HttpRequest: MonoBehaviour
-{
-    public IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
+public class HttpRequest: MonoBehaviour {
+    public static IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
         /* call StartCoroutine(Get()); to where the request is needed */
         List<string> paramString = new List<string>();
         foreach (var p in parameters) {

@@ -47,5 +47,6 @@ public class RoomManager : MonoBehaviour
         }
 
         player.transform.position = new Vector3(maxX / 200.0f, 2, -maxZ / 200.0f);
+        Debug.Log("transform: " + player.transform.position.x);
     }
 }

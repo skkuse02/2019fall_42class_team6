@@ -1,38 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.EventSystems;
+using HTC.UnityPlugin.Pointer3D;
+using HTC.UnityPlugin.Utility;
+using HTC.UnityPlugin.Vive;
 
 public class DragObject : MonoBehaviour
 {
     public Camera camera;
+    public ViveRaycaster viveRay;
     public GameObject target;
-
-    //bool isAttached = false;
+    public HoldTrigger holdTrigger;
 
     public void Attach(GameObject obj) {
-        //isAttached = true;
         target = obj;
     }
 
+    public void Detach() {
+        target = null;
+    }
+
     void Update() {
+        if(XRDevice.isPresent) {
+            DragByVRController();
+        }
+        else {
+            DragByMouse();
+        }
+    }
+
+    void DragByMouse() {
 
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-
         if (target != null) {
-            RaycastHit[] hits;
-            bool onHit = false;
-
-            hits = Physics.SphereCastAll(ray, 0.001f, 100.0f);
+            RaycastHit[] hits = Physics.SphereCastAll(ray, 0.001f, 100.0f);
 
             foreach (RaycastHit hit in hits) {
-                if (hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
-
+                if(hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
                     target.transform.position = hit.point;
                     Debug.DrawLine(ray.origin, hit.point);
-                    Debug.Log(hit.point);
 
-                    if (Input.GetMouseButtonDown(0)) {
+                    if(Input.GetMouseButtonDown(0)) {
                         Detach();
                     }
                     break;
@@ -41,39 +51,44 @@ public class DragObject : MonoBehaviour
         }
         else {
             RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit)) {
+            if(Physics.Raycast(ray, out hit)) {
                 GameObject target = hit.collider.gameObject;
                 Debug.Log(target);
-                if (Input.GetMouseButtonDown(0) && !target.CompareTag("wall") && !target.CompareTag("floor")) {
+                if(Input.GetMouseButtonDown(0) && !target.CompareTag("wall") && !target.CompareTag("floor")) {
                     Attach(target);
                 }
             }
         }
-
-        //LayerMask mask = LayerMask.GetMask("Walls");
-        //if (Physics.Raycast(ray, out hit, mask)) {
-        //    if (target != null) {
-        //        target.transform.position = hit.point;
-        //        Debug.DrawLine(ray.origin, hit.point);
-        //        Debug.Log(hit.point);
-
-        //        if (Input.GetMouseButtonDown(0)) {
-        //            Detach();
-        //        }
-        //    }
-        //    else {
-        //        GameObject target = hit.collider.gameObject;
-        //        Debug.Log(target);
-        //        if (Input.GetMouseButtonDown(0) && !target.CompareTag("wall") && !target.CompareTag("floor")) {
-        //            Attach(target);
-        //        }
-        //    }
-        //}
     }
 
-    public void Detach() {
-        //isAttached = false;
-        target = null;
+    void DragByVRController() {
+        Transform viveTransform = viveRay.transform;
+        Vector3 forward = viveTransform.forward;
+        Vector3 origin = viveTransform.position;
+
+        if (target != null) {
+            RaycastHit[] hits = Physics.SphereCastAll(origin, 0.001f, forward, 100.0f);
+
+            foreach (RaycastHit hit in hits) {
+                if(hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
+                    target.transform.position = hit.point;
+
+                    if(!holdTrigger.isHold) {
+                        Detach();
+                    }
+                    break;
+                }
+            }
+        }
+        else {
+            RaycastHit hit;
+            if(Physics.Raycast(origin, forward, out hit, 100.0f)) {
+                GameObject target = hit.collider.gameObject;
+                Debug.Log(target);
+                if(holdTrigger.isHold && !target.CompareTag("wall") && !target.CompareTag("floor")) {
+                    Attach(target);
+                }
+            }
+        }
     }
 }
