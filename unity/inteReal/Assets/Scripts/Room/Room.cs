@@ -63,6 +63,7 @@ public class Room {
         floorObj.transform.parent = roomObj.transform;
         floorObj.transform.tag = "floor";
         floorObj.layer = 8;
+        
         Rigidbody rb = floorObj.AddComponent<Rigidbody>();
         rb.mass = 1.0f;
         rb.isKinematic = true;

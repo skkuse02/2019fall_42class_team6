@@ -2,13 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using HTC.UnityPlugin.Vive;
 
 public class RoomManager : MonoBehaviour
 {
     //public Button btn;
     private HttpRequest httpRequest;
     private RoomParser roomParser;
+    public enum TeleportButton
+    {
+        Trigger,
+        Pad,
+        Grip,
+    }
+
     public GameObject player;
+    public Transform target;
+    public Transform pivot;
+    public float fadeDuration = 0.3f;
 
     void Start() {
         //btn = this.transform.GetComponent<Button>();
@@ -28,6 +39,14 @@ public class RoomManager : MonoBehaviour
 
         Room room = roomParser.Convert(roomParser.Parse(json));
         GameObject roomObj = room.GenerateRoom();
+
+        GameObject[] floors = GameObject.FindGameObjectsWithTag("floor");
+        foreach (GameObject fo in floors) {
+            fo.AddComponent<Teleportable>();
+            fo.AddComponent<Teleportable>().target = target;
+            fo.AddComponent<Teleportable>().pivot = pivot;
+            fo.AddComponent<Teleportable>().fadeDuration = fadeDuration;
+        }
 
         MoveCamera(room);
     }

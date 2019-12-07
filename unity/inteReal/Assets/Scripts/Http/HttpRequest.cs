@@ -25,6 +25,26 @@ public class HttpRequest: MonoBehaviour {
         }
     }
 
+    public static IEnumerator Post(string endpoint, Dictionary<string, string> headerData, Dictionary<string, string> bodyData, Dictionary<string, string> parameters) {
+        WWWForm form = new WWWForm();
+        foreach (var p in bodyData) {
+            form.AddField(p.Key, p.Value);
+        }
+
+        UnityWebRequest uwr = UnityWebRequest.Post(endpoint, form);
+        foreach (var p in headerData) {
+            uwr.SetRequestHeader(p.Key, p.Value);
+        }
+        yield return uwr.SendWebRequest();
+        
+        if (uwr.isNetworkError || uwr.isHttpError) {
+            Debug.Log("Error while POST: " + uwr.error);
+        }
+        else {
+            yield return uwr.downloadHandler.text;
+        }
+    }
+
     [MenuItem("Tools/Read file")]
     public static string GetTestJSON() {
         string path = "Assets/Resources/test_room.json";
