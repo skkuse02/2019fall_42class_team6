@@ -26,7 +26,6 @@ CREATE TABLE model
 	roomInfo_file VARCHAR(30) NOT NULL,
 	roomname VARCHAR(20) NOT NULL,
 	PRIMARY KEY (model_id),
-	FOREIGN KEY (user_id) REFERENCES USERs(user_id)
 );
 DROP TABLE IF EXISTS product;
 CREATE TABLE product
@@ -54,9 +53,7 @@ CREATE TABLE cart
 (
 	cart_id VARCHAR(20) NOT NULL,
 	user_id VARCHAR(20) NOT NULL,
-	product_id VARCHAR(20) NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES USERs(user_id),
-	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
+	product_id VARCHAR(20) NOT NULL
 );
 DROP TABLE IF EXISTS payment;
 CREATE TABLE payment
@@ -69,8 +66,7 @@ CREATE TABLE payment
 	valid_year INTEGER NOT NULL,
 	CVC INTEGER NOT NULL,
 	payment_pw VARCHAR(50) NOT NULL,
-	PRIMARY KEY (payment_id),
-	FOREIGN KEY (user_id) REFERENCES USERs(user_id)
+	PRIMARY KEY (payment_id)
 );
 DROP TABLE IF EXISTS purchase;
 CREATE TABLE purchase
@@ -82,17 +78,13 @@ CREATE TABLE purchase
 	addr VARCHAR(20) NOT NULL,
 	purchase_date DATE NOT NULL,
 	purchase_status VARCHAR(10) NOT NULL,
-	total_cost INTEGER NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES USERs(user_id),
-	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id),
-	FOREIGN KEY (payment_id) REFERENCES PAYMENT(payment_id)
+	total_cost INTEGER NOT NULL
 );
 DROP TABLE IF EXISTS keyword;
 CREATE TABLE keyword
 (
 	keyword_id VARCHAR(20) NOT NULL,
-	product_id VARCHAR(20) NOT NULL,
-	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
+	product_id VARCHAR(20) NOT NULL
 );
 INSERT INTO users(user_id, user_pw, user_name, address, email_address, payment_id, role) VALUES('user1', PASSWORD('user1'), 'user1', 'address1', 'user1@mail.com', 'payment_1', 0);
 INSERT INTO users(user_id, user_pw, user_name, address, email_address, payment_id, role) VALUES('user2', PASSWORD('user2'), 'user2', 'address2', 'user2@mail.com', 'payment_2', 0);

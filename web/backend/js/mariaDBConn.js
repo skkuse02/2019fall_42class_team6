@@ -701,7 +701,7 @@ async function GetPaymentList(user_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `SELECT payment_id FROM payment WHERE user_id = '`+user_id+`';`;
+        var query = `SELECT payment_id, card_number FROM payment WHERE user_id = '`+user_id+`';`;
         rows = await conn.query(query);
     }
     catch(err){
