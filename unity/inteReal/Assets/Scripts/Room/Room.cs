@@ -62,6 +62,7 @@ public class Room {
         floorObj.transform.localScale = new Vector3(floor.size, 1, floor.size) / 10;
         floorObj.transform.parent = roomObj.transform;
         floorObj.transform.tag = "floor";
+        floorObj.layer = 8;
         Rigidbody rb = floorObj.AddComponent<Rigidbody>();
         rb.mass = 1.0f;
         rb.isKinematic = true;
@@ -89,6 +90,7 @@ public class Room {
             rb.isKinematic = true;
             wallObj.transform.parent = roomObj.transform;
             wallObj.transform.tag = "wall";
+            wallObj.layer = 8;
         }
 
         return roomObj;
