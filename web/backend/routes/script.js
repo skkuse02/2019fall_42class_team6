@@ -70,8 +70,8 @@ router.post('/user', parser, function (req, res){
 router.post('/model', function (req, res){
   if (req.body.function=='LoadModelList'){
     mdbConn.loadModelList(req.body.user_id).then((result)=>{
+	    console.log(result);
       res.send(result);
-      console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
