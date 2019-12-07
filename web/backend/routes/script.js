@@ -399,9 +399,9 @@ router.post('/keyword', function (req, res){
 });
 
 // unity communication
-router.get('/keyword', parser, function(req,res){
-  if (req.body.function=='GetProductListByKeyword'){
-    if (req.body.keyword_id==''){
+router.get('/keyword', function(req,res){
+  if (req.query.function=='GetProductListByKeyword'){
+    if (req.query.keyword_id==''){
       var query = `SELECT * FROM product;`;
       mdbConn.directquery(query).then((result)=>{
         res.send(result);
@@ -410,7 +410,7 @@ router.get('/keyword', parser, function(req,res){
       });
     }
     else{
-      mdbConn.getProductListByKeyword(req.body.keyword_id).then((result)=>{
+      mdbConn.getProductListByKeyword(req.query.keyword_id).then((result)=>{
         res.send(result);
         console.log(result);
       }).catch((errMsg)=>{
@@ -418,24 +418,24 @@ router.get('/keyword', parser, function(req,res){
       });
     };
   };
-  if (req.body.function=='GetProductInfo'){
-    mdbConn.getProductinfo(req.body.product_id).then((result)=>{
+  if (req.query.function=='GetProductInfo'){
+    mdbConn.getProductInfo(req.query.product_id).then((result)=>{
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
   };
-  if (req.body.function=='GetProductfileList'){
-    mdbConn.getProductfile(req.body.product_id).then((result)=>{
+  if (req.query.function=='GetProductfileList'){
+    mdbConn.getProductfile(req.query.product_id).then((result)=>{
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
   };
-  if(req.body.function=='GetFile'){
-    var filename = path.join(__dirname,'..','public','file',req.body.filename);
+  if(req.query.function=='GetFile'){
+    var filename = path.join(__dirname,'..','public','file',req.query.filename);
     res.sendFile(filename);
   };
 });
