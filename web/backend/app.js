@@ -3,9 +3,6 @@ var path = require('path');
 var logger = require('morgan');
 
 //var inteRealRouter = require('./routes/script');
-var router = require('./routes/script');
-var unityComm = require('./js/unityComm');
-
 var app = express();
 
 // view engine setup
@@ -18,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(router);
-unityComm.socketconn(app);
 //app.use('/api/inteReal', inteRealRouter);
 /*
 // catch 404 and forward to error handler
