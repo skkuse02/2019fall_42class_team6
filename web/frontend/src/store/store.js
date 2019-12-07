@@ -38,7 +38,7 @@ export default new Vuex.Store({
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp)
+					console.log(resp.data[0])
 					if (!resp.data){
 						commit('auth_error')
 						alert("존재하지 않는 회원정보입니다.")
@@ -46,11 +46,13 @@ export default new Vuex.Store({
 					}else{
 						//const token = resp.data.token
 						//const user = resp.data.user
-						const token = resp.data
-						const user = resp.data.user_id
-						console.log("login된 user id : ",user)
+						const token = resp.data[0]
+						const user = resp.data[0].user_id
+						console.log("login된 user id : ", user)
 
-						localStorage.setItem('token', token)
+						delete token.user_pw
+
+						localStorage.setItem('token', JSON.stringify(token))
 						// Add the following line:
 						axios.defaults.headers.common['Authorization'] = token
 						commit('auth_success', token, user)
