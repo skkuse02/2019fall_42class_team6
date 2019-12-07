@@ -1,0 +1,25 @@
+{
+	"products" : [
+		{
+			"product_id": 0,
+			"brand": "IKEA",
+			"name": "product 1",
+			"description": "qwer;iljka;msdfml;kamlk;\nsdjriopqweurvqpwoe\nrj'asdofi[qwopeir[opqwi#%WE%^Oje\nrpfasdfasdfiouqwpeoriuasdfadfasdfasdfasdfasdfdsfdfsdfdfsdfdsfsdf",
+			"price": 10000
+		},
+		{
+			"product_id": 1,
+			"brand": "IKEA",
+			"name": "product 2",
+			"description": "qwer;iljka;msdfml;kamlk;\nsdjriopqweurvqpwoe\nrj'asdofi[qwopeir[opqwi#%WE%^Oje\nrpfasdfasdfiouqwpeoriuasdfadfasdfasdfasdfasdfdsfdfsdfdfsdfdsfsdf",
+			"price": 10500
+		},
+		{
+			"product_id": 2,
+			"brand": "IKEA",
+			"name": "product 3",
+			"description": "qwer;iljka;msdfml;kamlk;\nsdjriopqweurvqpwoe\nrj'asdofi[qwopeir[opqwi#%WE%^Oje\nrpfasdfasdfiouqwpeoriuasdfadfasdfasdfasdfasdfdsfdfsdfdfsdfdsfsdf",
+			"price": 20000
+		}
+	]
+}
