@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(router);
 //app.use('/api/inteReal', inteRealRouter);
 /*
 // catch 404 and forward to error handler
