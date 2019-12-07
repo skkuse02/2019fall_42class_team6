@@ -271,12 +271,13 @@ async function GetRoomName(model_id){
 };
 // Product Table
 // AddProduct
-async function AddProduct(product_id, product_name, product_file, company, width, height, depth, color, category){
+async function AddProduct(product_id, product_name, company, width, height, depth, color, category, price, descrip){
+    product_id, product_name, company, width, height, depth, color, category, price, descrip
     let conn, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO product(product_id, product_name, product_file, company, width, height, depth, color, category) VALUES('`+product_id+`','`+product_name+`','`+product_file+`','`+company+`', `+width+`, `+height+`,`+depth+`,'`+color+`', '`+category+`';`;
+        var query = `INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('`+product_id+`','`+product_name+`','`+company+`', `+width+`, `+height+`,`+depth+`,'`+color+`', '`+category+`, `+price+`,'`+descrip+`';`;
         await conn.query(query);
         result = true;
     }
@@ -393,7 +394,25 @@ async function GetProductColor(product_id){
         throw err;
     }
     finally{
-        if (conn) conn.end();
+        if (conn) conn.end();   
+        result = rows;
+        return result;
+    }
+}
+// GetProductInfo
+async function GetProductInfo(product_id){
+    let conn, rows, result;
+    try{
+        conn = await pool.getConnection();
+        conn.query('Use intereal');
+        var query = `SELECT * FROM product WHERE product_id = '`+product_id+`';`;
+        rows = await conn.query(query);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();   
         result = rows;
         return result;
     }
@@ -674,7 +693,8 @@ async function GetPaymentList(user_id){
     }
     finally{
         if (conn) conn.end();
-        result = rows;
+        if (rows.length > 0) result = rows;
+        else result = false;
         return result;
     }
 }
@@ -815,6 +835,7 @@ module.exports = {
     getProductSize : GetProductSize,
     getProductColor : GetProductColor,
     getProductfile : GetProductfile,
+    getProductInfo : GetProductInfo,
     getCartid : GetCartid,
     getProductListByCartid : GetProductListByCartid,
     addProductToCart : AddProductToCart,

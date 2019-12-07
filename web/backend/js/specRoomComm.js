@@ -6,7 +6,8 @@ var mdbConn   = require('./mariaDBConn');
 function socketconn(app){
   var server=require('http').Server(app);
   var io=require('socket.io')(server);
-  io.sockets.on('request', function(data){
+  io.on('request', function(data){
+    console.log(data);
     var function_id = data.function;
     if(function_id==''){
       var user_id = data.user_id;
