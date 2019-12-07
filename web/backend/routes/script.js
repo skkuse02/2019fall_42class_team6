@@ -80,7 +80,7 @@ router.post('/model', function (req, res){
     var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
       var model_id = 'model_'+result[0].cnt;
-      mdbConn.addPayment(model_id, req.body.user_id, req.body.model_file, req.body.roomInfo_file, req.body.roomname).then((result)=>{
+      mdbConn.addModel(model_id, req.body.user_id, req.body.model_file, req.body.roomInfo_file, req.body.roomname).then((result)=>{
         res.send(result);
         console.log('addModel');
       }).catch((errMsg)=>{
