@@ -72,8 +72,8 @@ export default {
     onReset(evt) {
       evt.preventDefault()
       // Reset our form values
+      this.form.pw = ''
       this.form.address = ''
-      this.form.phonenumber = ''
       this.form.email = ''
       this.form.checked = []
       // Trick to reset/clear native browser form validation state
