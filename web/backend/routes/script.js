@@ -80,7 +80,11 @@ router.post('/model', function (req, res){
     var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
       var model_id = 'model_'+(result[0].cnt*1+1)*"";
-      mdbConn.addModel(model_id, req.body.user_id, null, req.body.roomInfo_file, req.body.roomname).then((result)=>{
+      var roomInfo_file = req.body.model_id+'.json';
+      var json = JSON.stringify(req.body.roomInfo);
+      var filepath = path.join(__dirname,'..','public','file',roomInfo_file);
+      fs.writeFile(filepath, json, 'utf-8');
+      mdbConn.addModel(model_id, req.body.user_id, null, roomInfo_file, req.body.roomname).then((result)=>{
         res.send(result);
         console.log('addModel');
       }).catch((errMsg)=>{
@@ -114,7 +118,9 @@ router.post('/model', function (req, res){
   };
   if (req.body.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.body.model_id).then((result)=>{
-      res.send(result);
+      filename = result[0].roomInfo_file;
+      var filepath = path.join(__dirname,'..','public','file',filename);
+      res.sendFile(filepath);
       console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
