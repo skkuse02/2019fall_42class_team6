@@ -70,8 +70,8 @@ router.post('/user', parser, function (req, res){
 router.post('/model', function (req, res){
   if (req.body.function=='LoadModelList'){
     mdbConn.loadModelList(req.body.user_id).then((result)=>{
+	    console.log(result);
       res.send(result);
-      console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
@@ -79,8 +79,12 @@ router.post('/model', function (req, res){
   if (req.body.function=='AddModel'){
     var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var model_id = 'model_'+result[0].cnt;
-      mdbConn.addPayment(model_id, req.body.user_id, req.body.model_file, req.body.roomInfo_file, req.body.roomname).then((result)=>{
+      var model_id = 'model_'+(result[0].cnt*1+1)+"";
+	    console.log(model_id);
+	    console.log(req.body.user_id);
+	    console.log(req.body.roomInfo_file);
+	    console.log(req.body.roomname);
+      mdbConn.addModel(model_id, req.body.user_id, null , req.body.roomInfo_file, req.body.roomname).then((result)=>{
         res.send(result);
         console.log('addModel');
       }).catch((errMsg)=>{

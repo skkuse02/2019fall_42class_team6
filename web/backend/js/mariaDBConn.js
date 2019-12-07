@@ -162,7 +162,7 @@ async function LoadModelList(user_id){
     let conn, rows, result;
     try{
         conn = await pool.getConnection();
-        conn.query('Use intereal');
+        conn.query('Use intereal;');
         var query = `SELECT model_id FROM model WHERE user_id='`+user_id+`';`;
         rows = await conn.query(query);
     }
@@ -181,12 +181,14 @@ async function AddModel(model_id, user_id, model_file, roomInfo_file, roomname){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('`+model_id+`','`+user_id+`','`+model_file+`',`+SYSDATE()+`, '`+roomInfo_file+`', '`+roomname+`';`;
-        await conn.query(query);
+        var query = `INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('`+model_id+`','`+user_id+`','`+model_file+`', SYSDATE(), '`+roomInfo_file+`', '`+roomname+`');`;
+        console.log(query);
+		await conn.query(query);
         result = true;
     }
     catch(err){
-        result = false;
+        console.log(err);
+	    result = false;
         throw err;
     }
     finally{
