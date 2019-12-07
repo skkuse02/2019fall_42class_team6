@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var router = require('./routes/script');
 
 //var inteRealRouter = require('./routes/script');
 var app = express();
@@ -8,7 +9,7 @@ var app = express();
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'pug');
-
+app.use(router);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
