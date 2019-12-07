@@ -21,7 +21,7 @@ CREATE TABLE model
 (
 	model_id VARCHAR(20) NOT NULL,
 	user_id VARCHAR(20) NOT NULL,
-	model_file VARCHAR(30) NOT NULL,
+	model_file VARCHAR(30),
 	add_date DATE NOT NULL,
 	roomInfo_file VARCHAR(30) NOT NULL,
 	roomname VARCHAR(20) NOT NULL,
