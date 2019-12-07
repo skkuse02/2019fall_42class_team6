@@ -14,7 +14,7 @@ export default new Vuex.Store({
 	},
 	getters: {
 		isLoggedIn: state => !!state.userToken,
-		paymentMethod: state => !!state.paymentToken,
+		existPaymentMethod: state => !!state.paymentToken,
 		authStatus: state => state.status
 	},
 	mutations: {
@@ -39,6 +39,9 @@ export default new Vuex.Store({
 		paycheck_success(state, paymentToken){
 			state.status = 'success'
 			state.paymentToken = paymentToken
+		},
+		paycheck_simple_success(state){
+			state.status = 'success'
 		},
 		paycheck_error(state){
 			state.status = 'error'
@@ -156,9 +159,9 @@ export default new Vuex.Store({
 						localStorage.setItem('paymentToken', paymentToken)
 					}else{
 						// payment id로만 이루어진 array 생성
-						var paymentToken = []
+						var paymentToken = {}
 						for(var obj in resp.data){
-							paymentToken.push(Object.values(obj)[0])
+							paymentToken[obj[payment_id]] = obj[card_number]
 						}
 						localStorage.setItem('paymentToken', JSON.stringify(paymentToken))
 					}
@@ -197,7 +200,50 @@ export default new Vuex.Store({
 				})
 			})
 		},
-
+		setDefaultPayment({commit}, payment){
+			return new Promise((resolve, reject) => {
+				commit('paycheck_request')
+				axios({url: '/payment', data: payment, method: 'POST' })
+				.then(resp => {
+					console.log(resp.data)
+					if (!resp.data){
+						commit('paycheck_error')
+						alert("기본 결제수단 등록에 실패했습니다.")
+						reject(resp)
+					}else{
+						commit('paycheck_simple_success')
+						resolve(resp)
+					}
+				})
+				.catch(err => {
+					commit('paycheck_error', err)
+					alert("통신에 실패했습니다.")
+					reject(err)
+				})
+			})
+		},
+		removePayment({commit}, payment){
+			return new Promise((resolve, reject) => {
+				commit('paycheck_request')
+				axios({url: '/payment', data: payment, method: 'POST' })
+				.then(resp => {
+					console.log(resp.data)
+					if (!resp.data){
+						commit('paycheck_error')
+						alert("결제수단 삭제에 실패했습니다.")
+						reject(resp)
+					}else{
+						dispatch('getPaymentList')
+						resolve(resp)
+					}
+				})
+				.catch(err => {
+					commit('paycheck_error', err)
+					alert("통신에 실패했습니다.")
+					reject(err)
+				})
+			})
+		},
 
 
 	}

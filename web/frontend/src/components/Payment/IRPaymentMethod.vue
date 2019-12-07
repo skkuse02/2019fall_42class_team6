@@ -19,12 +19,15 @@ export default {
   data(){
     return {
       var paymentToken = []
-      var is_empty = true
     }
   },
-  created(){
-    this.paymentToken = this.$store.getters.paymentMethod
-    this.is_empty = this.paymentToken.length == 0 ? true : false
+  created() {
+    this.paymentToken = JSON.parse(localStorage.getItem('paymentToken'))
+  },
+  computed: {
+    is_empty() {
+      return !this.$store.getters.existPaymentMethod
+    }
   }
 }
 </script>
