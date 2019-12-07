@@ -6,6 +6,22 @@ const pool = mariadb.createPool({
     user: vals.DBUser, password: vals.DBPass,
     connectionLimit: 5
 });
+async function directquery(query){
+    let conn, rows, result;
+    try{
+        conn = await pool.getConnection();
+        conn.query('Use intereal;');
+        rows = await conn.query(query);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        result = rows;
+        return result;
+    }
+}
 // User Table
 // SearchID
 async function SearchID(user_id){
@@ -146,7 +162,7 @@ async function LoadModelList(user_id){
     let conn, rows, result;
     try{
         conn = await pool.getConnection();
-        conn.query('Use intereal');
+        conn.query('Use intereal;');
         var query = `SELECT model_id FROM model WHERE user_id='`+user_id+`';`;
         rows = await conn.query(query);
     }
@@ -165,12 +181,14 @@ async function AddModel(model_id, user_id, model_file, roomInfo_file, roomname){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('`+model_id+`','`+user_id+`','`+model_file+`',`+SYSDATE()+`, '`+roomInfo_file+`', '`+roomname+`';`;
-        await conn.query(query);
+        var query = `INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('`+model_id+`','`+user_id+`','`+model_file+`', SYSDATE(), '`+roomInfo_file+`', '`+roomname+`');`;
+        console.log(query);
+		await conn.query(query);
         result = true;
     }
     catch(err){
-        result = false;
+        console.log(err);
+	    result = false;
         throw err;
     }
     finally{
@@ -551,12 +569,12 @@ async function RemoveCart(cart_id){
 }
 // Purchase Table
 // RegPurchase
-async function RegPurchase(purchase_id, user_id, product_id, payment_id, purchase_status, total_cost){
+async function RegPurchase(purchase_id, user_id, product_id, payment_id, addr, purchase_status, total_cost){
     let conn, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('`+purchase_id+`', '`+user_id+`', '`+ product_id + `', '` + payment_id + `', `+ SYSDATE() + `, '`+purchase_status+`', '`+total_cost+`';`;
+        var query = `INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('`+purchase_id+`', '`+user_id+`', '`+ product_id + `', '` + payment_id + `', '`+addr+`', `+ SYSDATE() + `, '`+purchase_status+`', '`+total_cost+`';`;
         await conn.query(query);
         result = true;
     }
@@ -685,7 +703,7 @@ async function GetPaymentList(user_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `SELECT payment_id FROM payment WHERE user_id = '`+user_id+`';`;
+        var query = `SELECT payment_id, card_number FROM payment WHERE user_id = '`+user_id+`';`;
         rows = await conn.query(query);
     }
     catch(err){
@@ -717,12 +735,12 @@ async function GetPaymentInfo(payment_id){
     }
 }
 // AddPayment
-async function AddPayment(payment_id, user_id, postal_code, card_company, card_number, valid_month,valid_year, CVC, payment_pw) {
+async function AddPayment(payment_id, user_id, card_company, card_number, valid_month,valid_year, CVC, payment_pw) {
     let conn, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO payment(payment_id, user_id, postal_code, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('`+payment_id+`', '`+user_id+`', '`+postal_code+`', '`+card_company+`', '`+card_number+`', `+valid_month+`,`+valid_year+','+CVC+`, PASSWORD('`+payment_pw+`');`;
+        var query = `INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('`+payment_id+`', '`+user_id+`', '`+card_company+`', '`+card_number+`', `+valid_month+`,`+valid_year+','+CVC+`, PASSWORD('`+payment_pw+`');`;
         await conn.query(query);
         result = true;
     }
@@ -813,6 +831,7 @@ async function RemoveProductByKeyword(product_id) {
 }
 
 module.exports = {
+    directquery : directquery,
     searchID : SearchID,
     registerID : RegisterID,
     modifyInfo : ModifyInfo,

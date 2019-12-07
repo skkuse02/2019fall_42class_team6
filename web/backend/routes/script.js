@@ -70,22 +70,26 @@ router.post('/user', parser, function (req, res){
 router.post('/model', function (req, res){
   if (req.body.function=='LoadModelList'){
     mdbConn.loadModelList(req.body.user_id).then((result)=>{
+	    console.log(result);
       res.send(result);
-      console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
   };
   if (req.body.function=='AddModel'){
-    mdbConn.addModel(req.body.model_id, req.body.user_id, req.body.model_file, req.body.roomInfo_file, req.body.roomname).then((result)=>{
-      res.send(result);
-      console.log('addModel');
-    }).catch((errMsg)=>{
-      res.send(errMsg);
+    var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
+    mdbConn.directquery(query).then((result)=>{
+      var model_id = 'model_'+(result[0].cnt*1+1)*"";
+      mdbConn.addModel(model_id, req.body.user_id, null, req.body.roomInfo_file, req.body.roomname).then((result)=>{
+        res.send(result);
+        console.log('addModel');
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
     });
   };
   if (req.body.function=='GetModelfile'){
-    mdbConn.addModel(req.body.model_id).then((result)=>{
+    mdbConn.getModelfile(req.body.model_id).then((result)=>{
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -129,11 +133,15 @@ router.post('/model', function (req, res){
 router.post('/product', function (req, res){
   product_id, product_name, company, width, height, depth, color, category, price, descrip
   if (req.body.function=='AddProduct'){
-    mdbConn.addModel(req.body.product_id, req.body.product_name, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category, req.body.price, req.body.descrip).then((result)=>{
-      res.send(result);
-      console.log('addProduct');
-    }).catch((errMsg)=>{
-      res.send(errMsg);
+    var query = `SELECT count(*) as cnt FROM product LIMIT 1;`;
+    mdbConn.directquery(query).then((result)=>{
+      var product_id = 'product_'+result[0].cnt;
+      mdbConn.addProduct(product_id, req.body.product_name, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category, req.body.price, req.body.descrip).then((result)=>{
+        res.send(result);
+        console.log('addProduct');
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
     });
   };
   if (req.body.function=='SearchByCategory'){
@@ -254,9 +262,8 @@ router.post('/cart', function (req, res){
 
 router.post('/purchase', function (req, res){
   if (req.body.function=='RegPurchase'){
-    mdbConn.regPurchase(req.body.purchase_id, req.body.user_id, req.body.product_id, req.body.payment_id, req.body.purchase_status, req.body.total_cost).then((result)=>{
+    mdbConn.regPurchase(req.body.purchase_id, req.body.user_id, req.body.product_id, req.body.payment_id, req.body.addr, req.body.purchase_status, req.body.total_cost).then((result)=>{
       res.send(result);
-      console.log("removeCart");
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
@@ -320,12 +327,24 @@ router.post('/payment', function (req, res){
       res.send(errMsg);
     });
   };
-  if (req.body.function=='AddPayment'){
-    mdbConn.addPayment(req.body.payment_id, req.body.user_id, req.body.postal_code, req.body.card_company, req.body.card_number, req.body.valid_month, req.body.valid_year, req.body.CVC, req.body.payment_pw).then((result)=>{
+  if (req.body.function=='GetPaymentInfo'){
+    mdbConn.getPaymentInfo(req.body.user_id).then((result)=>{
       res.send(result);
-      console.log('addPayment');
+      console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
+    });
+  };
+  if (req.body.function=='AddPayment'){
+    var query = `SELECT count(*) as cnt FROM payment LIMIT 1;`;
+    mdbConn.directquery(query).then((result)=>{
+      var payment_id = 'payment_'+result[0].cnt;
+      mdbConn.addPayment(payment_id, req.body.user_id, req.body.card_company, req.body.card_number, req.body.valid_month, req.body.valid_year, req.body.CVC, req.body.payment_pw).then((result)=>{
+        res.send(result);
+        console.log('addPayment');
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
     });
   };
   if (req.body.function=='RemovePayment'){
@@ -341,10 +360,6 @@ router.post('/payment', function (req, res){
 router.post('/keyword', function (req, res){
   if (req.body.function=='GetProductListByKeyword'){
     mdbConn.getProductListByKeyword(req.body.keyword_id).then((result)=>{
-      for(i in result){
-        var product_id = result[i];
-        var rows = mdbConn.getProductInfo(product_id);
-      };
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -368,4 +383,5 @@ router.post('/keyword', function (req, res){
     });
   };
 });
+
 module.exports = router;
