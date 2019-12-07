@@ -5,7 +5,6 @@ var logger = require('morgan');
 //var inteRealRouter = require('./routes/script');
 var router = require('./routes/script');
 var unityComm = require('./js/unityComm');
-var specRoomComm = require('./js/specRoomComm');
 
 var app = express();
 
@@ -20,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(router);
 unityComm.socketconn(app);
-specRoomComm.socketconn(app);
 //app.use('/api/inteReal', inteRealRouter);
 /*
 // catch 404 and forward to error handler
