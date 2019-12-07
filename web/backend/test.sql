@@ -25,8 +25,7 @@ CREATE TABLE model
 	add_date DATE NOT NULL,
 	roomInfo_file VARCHAR(30) NOT NULL,
 	roomname VARCHAR(20) NOT NULL,
-	PRIMARY KEY (model_id),
-	FOREIGN KEY (user_id) REFERENCES USERs(user_id)
+	PRIMARY KEY (model_id)
 );
 DROP TABLE IF EXISTS product;
 CREATE TABLE product
@@ -106,12 +105,12 @@ INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomna
 INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('model_3', 'user2', 'model_3.obj', SYSDATE(), 'roomInfo_model_3.txt', 'room3');
 INSERT INTO model(model_id, user_id, model_file, add_date, roomInfo_file, roomname) VALUES('model_4', 'user4', 'model_4.obj', SYSDATE(), 'roomInfo_model_4.txt', 'room4');
 
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_1', 'product_name_1', 'IKEA', 10, 10, 10, 'BLACK', 'Sofa, Chair, Table',100000, '');
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_2', 'product_name_2', 'IKEA', 3, 1.5, 0.5, 'WHITE', 'Bed, Mattress',100000, '');
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_3', 'product_name_3', 'IKEA', 2.3, 4.4, 7.2, 'RED', 'Sofa, Chair, Table',100000, '');
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_4', 'product_name_4', 'IKEA', 10, 10, 10, 'BLUE', 'Kitchen furniture',100000, '');
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_5', 'product_name_5', 'HANSEM', 4, 1, 1.1, 'YELLOW', 'Cabinet',100000, '');
-INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_6', 'product_name_6', 'HANSEM', 1.3, 0.8, 0.8, 'BROWN', 'Sofa, Chair, Table',100000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_1', 'product_name_1', 'IKEA', 1, 1, 1, 'BROWN', 'Sofa, Chair, Table',30000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_2', 'product_name_2', 'IKEA', 1, 0.5, 0.5, 'BROWN', 'Sofa, Chair, Table',20000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_3', 'product_name_3', 'IKEA', 1, 3, 0.5, 'BROWN', 'Sofa, Chair, Table',130000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_4', 'product_name_4', 'IKEA', 1, 3, 0.5, 'BLACK', 'Sofa, Chair, Table',100000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_5', 'product_name_5', 'HANSEM', 2, 2, 0.8, 'BROWN', 'Bed, Mattress',250000, '');
+INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_6', 'product_name_6', 'HANSEM', 2, 1, 0.8, 'BLUE', 'Bed, Mattress',180000, '');
 INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_7', 'product_name_7', 'HANSEM', 3, 1, 1, 'BROWN', 'Light',100000, '');
 INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_8', 'product_name_8', 'ILOOM', 1.8, 1.8, 2, 'BROWN', 'Rug, Curtain',100000, '');
 INSERT INTO product(product_id, product_name, company, width, height, depth, color, category, price, descrip) VALUES('product_9', 'product_name_9', 'ILOOM', 1.5, 1, 1.5, 'WHITE', 'Sofa, Chair, Table',100000, '');
@@ -119,6 +118,22 @@ INSERT INTO product(product_id, product_name, company, width, height, depth, col
 INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.obj');
 INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.png');
 INSERT INTO product_file(product_id, product_file) VALUES('product_1','product_1.mtl');
+INSERT INTO product_file(product_id, product_file) VALUES('product_2','product_2.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_2','product_2.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_2','product_2.mtl');
+INSERT INTO product_file(product_id, product_file) VALUES('product_3','product_3.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_3','product_3.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_3','product_3.mtl');
+INSERT INTO product_file(product_id, product_file) VALUES('product_4','product_4.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_4','product_4.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_4','product_4.mtl');
+INSERT INTO product_file(product_id, product_file) VALUES('product_5','product_5.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_5','product_5.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_5','product_5.mtl');
+INSERT INTO product_file(product_id, product_file) VALUES('product_6','product_6.obj');
+INSERT INTO product_file(product_id, product_file) VALUES('product_6','product_6.png');
+INSERT INTO product_file(product_id, product_file) VALUES('product_6','product_6.mtl');
+
 
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_1', 'user1', 'product_1');
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_1', 'user1', 'product_3');

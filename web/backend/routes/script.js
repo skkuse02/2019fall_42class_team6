@@ -16,7 +16,7 @@ router.post('/user', parser, function (req, res){
     });
   };
   if (req.body.function=='RegisterID'){
-    mdbConn.registerID(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, req.body.payment_method, req.body.role).then((result)=>{
+    mdbConn.registerID(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, null, req.body.role).then((result)=>{
       res.send(result);
       console.log('register ID');
     }).catch((errMsg)=>{
@@ -24,13 +24,21 @@ router.post('/user', parser, function (req, res){
     });
   };
   if (req.body.function=='ModifyInfo'){
-    mdbConn.modifyInfo(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, req.body.payment_method, req.body.role).then((result)=>{
+    mdbConn.modifyInfo(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, null, req.body.role).then((result)=>{
       res.send(result);
       console.log('modifyInfo');
     }).catch((errMsg)=>{
       res.send(errMsg);
     });
   };
+  if (req.body.function=='SetDefaultPayment'){
+    mdbConn.setDefaultPayment(req.body.user_id, req.body.payment_id).then((result)=>{
+      res.send(result);
+      console.log('setDefaultPayment');
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  }
   if (req.body.function=='ResetPW'){
     mdbConn.resetPW(req.body.user_id).then((result)=>{
       res.send(result);
@@ -80,7 +88,11 @@ router.post('/model', function (req, res){
     var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
       var model_id = 'model_'+(result[0].cnt*1+1)*"";
-      mdbConn.addModel(model_id, req.body.user_id, null, req.body.roomInfo_file, req.body.roomname).then((result)=>{
+      var roomInfo_file = req.body.model_id+'.json';
+      var json = JSON.stringify(req.body.roomInfo);
+      var filepath = path.join(__dirname,'..','public','file',roomInfo_file);
+      fs.writeFile(filepath, json, 'utf-8');
+      mdbConn.addModel(model_id, req.body.user_id, null, roomInfo_file, req.body.roomname).then((result)=>{
         res.send(result);
         console.log('addModel');
       }).catch((errMsg)=>{
@@ -114,7 +126,9 @@ router.post('/model', function (req, res){
   };
   if (req.body.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.body.model_id).then((result)=>{
-      res.send(result);
+      filename = result[0].roomInfo_file;
+      var filepath = path.join(__dirname,'..','public','file',filename);
+      res.sendFile(filepath);
       console.log(result);
     }).catch((errMsg)=>{
       res.send(errMsg);
@@ -131,11 +145,10 @@ router.post('/model', function (req, res){
 });
 
 router.post('/product', function (req, res){
-  product_id, product_name, company, width, height, depth, color, category, price, descrip
   if (req.body.function=='AddProduct'){
     var query = `SELECT count(*) as cnt FROM product LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var product_id = 'product_'+result[0].cnt;
+      var product_id = 'product_'+(result[0].cnt*1+1)*"";
       mdbConn.addProduct(product_id, req.body.product_name, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category, req.body.price, req.body.descrip).then((result)=>{
         res.send(result);
         console.log('addProduct');
@@ -192,15 +205,16 @@ router.post('/product', function (req, res){
       res.send(errMsg);
     });
   };
+  if (req.body.function=='GetProductInfo'){
+    mdbConn.getProductinfo(req.body.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
   if (req.body.function=='GetProductfile'){
     mdbConn.getProductfile(req.body.product_id).then((result)=>{
-      for(var i in result){
-        var productfile = result[i].product_file;
-        var filename = path.join(__dirname,'..','public','file',productfile);
-        fs.readFile(filename,function(err,buf){
-          console.log(buf);
-        });
-      };
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -338,7 +352,7 @@ router.post('/payment', function (req, res){
   if (req.body.function=='AddPayment'){
     var query = `SELECT count(*) as cnt FROM payment LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var payment_id = 'payment_'+result[0].cnt;
+      var payment_id = 'payment_'+(result[0].cnt*1+1)*"";
       mdbConn.addPayment(payment_id, req.body.user_id, req.body.card_company, req.body.card_number, req.body.valid_month, req.body.valid_year, req.body.CVC, req.body.payment_pw).then((result)=>{
         res.send(result);
         console.log('addPayment');
@@ -384,4 +398,45 @@ router.post('/keyword', function (req, res){
   };
 });
 
+// unity communication
+router.get('/keyword', function(req,res){
+  if (req.query.function=='GetProductListByKeyword'){
+    if (req.query.keyword_id==''){
+      var query = `SELECT * FROM product;`;
+      mdbConn.directquery(query).then((result)=>{
+        res.send(result);
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
+    }
+    else{
+      mdbConn.getProductListByKeyword(req.query.keyword_id).then((result)=>{
+        res.send(result);
+        console.log(result);
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
+    };
+  };
+  if (req.query.function=='GetProductInfo'){
+    mdbConn.getProductInfo(req.query.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if (req.query.function=='GetProductfileList'){
+    mdbConn.getProductfile(req.query.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if(req.query.function=='GetFile'){
+    var filename = path.join(__dirname,'..','public','file',req.query.filename);
+    res.sendFile(filename);
+  };
+});
 module.exports = router;

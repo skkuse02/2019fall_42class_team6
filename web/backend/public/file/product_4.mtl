@@ -1,0 +1,5 @@
+newmtl product_4
+Kd 0.8 0.8 0.8
+map_Kd product_4.png
+illum 2
+
