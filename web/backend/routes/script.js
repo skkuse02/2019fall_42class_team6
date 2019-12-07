@@ -5,11 +5,8 @@ var bodyParser = require('body-parser')
 var parser = bodyParser.urlencoded({ extended: false});
 var fs = require('fs');
 var path = require('path');
-
 /* GET home page. */
 router.post('/user', parser, function (req, res){
-  console.log('Check!');
-  console.log(req.body);
   if (req.body.function=='SearchID'){
     mdbConn.searchID(req.body.user_id).then((result)=>{
       res.send(result);
@@ -130,8 +127,9 @@ router.post('/model', function (req, res){
 });
 
 router.post('/product', function (req, res){
+  product_id, product_name, company, width, height, depth, color, category, price, descrip
   if (req.body.function=='AddProduct'){
-    mdbConn.addModel(req.body.product_id, req.body.product_name, req.body.product_file, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category).then((result)=>{
+    mdbConn.addModel(req.body.product_id, req.body.product_name, req.body.company, req.body.width, req.body.height, req.body.depth, req.body.color, req.body.category, req.body.price, req.body.descrip).then((result)=>{
       res.send(result);
       console.log('addProduct');
     }).catch((errMsg)=>{
@@ -343,6 +341,10 @@ router.post('/payment', function (req, res){
 router.post('/keyword', function (req, res){
   if (req.body.function=='GetProductListByKeyword'){
     mdbConn.getProductListByKeyword(req.body.keyword_id).then((result)=>{
+      for(i in result){
+        var product_id = result[i];
+        var rows = mdbConn.getProductInfo(product_id);
+      };
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
