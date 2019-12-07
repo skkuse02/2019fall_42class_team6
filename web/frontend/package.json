@@ -36,7 +36,8 @@
     ],
     "rules": {
       "no-console": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "require-v-for-key": "off"
     },
     "parserOptions": {
       "parser": "babel-eslint"

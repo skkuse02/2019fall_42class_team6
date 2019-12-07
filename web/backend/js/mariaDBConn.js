@@ -412,7 +412,7 @@ async function GetProductColor(product_id){
         throw err;
     }
     finally{
-        if (conn) conn.end();   
+        if (conn) conn.end();
         result = rows;
         return result;
     }
@@ -430,7 +430,7 @@ async function GetProductInfo(product_id){
         throw err;
     }
     finally{
-        if (conn) conn.end();   
+        if (conn) conn.end();
         result = rows;
         return result;
     }
@@ -765,6 +765,7 @@ async function RemovePayment(payment_id) {
     }
     catch(err){
         result = false;
+        console.log(err);
         throw err;
     }
     finally{

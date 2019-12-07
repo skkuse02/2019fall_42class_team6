@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		status: '',
 		userToken: localStorage.getItem('userToken') || '',
 		paymentToken: localStorage.getItem('paymentToken') || '',
-		user: {}
+		user: ''
 	},
 	getters: {
 		isLoggedIn: state => !!state.userToken,
@@ -21,7 +21,7 @@ export default new Vuex.Store({
 		auth_request(state){
 			state.status = 'loading'
 		},
-		auth_success(state, userToken, user){
+		auth_success(state, {userToken, user}){
 			state.status = 'success'
 			state.userToken = userToken
 			state.user = user
@@ -48,7 +48,7 @@ export default new Vuex.Store({
 		},
 	},
 	actions : {
-		login({commit}, user){
+		login({commit, dispatch}, user){
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
@@ -59,15 +59,16 @@ export default new Vuex.Store({
 						alert("존재하지 않는 회원정보입니다.")
 						reject(resp)
 					}else{
-						const userToken = resp.data[0]
-						const user = resp.data[0].user_id
+						var userToken = resp.data[0]
+						var user = resp.data[0].user_id
 						delete userToken.user_pw
 
 						localStorage.setItem('userToken', JSON.stringify(userToken))
 
 						// Add the following line:
 						axios.defaults.headers.common['Authorization'] = userToken
-						commit('auth_success', userToken, user)
+						commit('auth_success', {userToken, user})
+						dispatch('getPaymentList')
 						resolve(resp)
 					}
 				})
@@ -151,17 +152,23 @@ export default new Vuex.Store({
 		getPaymentList({commit, state}){
 			return new Promise((resolve, reject) => {
 				commit('paycheck_request')
-				axios({url: '/payment', data: state.user, method: 'POST' })
+				var user = {
+					headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+					function: 'GetPaymentList',
+					user_id: state.user
+				}
+				axios({url: '/payment', data: user, method: 'POST' })
 				.then(resp => {
 					console.log(resp.data)
+					var paymentToken
 					if(resp.data == false){
-						const paymentToken = ""
+						paymentToken = ""
 						localStorage.setItem('paymentToken', paymentToken)
 					}else{
 						// payment id로만 이루어진 array 생성
-						var paymentToken = {}
-						for(var obj in resp.data){
-							paymentToken[obj[payment_id]] = obj[card_number]
+						paymentToken = new Object()
+						for(var i=0; i < resp.data.length; i++){
+							paymentToken[resp.data[i]['payment_id']] = resp.data[i]['card_number']
 						}
 						localStorage.setItem('paymentToken', JSON.stringify(paymentToken))
 					}
@@ -222,7 +229,7 @@ export default new Vuex.Store({
 				})
 			})
 		},
-		removePayment({commit}, payment){
+		removePayment({commit,dispatch}, payment){
 			return new Promise((resolve, reject) => {
 				commit('paycheck_request')
 				axios({url: '/payment', data: payment, method: 'POST' })

@@ -15,7 +15,7 @@ export default {
   props: [ 'PID' ],
   computed: {
     getCardNumber(){
-      return this.$store.getters.paymentMethod[this.PID]
+      return JSON.parse(localStorage.getItem('paymentToken'))[this.PID]
     }
   },
   methods: {
@@ -23,7 +23,7 @@ export default {
       console.log("기본 결제수단 설정")
       let data = {
         headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-        function: '~~~',
+        function: 'SetDefaultPayment',
         user_id: JSON.parse(localStorage.getItem('userToken')).user_id,
         payment_id: this.PID
       }

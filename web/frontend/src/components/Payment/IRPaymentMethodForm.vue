@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="form">
-    <h2>Payment Methods</h2>
+    <h3>New Payment Methods</h3>
     <br>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
@@ -227,9 +227,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .form{
+/*  .form{
     display: inline-block;
     width: 90%;
     text-align: left;
-  }
+  }*/
 </style>

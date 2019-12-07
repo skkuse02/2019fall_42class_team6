@@ -2,11 +2,12 @@
   <div class="form">
     <h2>Payment Methods</h2>
     <br>
-    <component v-if="is_empty" v-bind:is="IRPaymentMethodBlank"></component>
-    <div v-else v-for="_ in paymentToken">
-      <component v-bind:is="IRPaymentMethodCard"></component>
+    <IRPaymentMethodBlank v-if="is_empty"></IRPaymentMethodBlank>
+    <div v-else v-for="pid in PIDs" v-bind:key="pid">
+      <IRPaymentMethodCard v-bind:PID="pid"></IRPaymentMethodCard>
     </div>
-    <component v-bind:is="IRPaymentMethodForm"></component>
+    <br>
+    <IRPaymentMethodForm></IRPaymentMethodForm>
   </div>
 </template>
 
@@ -18,19 +19,32 @@ import IRPaymentMethodForm from './IRPaymentMethodForm.vue'
 export default {
   data(){
     return {
-      var paymentToken = []
+      PIDs: null
     }
   },
   created() {
-    this.paymentToken = JSON.parse(localStorage.getItem('paymentToken'))
+    var paymentToken = JSON.parse(localStorage.getItem('paymentToken'))
+    console.log(paymentToken)
+    this.PIDs = Object.keys(paymentToken)
+    console.log('this.PIDs', this.PIDs)
   },
   computed: {
     is_empty() {
       return !this.$store.getters.existPaymentMethod
     }
+  },
+  components: {
+    'IRPaymentMethodBlank': IRPaymentMethodBlank,
+    'IRPaymentMethodCard': IRPaymentMethodCard,
+    'IRPaymentMethodForm': IRPaymentMethodForm
   }
 }
 </script>
 
 <style lang="css" scoped>
+  .form{
+    display: inline-block;
+    width: 90%;
+    text-align: left;
+  }
 </style>
