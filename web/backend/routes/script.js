@@ -198,15 +198,16 @@ router.post('/product', function (req, res){
       res.send(errMsg);
     });
   };
+  if (req.body.function=='GetProductInfo'){
+    mdbConn.getProductinfo(req.body.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
   if (req.body.function=='GetProductfile'){
     mdbConn.getProductfile(req.body.product_id).then((result)=>{
-      for(var i in result){
-        var productfile = result[i].product_file;
-        var filename = path.join(__dirname,'..','public','file',productfile);
-        fs.readFile(filename,function(err,buf){
-          console.log(buf);
-        });
-      };
       res.send(result);
       console.log(result);
     }).catch((errMsg)=>{
@@ -390,4 +391,45 @@ router.post('/keyword', function (req, res){
   };
 });
 
+// unity communication
+router.get('/keyword', parser, function(req,res){
+  if (req.body.function=='GetProductListByKeyword'){
+    if (req.body.keyword_id==''){
+      var query = `SELECT * FROM product;`;
+      mdbConn.directquery(query).then((result)=>{
+        res.send(result);
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
+    }
+    else{
+      mdbConn.getProductListByKeyword(req.body.keyword_id).then((result)=>{
+        res.send(result);
+        console.log(result);
+      }).catch((errMsg)=>{
+        res.send(errMsg);
+      });
+    };
+  };
+  if (req.body.function=='GetProductInfo'){
+    mdbConn.getProductinfo(req.body.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if (req.body.function=='GetProductfileList'){
+    mdbConn.getProductfile(req.body.product_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if(req.body.function=='GetFile'){
+    var filename = path.join(__dirname,'..','public','file',req.body.filename);
+    res.sendFile(filename);
+  };
+});
 module.exports = router;
