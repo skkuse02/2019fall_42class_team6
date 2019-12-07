@@ -80,6 +80,25 @@ async function ModifyInfo(user_id, password, name, address, email_address, payme
         return result;
     }
 };
+// SetDefaultPayment
+async function SetDefaultPayment(user_id, payment_id){
+    let conn, result;
+    try{
+        conn = await pool.getConnection();
+        conn.query('Use intereal');
+        var query = `UPDATE users SET payment_method = `+payment_id+` WHERE userid = '`+user_id+`';`
+        await conn.query(query);
+        result = true;
+    }
+    catch(err){
+        result = false;
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return result;
+    }
+};
 // ResetPW
 async function ResetPW(user_id){
     let conn, result;
@@ -835,6 +854,7 @@ module.exports = {
     searchID : SearchID,
     registerID : RegisterID,
     modifyInfo : ModifyInfo,
+    setDefaultPayment : SetDefaultPayment,
     resetPW : ResetPW,
     checkLogin : CheckLogin,
     removeID : RemoveID,
