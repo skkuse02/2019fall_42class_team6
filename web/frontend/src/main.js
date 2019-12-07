@@ -10,9 +10,13 @@ import axios from 'axios'
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
-const token = localStorage.getItem('token')
-if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+const userToken = localStorage.getItem('userToken')
+const paymentToken = localStorage.getItem('paymentToken')
+if (userToken) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = userToken
+}
+if (paymentToken) {
+  Vue.prototype.$http.defaults.headers.common['PaymentMethod'] = paymentToken
 }
 
 new Vue({
