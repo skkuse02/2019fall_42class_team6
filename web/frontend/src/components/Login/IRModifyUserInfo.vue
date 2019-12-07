@@ -3,19 +3,19 @@
     <h2>Modify User Information</h2>
     <br>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group id="input-group-4" label="Address:" label-for="input-4">
+      <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input
           id="input-4"
-          v-model="form.address"
+          v-model="form.pw"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-5" label="Phone Number:" label-for="input-5">
+      <b-form-group id="input-group-5" label="Address:" label-for="input-5">
         <b-form-input
           id="input-5"
-          type="tel"
-          v-model="form.phonenumber"
+          v-model="form.address"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       form: {
+        pw: '',
         address: '',
-        phonenumber: '',
         email: '',
         checked: []
       },
@@ -56,7 +56,18 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       // 추후 DB로 보내는 식으로 수정
-      alert(JSON.stringify(this.form))
+      console.log("정보수정")
+      let data = {
+        headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+        function: 'ModifyInfo',
+        password: this.form.pw,
+        address: this.form.address,
+        email_address: this.form.email,
+        role: this.form.checked.length > 0? 1 : 0
+      }
+      this.$store.dispatch('modifyUserInfo', data)
+      .then(() => this.$router.push("/userinfo"))
+      .catch(err => console.log(err))
     },
     onReset(evt) {
       evt.preventDefault()

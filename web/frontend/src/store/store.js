@@ -44,15 +44,12 @@ export default new Vuex.Store({
 						alert("존재하지 않는 회원정보입니다.")
 						reject(resp)
 					}else{
-						//const token = resp.data.token
-						//const user = resp.data.user
 						const token = resp.data[0]
 						const user = resp.data[0].user_id
-						console.log("login된 user id : ", user)
-
 						delete token.user_pw
 
 						localStorage.setItem('token', JSON.stringify(token))
+
 						// Add the following line:
 						axios.defaults.headers.common['Authorization'] = token
 						commit('auth_success', token, user)
@@ -66,18 +63,55 @@ export default new Vuex.Store({
 				})
 			})
 		},
+		modifyUserInfo({commit}, user){
+			return new Promise((resolve, reject) => {
+				commit('auth_request')
+				axios({url: '/user', data: user, method: 'POST' })
+				.then(resp => {
+					console.log(resp.data[0])
+					if (!resp.data){
+						commit('auth_error')
+						alert("회원정보수정에 실패했습니다.")
+						reject(resp)
+					}else{
+						// update token in localStorage
+						localStorage.setItem('token', JSON.stringify(token))
+
+						// Add the following line:
+						axios.defaults.headers.common['Authorization'] = token
+						commit('auth_success', token, user)
+						resolve(resp)
+					}
+				})
+				.catch(err => {
+					commit('auth_error')
+					alert("통신에 실패했습니다.")
+					reject(err)
+				})
+			})
+		},
 		register({commit}, user){
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
-				axios({url: '/api/inteReal/user', data: user, method: 'POST' })
+				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					const token = resp.data.token
-					const user = resp.data.user
-					localStorage.setItem('token', token)
-					// Add the following line:
-					axios.defaults.headers.common['Authorization'] = token
-					commit('auth_success', token, user)
-					resolve(resp)
+					console.log(resp.data[0])
+					if (!resp.data){
+						commit('auth_error')
+						alert("회원가입에 실패했습니다.")
+						reject(resp)
+					}else{
+						let token = user
+						delete token.user_pw
+
+						// update token in localStorage
+						localStorage.setItem('token', JSON.stringify(token))
+
+						// Add the following line:
+						axios.defaults.headers.common['Authorization'] = token
+						commit('auth_success', token, token.user_id)
+						resolve(resp)
+					}
 				})
 				.catch(err => {
 					commit('auth_error', err)

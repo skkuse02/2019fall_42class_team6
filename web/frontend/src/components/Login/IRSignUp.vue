@@ -61,24 +61,16 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-5" label="Phone Number:" label-for="input-5">
+      <b-form-group id="input-group-5" label="Email Address:" label-for="input-5">
         <b-form-input
           id="input-5"
-          type="tel"
-          v-model="form.phonenumber"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-6" label="Email Address:" label-for="input-6">
-        <b-form-input
-          id="input-6"
           type="email"
           v-model="form.email"
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-7">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-7">
+      <b-form-group id="input-group-6">
+        <b-form-checkbox-group v-model="form.checked" id="checkboxes-6">
           <b-form-checkbox value="seller">I'm a seller</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
@@ -102,7 +94,6 @@ export default {
         pw: '',
         name: '',
         address: '',
-        phonenumber: '',
         email: '',
         checked: []
       },
@@ -124,18 +115,18 @@ export default {
       evt.preventDefault()
       // 추후 DB로 보내는 식으로 수정
       console.log("회원가입")
-      let form = new FormData()
-      form.append('function', 'RegisterID')
-      form.append('user_id', this.form.id)
-      form.append('password', this.form.pw)
-      form.append('user_name', this.form.name)
-      form.append('address', this.form.address)
-      form.append('phonenumber', this.form.phonenumber) // 추가 요망
-      form.append('email_address', this.form.email)
-      form.append('role', this.form.checked.length > 0 ? 1 : 0)
-
-      this.$store.dispatch('signup', form)
-      .then(() => {this.onReset(); this.$router.push("/"); } )
+      let data = {
+        headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+        function: 'RegisterID',
+        user_id: this.form.id,
+        password: this.form.pw,
+        user_name: this.form.user_name,
+        address : this.form.Address,
+        email_address: this.form.email_address,
+        role: this.form.checked.length > 0 ? 1 : 0
+      }
+      this.$store.dispatch('register', data)
+      .then(() => this.$router.push("/"))
       .catch(err => console.log(err))
     },
     onReset(evt) {
