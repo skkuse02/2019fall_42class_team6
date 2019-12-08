@@ -414,7 +414,7 @@ router.post('/keyword', function (req, res){
 router.get('/model', function(req,res){
   if (req.query.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.query.model_id).then((result)=>{
-      filename = result[0].roomInfo_file;
+      var filename = result[0].roomInfo_file;
       var filepath = path.join(__dirname,'..','public','file',filename);
       res.sendFile(filepath);
       console.log(result);
