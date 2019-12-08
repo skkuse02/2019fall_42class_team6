@@ -32,6 +32,8 @@ export default new Vuex.Store({
 		logout(state){
 			state.status = ''
 			state.userToken = ''
+			state.paymentToken = ''
+			state.user = ''
 		},
 		paycheck_request(state){
 			state.status = 'loading'
@@ -84,7 +86,7 @@ export default new Vuex.Store({
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data[0])
+					//console.log(resp.data[0])
 					if (!resp.data){
 						commit('auth_error')
 						alert("회원정보수정에 실패했습니다.")
@@ -100,7 +102,7 @@ export default new Vuex.Store({
 
 						// Add the following line:
 						axios.defaults.headers.common['Authorization'] = userToken
-						commit('auth_success', userToken, user)
+						commit('auth_success', {userToken, user})
 						resolve(resp)
 					}
 				})
@@ -123,14 +125,15 @@ export default new Vuex.Store({
 						reject(resp)
 					}else{
 						let userToken = user
-						delete userToken.user_pw
+						let user = userToken.user_id
+						delete userToken.password
 
 						// update userToken in localStorage
 						localStorage.setItem('userToken', JSON.stringify(userToken))
 
 						// Add the following line:
 						axios.defaults.headers.common['Authorization'] = userToken
-						commit('auth_success', userToken, userToken.user_id)
+						commit('auth_success', {userToken, user})
 						resolve(resp)
 					}
 				})
@@ -146,6 +149,8 @@ export default new Vuex.Store({
 				commit('logout')
 				localStorage.removeItem('userToken')
 				delete axios.defaults.headers.common['Authorization']
+				localStorage.removeItem('paymentToken')
+				delete axios.defaults.headers.common['PaymentMethod']
 				resolve()
 			})
 		},
