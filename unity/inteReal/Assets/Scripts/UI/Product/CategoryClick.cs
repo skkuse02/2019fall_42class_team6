@@ -5,19 +5,18 @@ using UnityEngine.UI;
 
 public class CategoryClick : MonoBehaviour {
     private Button btn;
+    public ProductManager productManager;
+    public GameObject brandContents;
+    public ProductManager manager;
 
     void Start() {
         btn = this.transform.GetComponent<Button>();
-        btn.onClick.AddListener(CheckCategory);
+        btn.onClick.AddListener(SetCategory);
     }
 
-    // Update is called once per frame
-    void CheckCategory() {
+    void SetCategory() {
         string category = btn.GetComponentInChildren<Text>().text;
-        Debug.Log("category: " + category);
-        Dictionary<string, string> param = new Dictionary<string, string>();
-        param.Add("category", category);
-        string endpoint = "64.66.144.16:3000/product";
-        HttpRequest.Get(endpoint, param);
-    }
+        manager.SetCategory(category);
+        Debug.Log("Select category: " + category);
+    }   
 }

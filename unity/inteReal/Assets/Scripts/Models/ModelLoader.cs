@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Dummiesman;
+using System.IO;
 
 public class ModelLoader : MonoBehaviour
 {
@@ -32,6 +33,32 @@ public class ModelLoader : MonoBehaviour
 
         childObj.GetComponent<Renderer>().material.mainTexture = texture;
         return loadedObj;
+    }
+
+    public GameObject LoadModelFromDir(string product_id) {
+        string dir = Path.Combine("models", product_id);
+
+        GameObject obj = new OBJLoader().Load(Path.Combine(dir, product_id + ".obj"));
+
+        MTLLoader mtl = new MTLLoader();
+        Dictionary<string, Material> textures = mtl.Load(Path.Combine(dir, product_id + ".mtl"));
+
+        FitCollider(obj);
+        obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+
+        Rigidbody rb = obj.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        foreach (var p in textures) {
+            obj.GetComponent<Renderer>().material.SetTexture(p.Key, p.Value.mainTexture);
+        }
+
+        return obj;
+
+        //for (int i=0; i<obj.transform.childCount; i++) {
+        //    GameObject child = obj.transform.GetChild(i);
+        //    child.GetComponent<Renderer>().material.
+        //}
     }
 
     public void FitCollider(GameObject obj) {

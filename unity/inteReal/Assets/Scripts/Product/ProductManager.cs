@@ -1,0 +1,159 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Newtonsoft.Json;
+using System.IO;
+
+public class ProductManager : MonoBehaviour
+{
+    const string username = "user1";
+    const string password = "user1";
+    string host = "34.66.144.16";
+    string port = "3000";
+
+    public HttpRequest http;
+    public GameObject brandContent;
+    public GameObject productPrefab;
+    public GameObject shoppingPanelList;
+
+    public ModelManager modelManager;
+
+    public string curCategory = "";
+    public string curBrand = "DEFAULT";
+    //public List<ProductionJSON> products;
+
+    bool updated;
+
+    // Start is called before the first frame update
+    void Start() {
+        updated = false;
+        curBrand = "DEFAULT";
+    }
+
+    public string GetAllProductions() {
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+        parameters.Add("function", "GetProductListByKeyword");
+        parameters.Add("keyword_id", "");
+
+        StartCoroutine(http.Get("http://" + host + ":" + port + "/keyword", parameters));
+        new WaitUntil(() => http.last_text != null);
+
+        Debug.Log("GET received: " + http.last_text);
+        return http.last_text;
+    }
+
+    //public string GetProductionsByCategory(string category) {
+    //    Dictionary<string, string> headerOpt = new Dictionary<string, string>();
+    //    Dictionary<string, string> bodyOpt = new Dictionary<string, string>();
+
+    //    headerOpt.Add("Content-Type", "application/x-www-form-urlencoded");
+    //    headerOpt.Add("Accept", "application/json");
+    //    bodyOpt.Add("function", "SearchByCategory");
+    //    bodyOpt.Add("category", category);
+
+    //    //Debug.Log("gpbc check: " + http.last_text);
+    //    StartCoroutine(http.Post("http://" + host + ":" + port + "/product", headerOpt, bodyOpt, new Dictionary<string, string>()));
+
+    //    //Debug.Log(http.last_text);
+    //    return http.last_text;
+    //}
+
+    public GameObject GetActiveShoppingContent() {
+        for (int i=0; i< shoppingPanelList.transform.childCount; i++) {
+            GameObject panel = shoppingPanelList.transform.GetChild(i).gameObject;
+            if (panel.activeSelf == true) {
+                return panel;
+            }
+        }
+        return null;
+    }
+
+    public void RenderProducts() {
+        GameObject productContent = GetActiveShoppingContent().transform.GetChild(2).GetChild(0).GetChild(0).gameObject;
+
+        StartCoroutine(ClearContent(productContent));
+
+        string json = GetAllProductions();
+        var products = new List<ProductionJSON>();
+
+        Debug.Log(json);
+        products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+
+        Debug.Log("# of products: " + products.Count);
+        foreach (ProductionJSON product in products) {
+            Debug.Log("category: "+curCategory+"    brand: "+curBrand);
+            if ((curCategory.Equals("") || product.category.Equals(curCategory)) &&
+                (curBrand.Equals("DEFAULT") || product.company.Equals(curBrand))) {
+                GameObject productItem = MakeProductionItem(product);
+                productItem.transform.parent = productContent.transform;
+                Debug.Log(productItem.transform.parent.name);
+                productItem.transform.localScale = Vector3.one;
+            }
+        }
+    }
+
+    public void SetCategory(string category) {
+        curCategory = category;
+        RenderProducts();
+    }
+
+    public void SetBrand(string brand) {
+        curBrand = brand;
+        RenderProducts();
+    }
+
+    //public void UpdateProducts() {
+    //    string json = GetAllProductions();
+    //    var temp = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+    //    //var tmp = JsonConvert.DeserializeObject<List<JsonArrayAttribute>>(json);
+    //    //var temp = new List<ProductionJSON>(tmp);
+
+    //    if (temp != null)
+    //        products = temp;
+
+
+    //}
+
+    //public void RenderProducts() {
+    //    BrandClick brand = GetActiveBrandClick();
+    //    GameObject productContent = brand.productContent;
+
+    //    ClearContent(productContent);
+
+    //    Debug.Log("# of products: " + products.Count);
+    //    foreach (ProductionJSON product in products) {
+    //        Debug.Log(string.Format("category: {0}, product: {1} / brand: {2}, product: {3}", curCategory, product.category, curBrand, product.company));
+
+    //        if ((curCategory.Equals("") || product.category.Equals(curCategory)) &&
+    //            (curBrand.Equals("DEFAULT") || product.company.Equals(curBrand))) {
+    //            GameObject productItem = MakeProductionItem(product);
+    //            productItem.transform.parent = productContent.transform;
+    //            productItem.transform.localScale = Vector3.one;
+    //        }
+    //    }
+    //    Debug.Log(string.Format("Render products: category[{0}] - brand[{1}]", curCategory, curBrand));
+    //}
+
+    public GameObject MakeProductionItem(ProductionJSON product) {
+        // make prefab into gameobject in list
+        GameObject productItem = Instantiate(productPrefab, Vector3.zero, Quaternion.identity);
+
+        productItem.transform.GetChild(2).GetComponent<PlaceObject>().product = product;
+
+        productItem.transform.GetChild(5).GetComponent<Text>().text = product.product_name;
+        productItem.transform.GetChild(6).GetComponentInChildren<Text>().text = product.descrip;
+        productItem.transform.GetChild(7).GetComponent<Text>().text = product.price + "원";
+        productItem.SetActive(true);
+        return productItem;
+    }
+
+    public IEnumerator ClearContent(GameObject content) {
+        for (int i = content.transform.childCount - 1; i >= 0; i--) {
+            //Destroy(content.transform.GetChild(i).gameObject);
+            content.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(0);
+    }
+}

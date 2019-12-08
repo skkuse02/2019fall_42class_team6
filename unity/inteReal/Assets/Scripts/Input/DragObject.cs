@@ -40,7 +40,7 @@ public class DragObject : MonoBehaviour
             foreach (RaycastHit hit in hits) {
                 if(hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
                     target.transform.position = hit.point;
-                    Debug.DrawLine(ray.origin, hit.point);
+                    //Debug.DrawLine(ray.origin, hit.point);
 
                     if(Input.GetMouseButtonDown(0)) {
                         Detach();
@@ -53,7 +53,7 @@ public class DragObject : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit)) {
                 GameObject target = hit.collider.gameObject;
-                Debug.Log(target);
+                //Debug.Log(target);
                 if(Input.GetMouseButtonDown(0) && !target.CompareTag("wall") && !target.CompareTag("floor")) {
                     Attach(target);
                 }
@@ -84,7 +84,7 @@ public class DragObject : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(origin, forward, out hit, 100.0f)) {
                 GameObject target = hit.collider.gameObject;
-                Debug.Log(target);
+                //Debug.Log(target);
                 if(holdTrigger.isHold && !target.CompareTag("wall") && !target.CompareTag("floor")) {
                     Attach(target);
                 }

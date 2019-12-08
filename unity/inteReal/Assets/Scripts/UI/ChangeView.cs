@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class ChangeView : MonoBehaviour {
     public Camera cam;
@@ -17,17 +18,22 @@ public class ChangeView : MonoBehaviour {
     }
 
     void View() {
-        if(curView == 1) {
-            btn.GetComponent<Image>().sprite = view3;
-            cam.transform.rotation = Quaternion.Euler(90, 0, 0);
-            curView = 3;
-            Debug.Log("VIEW CHANGED TO FIRST");
+        if (XRDevice.isPresent) {
+
         }
         else {
-            btn.GetComponent<Image>().sprite = view1;
-            cam.transform.rotation = Quaternion.Euler(0, 0, 0);
-            curView = 1;
-            Debug.Log("VIEW CHANGED TO THIRD");
+            if (curView == 1) {
+                btn.GetComponent<Image>().sprite = view3;
+                cam.transform.rotation = Quaternion.Euler(90, 0, 0);
+                cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y + 8, cam.transform.position.z);
+                curView = 3;
+            }
+            else {
+                btn.GetComponent<Image>().sprite = view1;
+                cam.transform.rotation = Quaternion.Euler(0, 0, 0);
+                cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y - 8, cam.transform.position.z);
+                curView = 1;
+            }
         }
     }
 }

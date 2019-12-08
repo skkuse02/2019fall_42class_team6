@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class BrandClick : MonoBehaviour {
     public GameObject shoppingPanels;
     public GameObject itemPrefab;
-    public GameObject listContents;
+    public GameObject productContent;
+    public ProductManager manager;
+
     private List<GameObject> shoppingPanelList = new List<GameObject>();
     private Button btn;
     private int size;
@@ -27,14 +29,20 @@ public class BrandClick : MonoBehaviour {
         for (int i = 1; i <= size; i++) {
             if (i == btnNum) {
                 shoppingPanelList[i - 1].SetActive(true);
-                string brandName = btn.GetComponentInChildren<Text>().text;
+                string brandName = GetBrandName();
                 Debug.Log("Brand: " + brandName);
                 continue;
             }
             shoppingPanelList[i-1].SetActive(false);
         }
 
-        ProductionLoader productionLoader = new ProductionLoader(itemPrefab, listContents.transform);
-        productionLoader.DrawProductionList(productionLoader.LoadTestProducts());
+        manager.SetBrand(GetBrandName());
+
+        //ProductionLoader productionLoader = new ProductionLoader(itemPrefab, productContent.transform);
+        //productionLoader.DrawProductionList(productionLoader.LoadTestProducts());
+    }
+
+    public string GetBrandName() {
+        return btn.GetComponentInChildren<Text>().text;
     }
 }

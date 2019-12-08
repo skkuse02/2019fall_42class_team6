@@ -6,6 +6,11 @@ using HTC.UnityPlugin.Vive;
 
 public class RoomManager : MonoBehaviour
 {
+    const string username = "user1";
+    const string password = "user1";
+    string host = "34.66.144.16";
+    string port = "3000";
+
     //public Button btn;
     private HttpRequest httpRequest;
     private RoomParser roomParser;
@@ -21,6 +26,8 @@ public class RoomManager : MonoBehaviour
     public Transform pivot;
     public float fadeDuration = 0.3f;
 
+    bool loaded = false;
+
     void Start() {
         //btn = this.transform.GetComponent<Button>();
         //btn.onClick.AddListener(LoadRoom);
@@ -28,14 +35,32 @@ public class RoomManager : MonoBehaviour
         httpRequest = new HttpRequest();
         roomParser = new RoomParser();
 
-        LoadRoom();
+        //LoadRoom();
+    }
+
+    void Update() {
+        if (!loaded) {
+            LoadRoom();
+            loaded = true;
+        }
     }
 
     void LoadRoom() {
         Debug.Log("Room is Loading...");
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
-        string json = HttpRequest.GetTestJSON(); //httpRequest.Get("", parameters);
+
+        parameters.Add("function", "GetRoomInfofile");
+        parameters.Add("model_id", "model_9");
+
+        StartCoroutine(httpRequest.Get("http://" + host + ":" + port + "/model", parameters));
+        //yield return null;
+        string json = httpRequest.last_text;
+
+        Debug.Log("new room: " + json);
+        Debug.Log("old room: " + httpRequest.GetTestJSON());
+
+        //string json = httpRequest.GetTestJSON();
 
         Room room = roomParser.Convert(roomParser.Parse(json));
         GameObject roomObj = room.GenerateRoom();
@@ -53,8 +78,8 @@ public class RoomManager : MonoBehaviour
 
     void MoveCamera(Room room) {
 
-        int maxX = int.MinValue;
-        int maxZ = int.MinValue;
+        float maxX = int.MinValue;
+        float maxZ = int.MinValue;
 
         foreach (Room.Wall wall in room.walls) {
             if (wall.isVertical) {

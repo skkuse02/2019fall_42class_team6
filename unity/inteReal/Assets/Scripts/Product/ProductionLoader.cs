@@ -17,9 +17,9 @@ public class ProductionLoader : MonoBehaviour
         this.viewport = viewport;
     }
 
-    public ProductionJSON LoadTestProducts() {
+    public List<ProductionJSON> LoadTestProducts() {
         string json = GetTestJSON();
-        return JsonConvert.DeserializeObject<ProductionJSON>(json);
+        return JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
     }
 
     [MenuItem("Tools/Read file")]
@@ -32,8 +32,8 @@ public class ProductionLoader : MonoBehaviour
         return json;
     }
 
-    public void DrawProductionList(ProductionJSON productions) {
-        foreach (ProductionJSON.Product product in productions.products) {
+    public void DrawProductionList(List<ProductionJSON> productions) {
+        foreach (ProductionJSON product in productions) {
             GameObject productItem = Instantiate<GameObject>(prefab, viewport);
             //productItem -> set options
             productItem.transform.parent = viewport;
