@@ -138,7 +138,7 @@ router.post('/model', function (req, res){
   };
   if (req.body.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.body.model_id).then((result)=>{
-      var filename = result[0].roomInfo_file;
+      filename = result[0].roomInfo_file;
       var filepath = path.join(__dirname,'..','public','file',filename);
       res.sendFile(filepath);
       console.log(result);
@@ -414,7 +414,7 @@ router.post('/keyword', function (req, res){
 router.get('/model', function(req,res){
   if (req.query.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.query.model_id).then((result)=>{
-      var filename = result[0].roomInfo_file;
+      filename = result[0].roomInfo_file;
       var filepath = path.join(__dirname,'..','public','file',filename);
       res.sendFile(filepath);
       console.log(result);
@@ -462,39 +462,5 @@ router.get('/keyword', function(req,res){
     var filename = path.join(__dirname,'..','public','file',req.query.filename);
     res.sendFile(filename);
   };
-});
-router.get('/cart', function (req, res){
-  if (req.query.function=='GetCartid'){
-    mdbConn.getCartid(req.query.user_id).then((result)=>{
-      res.send(result);
-      console.log(result);
-    }).catch((errMsg)=>{
-      res.send(errMsg);
-    });
-  };
-  if (req.query.function=='GetProductListByCartid'){
-    mdbConn.getProductListByCartid(req.query.cart_id).then((result)=>{
-      res.send(result);
-      console.log(result);
-    }).catch((errMsg)=>{
-      res.send(errMsg);
-    });
-  };
-  if (req.query.function=='AddProductToCart'){
-    mdbConn.addProductToCart(req.query.cart_id, req.query.user_id, req.query.product_id).then((result)=>{
-      res.send(result);
-      console.log("addProductToCart");
-    }).catch((errMsg)=>{
-      res.send(errMsg);
-    });
-  };
-  if (req.query.function=='RemoveProductFromCart'){
-    mdbConn.removeProductfromCart(req.query.cart_id, req.query.product_id).then((result)=>{
-      res.send(result);
-      console.log("removeProductFromCart");
-    }).catch((errMsg)=>{
-      res.send(errMsg);
-    });
-  }
 });
 module.exports = router;
