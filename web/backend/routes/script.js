@@ -8,7 +8,7 @@ var fs = require('fs');
 var path = require('path');
 var storage = multer.diskStorage({
   destination: function(req,file,cb){
-    cb(null, path.join(__dirname,'..','public','file'))
+    cb(null, path.join(__dirname,'..','file'))
   },
   filename: function (req,file,cb){
     cb(null, file.originalname)
@@ -139,7 +139,7 @@ router.post('/model', function (req, res){
   if (req.body.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.body.model_id).then((result)=>{
       var filename = result[0].roomInfo_file;
-      var filepath = path.join(__dirname,'..','public','file',filename);
+      var filepath = path.join(__dirname,'..','file',filename);
       res.sendFile(filepath);
       console.log(result);
     }).catch((errMsg)=>{
@@ -415,7 +415,7 @@ router.get('/model', function(req,res){
   if (req.query.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.query.model_id).then((result)=>{
       var filename = result[0].roomInfo_file;
-      var filepath = path.join(__dirname,'..','public','file',filename);
+      var filepath = path.join(__dirname,'..','file',filename);
       res.sendFile(filepath);
       console.log(result);
     }).catch((errMsg)=>{
@@ -459,7 +459,7 @@ router.get('/keyword', function(req,res){
     });
   };
   if(req.query.function=='GetFile'){
-    var filename = path.join(__dirname,'..','public','file',req.query.filename);
+    var filename = path.join(__dirname,'..','file',req.query.filename);
     res.sendFile(filename);
   };
 });
