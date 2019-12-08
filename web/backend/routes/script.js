@@ -463,4 +463,38 @@ router.get('/keyword', function(req,res){
     res.sendFile(filename);
   };
 });
+router.get('/cart', function (req, res){
+  if (req.query.function=='GetCartid'){
+    mdbConn.getCartid(req.query.user_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if (req.query.function=='GetProductListByCartid'){
+    mdbConn.getProductListByCartid(req.query.cart_id).then((result)=>{
+      res.send(result);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if (req.query.function=='AddProductToCart'){
+    mdbConn.addProductToCart(req.query.cart_id, req.query.user_id, req.query.product_id).then((result)=>{
+      res.send(result);
+      console.log("addProductToCart");
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  };
+  if (req.query.function=='RemoveProductFromCart'){
+    mdbConn.removeProductfromCart(req.query.cart_id, req.query.product_id).then((result)=>{
+      res.send(result);
+      console.log("removeProductFromCart");
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  }
+});
 module.exports = router;
