@@ -91,7 +91,7 @@ export default new Vuex.Store({
 						reject(resp)
 					}else{
 						// update userToken in localStorage
-						delete user.user_pw
+						delete user.password
 						let userToken = JSON.parse(localStorage.getItem('userToken'))
 						for(var key in user) {
 								userToken[key] = user[key] ;
@@ -116,7 +116,7 @@ export default new Vuex.Store({
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data[0])
+					console.log(resp.data)
 					if (!resp.data){
 						commit('auth_error')
 						alert("회원가입에 실패했습니다.")
@@ -219,6 +219,7 @@ export default new Vuex.Store({
 						reject(resp)
 					}else{
 						commit('paycheck_simple_success')
+
 						resolve(resp)
 					}
 				})

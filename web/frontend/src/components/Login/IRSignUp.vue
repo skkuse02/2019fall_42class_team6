@@ -120,13 +120,13 @@ export default {
         function: 'RegisterID',
         user_id: this.form.id,
         password: this.form.pw,
-        user_name: this.form.user_name,
-        address : this.form.Address,
-        email_address: this.form.email_address,
+        user_name: this.form.name,
+        address : this.form.address,
+        email_address: this.form.email,
         role: this.form.checked.length > 0 ? 1 : 0
       }
       this.$store.dispatch('register', data)
-      .then(() => this.$router.push("/"))
+      .then(() => {this.$router.push("/"); this.$router.go();})
       .catch(err => console.log(err))
     },
     onReset(evt) {

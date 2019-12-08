@@ -52,7 +52,7 @@ async function RegisterID(user_id, password, name, address, email_address, payme
         await conn.query(query);
         result = true;
     }
-    catch(err){
+    catch(err){z
         result = false;
         throw err;
     }

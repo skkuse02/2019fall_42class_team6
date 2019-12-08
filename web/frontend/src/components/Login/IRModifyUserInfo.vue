@@ -7,6 +7,7 @@
         <b-form-input
           id="input-4"
           v-model="form.pw"
+          type="password"
           required
         ></b-form-input>
       </b-form-group>
@@ -60,7 +61,9 @@ export default {
       let data = {
         headers: { 'Content-type': 'application/x-www-form-urlencoded' },
         function: 'ModifyInfo',
+        user_id: JSON.parse(localStorage.getItem('userToken')).user_id,
         password: this.form.pw,
+        user_name: JSON.parse(localStorage.getItem('userToken')).user_name,
         address: this.form.address,
         email_address: this.form.email,
         role: this.form.checked.length > 0? 1 : 0

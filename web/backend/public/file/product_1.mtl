@@ -1,6 +1,0 @@
-newmtl product_1
-Kd 1 1 1
-map_Kd product_1.png
-map_Bump product_1_Normal.png
-illum 2
-
