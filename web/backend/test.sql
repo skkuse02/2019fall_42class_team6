@@ -145,17 +145,17 @@ INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month,
 INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_6', 'user5', 'Kookmin', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
 INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_7', 'user6', 'Shinhan', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
 
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'addr', 'product_1', 'payment_1', SYSDATE(), 'completed', 139990);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'addr', 'product_3', 'payment_1', SYSDATE(), 'completed', 139990);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'addr', 'product_4', 'payment_1', SYSDATE(), 'completed', 139990);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_2', 'user2', 'addr', 'product_2', 'payment_2', SYSDATE(), 'shipping', 55550);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_3', 'user2', 'addr', 'product_4', 'payment_2', SYSDATE(), 'completed', 11120);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_4', 'user2', 'addr', 'product_3', 'payment_3', SYSDATE(), 'shipping', 455000);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_5', 'user3', 'addr', 'product_2', 'payment_4', SYSDATE(), 'shipping', 51000);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_6', 'user4', 'addr', 'product_5', 'payment_5', SYSDATE(), 'completed', 23000);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_7', 'user5', 'addr', 'product_6', 'payment_6', SYSDATE(), 'shipping', 42300);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_8', 'user5', 'addr', 'product_8', 'payment_6', SYSDATE(), 'completed', 19990);
-INSERT INTO purchase(purchase_id, user_id, addr, product_id, payment_id, purchase_date, purchase_status, total_cost) VALUES('purchase_9', 'user5', 'addr', 'product_9', 'payment_6', SYSDATE(), 'completed', 122500);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'product_1', 'payment_1', 'addr', SYSDATE(), 'completed', 139990);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'product_3', 'payment_1', 'addr', SYSDATE(), 'completed', 139990);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'product_4', 'payment_1', 'addr', SYSDATE(), 'completed', 139990);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_2', 'user2', 'product_2', 'payment_2', 'addr', SYSDATE(), 'shipping', 55550);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_3', 'user2', 'product_4', 'payment_2', 'addr', SYSDATE(), 'completed', 11120);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_4', 'user2', 'product_3', 'payment_3', 'addr', SYSDATE(), 'shipping', 455000);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_5', 'user3', 'product_2', 'payment_4', 'addr', SYSDATE(), 'shipping', 51000);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_6', 'user4', 'product_5', 'payment_5', 'addr', SYSDATE(), 'completed', 23000);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_7', 'user5', 'product_6', 'payment_6', 'addr', SYSDATE(), 'shipping', 42300);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_8', 'user5', 'product_8', 'payment_6', 'addr', SYSDATE(), 'completed', 19990);
+INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_9', 'user5', 'product_9', 'payment_6', 'addr', SYSDATE(), 'completed', 122500);
 
 INSERT INTO keyword(keyword_id, product_id) VALUES('modern','product_1');
 INSERT INTO keyword(keyword_id, product_id) VALUES('modern','product_3');
