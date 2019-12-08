@@ -17,5 +17,9 @@ public class KeywordInput : MonoBehaviour {
         string keyword = input.text;
         input.text = "";
         Debug.Log("text: " + keyword);
+        Dictionary<string, string> param = new Dictionary<string, string>();
+        param.Add("keyword", keyword);
+        string endpoint = "64.66.144.16:3000/keyword";
+        HttpRequest.Get(endpoint, param);
     }
 }

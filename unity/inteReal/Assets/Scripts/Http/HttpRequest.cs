@@ -5,9 +5,8 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.IO;
 
-public class HttpRequest: MonoBehaviour
-{
-    public IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
+public class HttpRequest: MonoBehaviour {
+    public static IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
         /* call StartCoroutine(Get()); to where the request is needed */
         List<string> paramString = new List<string>();
         foreach (var p in parameters) {
@@ -20,6 +19,26 @@ public class HttpRequest: MonoBehaviour
 
         if (uwr.isNetworkError) {
             Debug.Log("Error while GET: " + uwr.error);
+        }
+        else {
+            yield return uwr.downloadHandler.text;
+        }
+    }
+
+    public static IEnumerator Post(string endpoint, Dictionary<string, string> headerData, Dictionary<string, string> bodyData, Dictionary<string, string> parameters) {
+        WWWForm form = new WWWForm();
+        foreach (var p in bodyData) {
+            form.AddField(p.Key, p.Value);
+        }
+
+        UnityWebRequest uwr = UnityWebRequest.Post(endpoint, form);
+        foreach (var p in headerData) {
+            uwr.SetRequestHeader(p.Key, p.Value);
+        }
+        yield return uwr.SendWebRequest();
+        
+        if (uwr.isNetworkError || uwr.isHttpError) {
+            Debug.Log("Error while POST: " + uwr.error);
         }
         else {
             yield return uwr.downloadHandler.text;

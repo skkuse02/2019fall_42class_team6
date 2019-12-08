@@ -15,5 +15,9 @@ public class CategoryClick : MonoBehaviour {
     void CheckCategory() {
         string category = btn.GetComponentInChildren<Text>().text;
         Debug.Log("category: " + category);
+        Dictionary<string, string> param = new Dictionary<string, string>();
+        param.Add("category", category);
+        string endpoint = "64.66.144.16:3000/product";
+        HttpRequest.Get(endpoint, param);
     }
 }

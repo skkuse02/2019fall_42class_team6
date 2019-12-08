@@ -6,6 +6,7 @@ TagManager:
   tags:
   - floor
   - wall
+  - VRorigin
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - Walls
+  - 
   - 
   - 
   - 
