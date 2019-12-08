@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
 })
 var upload = multer({storage:storage})
 
-router.post('/upload',upload.single('userfile'),function(req,res){
+router.post('/upload',upload.single('file'),function(req,res){
   res.send('Uploaded : '+req.file);
   console.log(req.file);
 });
@@ -105,7 +105,7 @@ router.post('/model', function (req, res){
       var model_id = 'model_'+(result[0].cnt*1+1)*"";
       var roomInfo_file = model_id+'_roomInfo.json';
       mdbConn.addModel(model_id, req.body.user_id, null, roomInfo_file, req.body.roomname).then((result)=>{
-        res.send(result.roomInfo_file);
+        res.send(roomInfo_file);
         console.log('addModel');
       }).catch((errMsg)=>{
         res.send(errMsg);
@@ -411,6 +411,18 @@ router.post('/keyword', function (req, res){
 });
 
 // unity communication
+router.get('/model', function(req,res){
+  if (req.query.function=='GetRoomInfofile'){
+    mdbConn.getRoomInfofile(req.query.model_id).then((result)=>{
+      filename = result[0].roomInfo_file;
+      var filepath = path.join(__dirname,'..','public','file',filename);
+      res.sendFile(filepath);
+      console.log(result);
+    }).catch((errMsg)=>{
+      res.send(errMsg);
+    });
+  }
+});
 router.get('/keyword', function(req,res){
   if (req.query.function=='GetProductListByKeyword'){
     if (req.query.keyword_id==''){
