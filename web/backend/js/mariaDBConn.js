@@ -1,11 +1,13 @@
+// DB Handler
 const mariadb = require('mariadb');
 const vals = require('./consts.js');
-
+// mariadb connection pool
 const pool = mariadb.createPool({
     host: vals.DBHost, port:vals.DBPort,
     user: vals.DBUser, password: vals.DBPass,
     connectionLimit: 5
 });
+// handle the Database directly with query input
 async function directquery(query){
     let conn, rows, result;
     try{
@@ -23,7 +25,7 @@ async function directquery(query){
     }
 }
 // User Table
-// SearchID
+// SearchID(user_id) => check user_id exist
 async function SearchID(user_id){
     let conn,rows,result;
     try{
@@ -43,12 +45,13 @@ async function SearchID(user_id){
     }
 };
 // RegisterID
+// RegisterID(user_info) => Add new user to the table
 async function RegisterID(user_id, password, name, address, email_address, payment_method, role){
     let conn, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO users(user_id, user_pw, user_name, address, email_address, payment_id, role) VALUES('`+user_id+`', PASSWORD('`+password+`'), '`+name+`', '`+address+`', '`+email_address+`', '`+payment_method+`', '`+ role+`);`
+        var query = `INSERT INTO users(user_id, user_pw, user_name, address, email_address, payment_id, role) VALUES('`+user_id+`', PASSWORD('`+password+`'), '`+name+`', '`+address+`', '`+email_address+`', '`+payment_method+`', `+ role+`);`
         await conn.query(query);
         result = true;
     }
@@ -62,12 +65,13 @@ async function RegisterID(user_id, password, name, address, email_address, payme
     }
 };
 // ModifyInfo
+// ModifyInfo(user_id, changed_info) => Update user tuple
 async function ModifyInfo(user_id, password, name, address, email_address, payment_method, role){
     let conn, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `UPDATE users SET name = '`+name+`', password = PASSWORD('`+password+`'), address = '`+address+`', email_address = '`+email_address+`', payment_method = `+payment_method+`', role = `+role+`' WHERE userid = '`+user_id+`';`
+        var query = `UPDATE users SET user_name = '`+name+`', user_pw = PASSWORD('`+password+`'), address = '`+address+`', email_address = '`+email_address+`', payment_method = '`+payment_method+`', role = `+role+` WHERE user_id = '`+user_id+`';`
         await conn.query(query);
         result = true;
     }
@@ -81,6 +85,7 @@ async function ModifyInfo(user_id, password, name, address, email_address, payme
     }
 };
 // SetDefaultPayment
+// SetDefaultPayment(user_id, payment_id) => Update payment_id
 async function SetDefaultPayment(user_id, payment_id){
     let conn, result;
     try{
@@ -99,7 +104,9 @@ async function SetDefaultPayment(user_id, payment_id){
         return result;
     }
 };
+/*
 // ResetPW
+// ResetPW(user_id) => Reset Password to 0000
 async function ResetPW(user_id){
     let conn, result;
     try{
@@ -117,8 +124,9 @@ async function ResetPW(user_id){
         if (conn) conn.end();
         return result;
     }
-};
+};*/
 // CheckLogin
+// CheckLogin(user_id, password) => Check the user is valid or not. return user information
 async function CheckLogin(user_id, password){
     let conn, rows, result;
     try{
@@ -138,7 +146,9 @@ async function CheckLogin(user_id, password){
         return result;
     }
 };
+/*
 // RemoveID
+// RemoveID(user_id) => remove user
 async function RemoveID(user_id){
     let conn, result;
     try{
@@ -156,8 +166,10 @@ async function RemoveID(user_id){
         if (conn) conn.end();
         return result;
     }
-}
+}*/
+/*
 // UserRole
+// UserRole(user_id) => user is seller or buyer (bool)
 async function UserRole(user_id){
     let conn,rows,result;
     try{
@@ -174,15 +186,16 @@ async function UserRole(user_id){
         result = rows;
         return result;
     }
-};
+};*/
 // Mdoel Table
 // LoadModelList
+// LoadModelList(user_id) => show the list of Model(room) with user_id
 async function LoadModelList(user_id){
     let conn, rows, result;
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal;');
-        var query = `SELECT model_id FROM model WHERE user_id='`+user_id+`';`;
+        var query = `SELECT model_id, roomname FROM model WHERE user_id='`+user_id+`';`;
         rows = await conn.query(query);
     }
     catch(err){
@@ -195,6 +208,7 @@ async function LoadModelList(user_id){
     }
 };
 // AddModel
+// AddModel(model_info) => Add model to table
 async function AddModel(model_id, user_id, model_file, roomInfo_file, roomname){
     let conn, result;
     try{
@@ -216,6 +230,7 @@ async function AddModel(model_id, user_id, model_file, roomInfo_file, roomname){
     }
 };
 // GetModelfile
+// GetModelfile(model_id) => get modelfile name with model_id
 async function GetModelfile(model_id){
     let conn, rows, result;
     try{
@@ -233,7 +248,9 @@ async function GetModelfile(model_id){
         return result;
     }
 };
+/*
 // RemoveModel
+// RemoveModel(model) => remove model
 async function RemoveModel(model_id){
     let conn, result;
     try{
@@ -251,8 +268,10 @@ async function RemoveModel(model_id){
         if (conn) conn.end();
         return result;
     }
-};
+};*/
+/*
 // GetAddDate
+// GetAddDate(model_id) => return the created date
 async function GetAddDate(model_id){
     let conn, rows, result;
     try{
@@ -269,8 +288,9 @@ async function GetAddDate(model_id){
         result = rows;
         return result;
     }
-};
+};*/
 // GetRoomInfofile
+// GetRoomInfofile(model_id) => return roomInfo.json filename
 async function GetRoomInfofile(model_id){
     let conn, rows, result;
     try{
@@ -289,6 +309,7 @@ async function GetRoomInfofile(model_id){
     }
 };
 // GetRoomName
+// GerRoomName
 async function GetRoomName(model_id){
     let conn, rows, result;
     try{
@@ -351,7 +372,7 @@ async function SearchByName(name){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `SELECT product_id FROM product WHERE name = '`+name+`';`;
+        var query = `SELECT product_id FROM product WHERE product_name = '`+name+`';`;
         rows = await conn.query(query);
     }
     catch(err){
