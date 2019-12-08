@@ -71,7 +71,7 @@ async function ModifyInfo(user_id, password, name, address, email_address, payme
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `UPDATE users SET user_name = '`+name+`', user_pw = PASSWORD('`+password+`'), address = '`+address+`', email_address = '`+email_address+`', payment_method = '`+payment_method+`', role = `+role+` WHERE user_id = '`+user_id+`';`
+        var query = `UPDATE users SET user_name = '`+name+`', user_pw = PASSWORD('`+password+`'), address = '`+address+`', email_address = '`+email_address+`', payment_id = '`+payment_method+`', role = `+role+` WHERE user_id = '`+user_id+`';`
         await conn.query(query);
         result = true;
     }
