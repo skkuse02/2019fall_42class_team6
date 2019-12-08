@@ -102,7 +102,7 @@ router.post('/model', function (req, res){
   if (req.body.function=='AddModel'){
     var query = `SELECT count(*) as cnt FROM model LIMIT 1;`;
     mdbConn.directquery(query).then((result)=>{
-      var model_id = 'model_'+(result[0].cnt*1+1)*"";
+      var model_id = 'model_'+(result[0].cnt*1+1);
       var roomInfo_file = model_id+'_roomInfo.json';
       mdbConn.addModel(model_id, req.body.user_id, null, roomInfo_file, req.body.roomname).then((result)=>{
         res.send(roomInfo_file);
