@@ -91,7 +91,7 @@ async function SetDefaultPayment(user_id, payment_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `UPDATE users SET payment_id = `+payment_id+` WHERE userid = '`+user_id+`';`
+        var query = `UPDATE users SET payment_id = `+payment_id+` WHERE user_id = '`+user_id+`';`
         await conn.query(query);
         result = true;
     }
