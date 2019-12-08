@@ -39,7 +39,8 @@ export default {
         payment_id: this.PID
       }
       this.$store.dispatch('removePayment', data)
-      .then(() => this.$router.push("/paymentmethod"))
+      .then(() => { this.$router.push("/");
+                    setTimeout(function(that){that.$router.push("/paymentmethod");}, 50, this); })
       .catch(err => console.log(err))
     }
   }

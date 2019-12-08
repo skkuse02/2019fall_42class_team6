@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="form">
+  <div class="newForm">
     <h3>New Payment Methods</h3>
     <br>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -13,7 +13,6 @@
           v-model="form.company"
           :options="options_company"
           required
-          class="ml-sm-2 mr-sm-2"
         ></b-form-select>
       </b-form-group>
 
@@ -123,28 +122,28 @@ export default {
       show: true,
       options_company: [
         { value: null, text: 'Select the card company' },
-        { value: '신한', text: '신한' },
-        { value: 'KB국민', text: 'KB국민' },
-        { value: '삼성', text: '삼성' },
-        { value: '비씨', text: '비씨' },
-        { value: '롯데', text: '롯데' },
-        { value: '현대', text: '현대' },
-        { value: '하나', text: '하나' },
-        { value: '하나(외환)', text: '하나(외환)' },
-        { value: 'NH채움', text: 'NH채움' },
-        { value: '씨티', text: '씨티' },
-        { value: '우리', text: '우리' },
-        { value: '카카오뱅크', text: '카카오뱅크' },
-        { value: '케이뱅크', text: '케이뱅크' },
-        { value: '전북', text: '전북' },
-        { value: '광주', text: '광주' },
-        { value: '제주', text: '제주' },
-        { value: '우체국', text: '우체국' },
-        { value: '수협', text: '수협' },
-        { value: '신협', text: '신협' },
-        { value: '새마을금고', text: '새마을금고' },
-        { value: '저축은행', text: '저축은행' },
-        { value: 'KDB산업', text: 'KDB산업' }
+        { value: 'ShinHan', text: '신한' },
+        { value: 'KB KookMin', text: 'KB국민' },
+        { value: 'SamSung', text: '삼성' },
+        { value: 'BC', text: '비씨' },
+        { value: 'Lotte', text: '롯데' },
+        { value: 'HyunDai', text: '현대' },
+        { value: 'Hana', text: '하나' },
+        { value: 'KEB_Hana', text: '하나(외환)' },
+        { value: 'NH_ChaeUm', text: 'NH채움' },
+        { value: 'City', text: '씨티' },
+        { value: 'Uri', text: '우리' },
+        { value: 'KakaoBank', text: '카카오뱅크' },
+        { value: 'KBank', text: '케이뱅크' },
+        { value: 'JeonBuk', text: '전북' },
+        { value: 'GwangJu', text: '광주' },
+        { value: 'Jeju', text: '제주' },
+        { value: 'PostOffice', text: '우체국' },
+        { value: 'SuHyup', text: '수협' },
+        { value: 'ShinHyup', text: '신협' },
+        { value: 'KFCC', text: '새마을금고' },
+        { value: 'SB', text: '저축은행' },
+        { value: 'KDB_Industry', text: 'KDB산업' }
       ],
       options_month: [
         { value: null, text: 'Select the month' },
@@ -204,7 +203,9 @@ export default {
         payment_pw: this.form.pw
       }
       this.$store.dispatch('registerPayment', data)
-      .then(() => this.$router.push("/paymentmethod"))
+      .then(() => { this.$router.push("/");
+                    setTimeout(function(that){that.$router.push("/paymentmethod");}, 50, this);
+                  })
       .catch(err => console.log(err))
     },
     onReset(evt) {
@@ -227,9 +228,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-/*  .form{
-    display: inline-block;
-    width: 90%;
-    text-align: left;
-  }*/
+  .newForm{
+    width: 80%;
+  }
 </style>

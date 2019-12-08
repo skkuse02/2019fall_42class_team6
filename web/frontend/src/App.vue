@@ -1,13 +1,12 @@
 <template>
   <div id="app">
     <IRHeader></IRHeader>
-    <router-view class="body"></router-view>
+    <router-view class="body" :key="$route.fullPath"></router-view>
   </div>
 </template>
 
 <script>
 import IRHeader from './components/IRHeader.vue'
-//import IRBody from './components/IRBody.vue'
 
 export default {
   components: {

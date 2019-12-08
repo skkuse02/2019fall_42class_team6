@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		status: '',
 		userToken: localStorage.getItem('userToken') || '',
 		paymentToken: localStorage.getItem('paymentToken') || '',
-		user: ''
+		user: JSON.parse(localStorage.getItem('userToken')).user_id || '',
 	},
 	getters: {
 		isLoggedIn: state => !!state.userToken,
@@ -55,7 +55,7 @@ export default new Vuex.Store({
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data[0])
+					//console.log(resp.data[0])
 					if (!resp.data){
 						commit('auth_error')
 						alert("존재하지 않는 회원정보입니다.")
@@ -118,7 +118,7 @@ export default new Vuex.Store({
 				commit('auth_request')
 				axios({url: '/user', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data)
+					//console.log(resp.data)
 					if (!resp.data){
 						commit('auth_error')
 						alert("회원가입에 실패했습니다.")
@@ -164,7 +164,7 @@ export default new Vuex.Store({
 				}
 				axios({url: '/payment', data: user, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data)
+					//console.log(resp.data)
 					var paymentToken
 					if(resp.data == false){
 						paymentToken = ""
@@ -195,7 +195,7 @@ export default new Vuex.Store({
 				commit('paycheck_request')
 				axios({url: '/payment', data: payment, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data[0])
+					//console.log(resp.data)
 					if (!resp.data){
 						commit('paycheck_error')
 						alert("결제수단 등록에 실패했습니다.")
@@ -215,16 +215,19 @@ export default new Vuex.Store({
 		setDefaultPayment({commit}, payment){
 			return new Promise((resolve, reject) => {
 				commit('paycheck_request')
-				axios({url: '/payment', data: payment, method: 'POST' })
+				axios({url: '/user', data: payment, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data)
+					//console.log(resp.data)
 					if (!resp.data){
 						commit('paycheck_error')
 						alert("기본 결제수단 등록에 실패했습니다.")
 						reject(resp)
 					}else{
+						let userToken = JSON.parse(localStorage.getItem('userToken'))
+						userToken.payment_id = payment.payment_id;
+						localStorage.setItem('userToken', JSON.stringify(userToken))
 						commit('paycheck_simple_success')
-
+						console.log("기본 결제수단으로 등록되었습니다.")
 						resolve(resp)
 					}
 				})
@@ -240,7 +243,7 @@ export default new Vuex.Store({
 				commit('paycheck_request')
 				axios({url: '/payment', data: payment, method: 'POST' })
 				.then(resp => {
-					console.log(resp.data)
+					//console.log(resp.data)
 					if (!resp.data){
 						commit('paycheck_error')
 						alert("결제수단 삭제에 실패했습니다.")
