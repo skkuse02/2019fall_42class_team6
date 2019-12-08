@@ -138,7 +138,7 @@ router.post('/model', function (req, res){
   };
   if (req.body.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.body.model_id).then((result)=>{
-      filename = result[0].roomInfo_file;
+      var filename = result[0].roomInfo_file;
       var filepath = path.join(__dirname,'..','public','file',filename);
       res.sendFile(filepath);
       console.log(result);
