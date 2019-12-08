@@ -548,7 +548,7 @@ async function AddProductToCart(cart_id, user_id, product_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO cart(cart_id, user_id, product_id) VALUES(`+cart_id+`','`+user_id+`','`+product_id+`';`;
+        var query = `INSERT INTO cart(cart_id, user_id, product_id) VALUES('`+cart_id+`','`+user_id+`','`+product_id+`');`;
         await conn.query(query);
         result = true;
     }
@@ -588,7 +588,7 @@ async function CreateCart(cart_id, user_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO cart(cart_id, user_id, product_id) VALUES('`+cart_id+`', '`+user_id+`', '';`;
+        var query = `INSERT INTO cart(cart_id, user_id, product_id) VALUES('`+cart_id+`', '`+user_id+`', '');`;
         await conn.query(query);
         result = true;
     }
@@ -627,7 +627,7 @@ async function RegPurchase(purchase_id, user_id, product_id, payment_id, addr, p
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('`+purchase_id+`', '`+user_id+`', '`+ product_id + `', '` + payment_id + `', '`+addr+`', `+ SYSDATE() + `, '`+purchase_status+`', '`+total_cost+`';`;
+        var query = `INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('`+purchase_id+`', '`+user_id+`', '`+ product_id + `', '` + payment_id + `', '`+addr+`', `+ SYSDATE() + `, '`+purchase_status+`', `+total_cost+`);`;
         await conn.query(query);
         result = true;
     }
@@ -851,7 +851,7 @@ async function AddProductByKeyword(keyword_id, product_id) {
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO keyword(keyword_id, product_id) VALUES('`+keyword_id+`','`+product_id+`';`;
+        var query = `INSERT INTO keyword(keyword_id, product_id) VALUES('`+keyword_id+`','`+product_id+`');`;
         await conn.query(query);
         result = true;
     }

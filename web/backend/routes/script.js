@@ -411,6 +411,7 @@ router.post('/keyword', function (req, res){
 });
 
 // unity communication
+// GetRoomInfofile
 router.get('/model', function(req,res){
   if (req.query.function=='GetRoomInfofile'){
     mdbConn.getRoomInfofile(req.query.model_id).then((result)=>{
@@ -424,7 +425,9 @@ router.get('/model', function(req,res){
   }
 });
 router.get('/keyword', function(req,res){
+  // GetProductListByKeyword
   if (req.query.function=='GetProductListByKeyword'){
+    // Bring all products
     if (req.query.keyword_id==''){
       var query = `SELECT * FROM product;`;
       mdbConn.directquery(query).then((result)=>{
@@ -442,6 +445,7 @@ router.get('/keyword', function(req,res){
       });
     };
   };
+  // GetProductInfo
   if (req.query.function=='GetProductInfo'){
     mdbConn.getProductInfo(req.query.product_id).then((result)=>{
       res.send(result);
@@ -450,6 +454,7 @@ router.get('/keyword', function(req,res){
       res.send(errMsg);
     });
   };
+  // GetProductfileList
   if (req.query.function=='GetProductfileList'){
     mdbConn.getProductfile(req.query.product_id).then((result)=>{
       res.send(result);
@@ -458,12 +463,14 @@ router.get('/keyword', function(req,res){
       res.send(errMsg);
     });
   };
+  // GetFile : request file 
   if(req.query.function=='GetFile'){
     var filename = path.join(__dirname,'..','file',req.query.filename);
     res.sendFile(filename);
   };
 });
 router.get('/cart', function (req, res){
+  // GetCartid
   if (req.query.function=='GetCartid'){
     mdbConn.getCartid(req.query.user_id).then((result)=>{
       res.send(result);
@@ -472,6 +479,7 @@ router.get('/cart', function (req, res){
       res.send(errMsg);
     });
   };
+  // GetProductListByCartid
   if (req.query.function=='GetProductListByCartid'){
     mdbConn.getProductListByCartid(req.query.cart_id).then((result)=>{
       res.send(result);
@@ -480,6 +488,7 @@ router.get('/cart', function (req, res){
       res.send(errMsg);
     });
   };
+  // AddProductToCart
   if (req.query.function=='AddProductToCart'){
     mdbConn.addProductToCart(req.query.cart_id, req.query.user_id, req.query.product_id).then((result)=>{
       res.send(result);
@@ -488,6 +497,7 @@ router.get('/cart', function (req, res){
       res.send(errMsg);
     });
   };
+  // RemoveProductFromCart
   if (req.query.function=='RemoveProductFromCart'){
     mdbConn.removeProductfromCart(req.query.cart_id, req.query.product_id).then((result)=>{
       res.send(result);
