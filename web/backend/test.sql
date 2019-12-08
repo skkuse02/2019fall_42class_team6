@@ -60,7 +60,7 @@ CREATE TABLE payment
 (
 	payment_id VARCHAR(20) NOT NULL,
 	user_id VARCHAR(20) NOT NULL,
-	card_company VARCHAR(10) NOT NULL,
+	card_company INTEGER NOT NULL,
 	card_number VARCHAR(20) NOT NULL,
 	valid_month INTEGER NOT NULL,
 	valid_year INTEGER NOT NULL,
@@ -137,13 +137,13 @@ INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_2', 'user3', 'produc
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_3', 'user4', 'product_5');
 INSERT INTO cart(cart_id, user_id, product_id) VALUES('cart_3', 'user4', 'product_6');
 
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_1', 'user1', 'Kookmin', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_2', 'user2', 'Kookmin', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_3', 'user2', 'Hana', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_4', 'user3', 'Shinhan', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_5', 'user4', 'Woori', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_6', 'user5', 'Kookmin', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
-INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_7', 'user6', 'Shinhan', '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_1', 'user1', 0, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_2', 'user2', 1, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_3', 'user2', 2, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_4', 'user3', 3, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_5', 'user4', 4, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_6', 'user5', 5, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
+INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('payment_7', 'user6', 6, '1234-1234-1234-1234', 11, 24, 123, PASSWORD('1234'));
 
 INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'product_1', 'payment_1', 'addr', SYSDATE(), 'completed', 139990);
 INSERT INTO purchase(purchase_id, user_id, product_id, payment_id, addr, purchase_date, purchase_status, total_cost) VALUES('purchase_1', 'user1', 'product_3', 'payment_1', 'addr', SYSDATE(), 'completed', 139990);
