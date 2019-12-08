@@ -309,7 +309,7 @@ async function GetRoomInfofile(model_id){
     }
 };
 // GetRoomName
-// GerRoomName
+// GerRoomName(model_id) => return room name
 async function GetRoomName(model_id){
     let conn, rows, result;
     try{
@@ -329,6 +329,7 @@ async function GetRoomName(model_id){
 };
 // Product Table
 // AddProduct
+// AddProduct(______)
 async function AddProduct(product_id, product_name, company, width, height, depth, color, category, price, descrip){
     product_id, product_name, company, width, height, depth, color, category, price, descrip
     let conn, result;
@@ -349,6 +350,7 @@ async function AddProduct(product_id, product_name, company, width, height, dept
     }
 };
 // SearchByCategory
+// SearchByCategory(category) => return product_id list
 async function SearchByCategory(category){
     let conn, rows, result;
     try{
@@ -367,6 +369,7 @@ async function SearchByCategory(category){
     }
 }
 // SearchByName
+// SearchByName(name) => return product_id by name
 async function SearchByName(name){
     let conn, rows, result;
     try{
@@ -385,6 +388,7 @@ async function SearchByName(name){
     }
 }
 // SearchByCompany
+// SearchByCompany(company) => return product_id by company
 async function SearchByCompany(company){
     let conn, rows, result;
     try{
@@ -403,6 +407,7 @@ async function SearchByCompany(company){
     }
 }
 // RemoveProduct
+// RemoveProduct(product_id) ==> Not used
 async function RemoveProduct(product_id){
     let conn, result;
     try{
@@ -422,6 +427,7 @@ async function RemoveProduct(product_id){
     }
 }
 // GetProductSize
+// GetProductSize(product_id) => return product width, height, depth
 async function GetProductSize(product_id){
     let conn, rows, result;
     try{
@@ -440,6 +446,7 @@ async function GetProductSize(product_id){
     }
 }
 // GetProductColor
+// GetProductColor(product_id) => return productColor
 async function GetProductColor(product_id){
     let conn, rows, result;
     try{
@@ -458,6 +465,7 @@ async function GetProductColor(product_id){
     }
 }
 // GetProductInfo
+// GetProductInfo(product_id) => return product information
 async function GetProductInfo(product_id){
     let conn, rows, result;
     try{
@@ -476,6 +484,7 @@ async function GetProductInfo(product_id){
     }
 }
 // GetProductfile
+// GetProductfile(product_id) => return file list related to the product
 async function GetProductfile(product_id){
     let conn, rows, result;
     try{
@@ -495,6 +504,7 @@ async function GetProductfile(product_id){
 }
 // Cart Table
 // GetCartid
+// GetCartid(user_id) => return cart_id of user
 async function GetCartid(user_id){
     let conn, rows, result;
     try{
@@ -513,6 +523,7 @@ async function GetCartid(user_id){
     }
 }
 // GetProductListByCartid
+// GetProductListByCartid(cart_id) => return products in the cart
 async function GetProductListByCartid(cart_id){
     let conn, rows, result;
     try{
@@ -531,6 +542,7 @@ async function GetProductListByCartid(cart_id){
     }
 }
 // AddProductToCart
+// AddProductToCart(cart_id, user_id, product_id) => add product to cart
 async function AddProductToCart(cart_id, user_id, product_id){
     let conn, result;
     try{
@@ -550,6 +562,7 @@ async function AddProductToCart(cart_id, user_id, product_id){
     }
 }
 // RemoveProductFromCart
+// RemoveProductFromCart(cart_id, product_id) => remove product from cart
 async function RemoveProductFromCart(cart_id, product_id){
     let conn, result;
     try{
@@ -568,7 +581,7 @@ async function RemoveProductFromCart(cart_id, product_id){
         return result;
     }
 }
-// ?????????????????????????????????????????????????????????????????????????????
+// CreateCart when user is assigned
 // CreateCart
 async function CreateCart(cart_id, user_id){
     let conn, result;
