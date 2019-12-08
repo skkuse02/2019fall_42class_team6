@@ -793,7 +793,7 @@ async function AddPayment(payment_id, user_id, card_company, card_number, valid_
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('`+payment_id+`', '`+user_id+`', '`+card_company+`', '`+card_number+`', `+valid_month+`,`+valid_year+','+CVC+`, PASSWORD('`+payment_pw+`'));`;
+        var query = `INSERT INTO payment(payment_id, user_id, card_company, card_number, valid_month, valid_year, CVC, payment_pw) VALUES('`+payment_id+`', '`+user_id+`', '`+card_company+`', '`+card_number+`', `+valid_month+`,`+valid_year+`,`+CVC+`, PASSWORD('`+payment_pw+`'));`;
         await conn.query(query);
         result = true;
     }
