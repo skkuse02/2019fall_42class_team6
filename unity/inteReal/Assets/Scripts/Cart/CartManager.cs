@@ -16,6 +16,9 @@ public class CartManager : MonoBehaviour
     public GameObject cartContent;
     public GameObject cartPrefab;
 
+    void Start() {
+    }
+
     public IEnumerator ClearContent(GameObject content) {
         for (int i = content.transform.childCount - 1; i >= 0; i--) {
             //Destroy(content.transform.GetChild(i).gameObject);
@@ -40,7 +43,7 @@ public class CartManager : MonoBehaviour
         parameters.Add("user_id", username);
         parameters.Add("product_id", product);
 
-        StartCoroutine(http.Get("http://" + host + ":" + port + "/cart", parameters));
+        http.Get("http://" + host + ":" + port + "/cart", parameters);
 
         RenderCart();
     }
@@ -54,7 +57,7 @@ public class CartManager : MonoBehaviour
         parameters.Add("cart_id", cart_id);
         parameters.Add("product_id", product);
 
-        StartCoroutine(http.Get("http://" + host + ":" + port + "/cart", parameters));
+        http.Get("http://" + host + ":" + port + "/cart", parameters);
 
         RenderCart();
     }
@@ -65,18 +68,28 @@ public class CartManager : MonoBehaviour
         parameters.Add("function", "GetProductListByCartid");
         parameters.Add("cart_id", cart_id);
 
-        StartCoroutine(http.Get("http://" + host + ":" + port + "/cart", parameters));
-        new WaitForSeconds(1f);
-        string json = http.last_text;
+        //StartCoroutine(http.Get("http://" + host + ":" + port + "/cart", parameters));
+        //new WaitForSeconds(1f);
+        //string json = http.last_text;
 
-        Debug.Log(json);
-        List<ModelFileJSON> cartList = JsonConvert.DeserializeObject<List<ModelFileJSON>>(json);
+        //string json = null;
+        //StartCoroutine(httpManager.GetRoutine("http://" + host + ":" + port + "/keyword", parameters, 
+        //    (body) => {
+        //        Debug.Log("callback: " + body.text);
+        //        json = body.text;
+        //    }));
+
+        string json = http.Get("http://" + host + ":" + port + "/cart", parameters);
+
+        Debug.Log("CART:" + json);
+        List<ProductIDJSON> cartList = JsonConvert.DeserializeObject<List<ProductIDJSON>>(json);
         List<ProductionJSON> products = productManager.GetAllProductionsObj();
 
         List<string> cartIDs = new List<string>();
         foreach (var item in cartList) {
-            cartIDs.Add(item.product_file);
+            cartIDs.Add(item.product_id);
         }
+        Debug.Log("CartIDs: " + string.Join(", ", cartIDs));
 
         foreach (ProductionJSON product in products) {
             if (cartIDs.Contains(product.product_id)) {
@@ -94,11 +107,10 @@ public class CartManager : MonoBehaviour
         parameters.Add("function", "GetCartid");
         parameters.Add("user_id", username);
 
-        string cart_id = null;
-        while (cart_id != null) {
-            StartCoroutine(http.Get("http://" + host + ":" + port + "/cart", parameters));
-            cart_id = http.last_text;   //need to change
-        }
+        string json = http.Get("http://" + host + ":" + port + "/cart", parameters);
+
+        List<CartIDJSON> cart_ids = JsonConvert.DeserializeObject<List<CartIDJSON>>(json);
+        string cart_id = cart_ids[0].cart_id;
         return cart_id;
     }
 

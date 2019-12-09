@@ -24,6 +24,9 @@ public class PlaceObject : MonoBehaviour
 
         //GameObject obj = loader.LoadTestModel();
         GameObject obj = loader.LoadModelFromDir(product.product_id);
+        obj.transform.position = Vector3.zero;
+        obj.transform.GetChild(0).localPosition = -obj.transform.GetChild(0).position;
+
         // obj.transform.localScale = new Vector3(0.0005f, 0.0005f, 0.0005f);
         Debug.Log("placing start");
         dragger.Attach(obj);

@@ -44,14 +44,16 @@ public class ModelLoader : MonoBehaviour
         Dictionary<string, Material> textures = mtl.Load(Path.Combine(dir, product_id + ".mtl"));
 
         FitCollider(obj);
-        obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        //obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        //BoxCollider collider = obj.GetComponent<BoxCollider>();
+        //obj.transform.position -= collider.transform.position;
 
         Rigidbody rb = obj.AddComponent<Rigidbody>();
         rb.isKinematic = true;
 
-        foreach (var p in textures) {
-            obj.GetComponent<Renderer>().material.SetTexture(p.Key, p.Value.mainTexture);
-        }
+        //foreach (var p in textures) {
+        //    obj.GetComponent<Renderer>().material.SetTexture(p.Key, p.Value.mainTexture);
+        //}
 
         return obj;
 

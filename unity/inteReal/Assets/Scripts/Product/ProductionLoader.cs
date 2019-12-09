@@ -22,7 +22,7 @@ public class ProductionLoader : MonoBehaviour
         return JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
     }
 
-    [MenuItem("Tools/Read file")]
+    //[MenuItem("Tools/Read file")]
     private static string GetTestJSON() {
 
         StreamReader reader = new StreamReader(testJSONPath);

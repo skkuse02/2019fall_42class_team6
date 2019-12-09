@@ -11,10 +11,10 @@ public class ModelManager : MonoBehaviour
     string host = "34.66.144.16";
     string port = "3000";
 
-    public HttpRequest httpRequest;
+    public HttpRequest http;
 
     private void Start() {
-        httpRequest = new HttpRequest();
+        http = new HttpRequest();
     }
 
     public void GetAllModelFiles(string product) {
@@ -23,9 +23,7 @@ public class ModelManager : MonoBehaviour
         parameters.Add("function", "GetProductfileList");
         parameters.Add("product_id", product);
 
-        StartCoroutine(httpRequest.Get("http://" + host + ":" + port + "/keyword", parameters));
-
-        string json = httpRequest.last_text;
+        string json = http.Get("http://" + host + ":" + port + "/keyword", parameters);
 
         Debug.Log("Model Manager: " + json);
         List<ModelFileJSON> files = JsonConvert.DeserializeObject<List<ModelFileJSON>>(json);
@@ -44,11 +42,13 @@ public class ModelManager : MonoBehaviour
             parameters.Add("function", "GetFile");
             parameters.Add("filename", file.product_file);
 
-            StartCoroutine(httpRequest.Get("http://" + host + ":" + port + "/keyword", parameters));
-
             string path = Path.Combine(dir, file.product_file);
+            http.Download(path, "http://" + host + ":" + port + "/keyword", parameters);
+            //http.Get("http://" + host + ":" + port + "/keyword", parameters);
 
-            File.WriteAllBytes(path, httpRequest.last_data);
+            //string path = Path.Combine(dir, file.product_file);
+
+            //File.WriteAllBytes(path, http.last_data);
         }
     }
 }

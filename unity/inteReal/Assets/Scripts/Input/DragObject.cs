@@ -40,9 +40,14 @@ public class DragObject : MonoBehaviour
             foreach (RaycastHit hit in hits) {
                 if(hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
                     target.transform.position = hit.point;
+
+                    //Transform child = target.transform.GetChild(0);
+                    //Vector3 diff = child.position - 
+                    //Debug.Log("localscale: " + collider.transform.localPosition);
+                    //target.transform.position = hit.point - collider.transform.localPosition;
                     //Debug.DrawLine(ray.origin, hit.point);
 
-                    if(Input.GetMouseButtonDown(0)) {
+                    if (Input.GetMouseButtonDown(0)) {
                         Detach();
                     }
                     break;
@@ -73,7 +78,10 @@ public class DragObject : MonoBehaviour
                 if(hit.collider.gameObject.CompareTag("wall") || hit.collider.gameObject.CompareTag("floor")) {
                     target.transform.position = hit.point;
 
-                    if(!holdTrigger.isHold) {
+                    //BoxCollider collider = target.GetComponent<BoxCollider>();
+                    //target.transform.position = hit.point - collider.transform.localPosition;
+
+                    if (!holdTrigger.isHold) {
                         Detach();
                     }
                     break;

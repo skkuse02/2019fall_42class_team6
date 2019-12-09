@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Net;
 
 public class LoginManager : MonoBehaviour
 {
@@ -26,11 +27,11 @@ public class LoginManager : MonoBehaviour
     }
 
     public bool Login(string username, string password) {
-        Dictionary<string, string> headerOpt = new Dictionary<string, string>();
+        Dictionary<HttpRequestHeader, string> headerOpt = new Dictionary<HttpRequestHeader, string>();
         Dictionary<string, string> bodyOpt = new Dictionary<string, string>();
 
-        headerOpt.Add("Content-Type", "application/x-www-form-urlencoded");
-        headerOpt.Add("Accept", "application/json");
+        headerOpt.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
+        headerOpt.Add(HttpRequestHeader.Accept, "application/json");
         bodyOpt.Add("function", "CheckLogin");
         bodyOpt.Add("user_id", username);
         bodyOpt.Add("password", password);
@@ -52,9 +53,6 @@ public class LoginManager : MonoBehaviour
         parameters.Add("function", "GetRoomInfofile");
         parameters.Add("model_id", "model_5");
 
-
-        StartCoroutine(http.Get("http://" + host + ":" + port + "/model", parameters));
-
-        Debug.Log(http.last_text);
+        http.Get("http://" + host + ":" + port + "/model", parameters);
     }
 }

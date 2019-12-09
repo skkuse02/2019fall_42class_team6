@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class CategoryClick : MonoBehaviour {
     private Button btn;
-    public ProductManager productManager;
     public GameObject brandContents;
     public ProductManager manager;
 

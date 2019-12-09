@@ -37,11 +37,19 @@ public class ProductManager : MonoBehaviour
         parameters.Add("function", "GetProductListByKeyword");
         parameters.Add("keyword_id", "");
 
-        StartCoroutine(http.Get("http://" + host + ":" + port + "/keyword", parameters));
-        new WaitUntil(() => http.last_text != null);
+        //StartCoroutine(http.Get("http://" + host + ":" + port + "/keyword", parameters));
+        //new WaitUntil(() => http.last_text != null);
 
-        Debug.Log("GET received: " + http.last_text);
-        return http.last_text;
+        //Debug.Log("GET received: " + http.last_text);
+        //return http.last_text;
+
+        //string text = null;
+        //StartCoroutine(httpManager.GetRoutine("http://" + host + ":" + port + "/keyword", parameters, 
+        //    (body) => {
+        //        text = body.text;
+        //    }));
+        //return text;
+        return http.Get("http://" + host + ":" + port + "/keyword", parameters);
     }
 
     public List<ProductionJSON> GetAllProductionsObj() {

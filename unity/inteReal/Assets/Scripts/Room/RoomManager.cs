@@ -12,7 +12,7 @@ public class RoomManager : MonoBehaviour
     string port = "3000";
 
     //public Button btn;
-    private HttpRequest httpRequest;
+    private HttpRequest http;
     private RoomParser roomParser;
     public enum TeleportButton
     {
@@ -32,7 +32,7 @@ public class RoomManager : MonoBehaviour
         //btn = this.transform.GetComponent<Button>();
         //btn.onClick.AddListener(LoadRoom);
 
-        httpRequest = new HttpRequest();
+        http = new HttpRequest();
         roomParser = new RoomParser();
 
         //LoadRoom();
@@ -53,12 +53,10 @@ public class RoomManager : MonoBehaviour
         parameters.Add("function", "GetRoomInfofile");
         parameters.Add("model_id", "model_9");
 
-        StartCoroutine(httpRequest.Get("http://" + host + ":" + port + "/model", parameters));
-        //yield return null;
-        string json = httpRequest.last_text;
+        string json = http.Get("http://" + host + ":" + port + "/model", parameters);
 
         Debug.Log("new room: " + json);
-        Debug.Log("old room: " + httpRequest.GetTestJSON());
+        Debug.Log("old room: " + http.GetTestJSON());
 
         //string json = httpRequest.GetTestJSON();
 
