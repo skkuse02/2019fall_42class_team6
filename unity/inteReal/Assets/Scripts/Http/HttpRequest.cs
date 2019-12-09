@@ -36,7 +36,7 @@ public class HttpRequest: MonoBehaviour {
             Debug.Log("in get function: " + uwr.downloadHandler.text);
             yield return null;
         }
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(1f);
     }
 
     //public void Post(string endpoint, Dictionary<string, string> headerData, Dictionary<string, string> bodyData, Dictionary<string, string> parameters) {
@@ -78,7 +78,7 @@ public class HttpRequest: MonoBehaviour {
             //Debug.Log("in post function-data: " + uwr.downloadHandler.data);
             yield return null;
         }
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(1f);
     }
 
     //public IEnumerator DownloadFile(string url, string path) {

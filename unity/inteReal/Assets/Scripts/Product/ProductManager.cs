@@ -44,6 +44,14 @@ public class ProductManager : MonoBehaviour
         return http.last_text;
     }
 
+    public List<ProductionJSON> GetAllProductionsObj() {
+        string json = GetAllProductions();
+
+        Debug.Log(json);
+        var products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+        return products;
+    }
+
     //public string GetProductionsByCategory(string category) {
     //    Dictionary<string, string> headerOpt = new Dictionary<string, string>();
     //    Dictionary<string, string> bodyOpt = new Dictionary<string, string>();
@@ -75,11 +83,7 @@ public class ProductManager : MonoBehaviour
 
         StartCoroutine(ClearContent(productContent));
 
-        string json = GetAllProductions();
-        var products = new List<ProductionJSON>();
-
-        Debug.Log(json);
-        products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+        var products = GetAllProductionsObj();
 
         Debug.Log("# of products: " + products.Count);
         foreach (ProductionJSON product in products) {
@@ -140,6 +144,7 @@ public class ProductManager : MonoBehaviour
         // make prefab into gameobject in list
         GameObject productItem = Instantiate(productPrefab, Vector3.zero, Quaternion.identity);
 
+        productItem.transform.GetChild(1).GetComponent<AddCart>().product = product;
         productItem.transform.GetChild(2).GetComponent<PlaceObject>().product = product;
 
         productItem.transform.GetChild(5).GetComponent<Text>().text = product.product_name;

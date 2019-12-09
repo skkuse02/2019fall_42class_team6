@@ -2350,6 +2350,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270609204}
   m_CullTransparentMesh: 0
+--- !u!1 &282575322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8908075959870223758, guid: 0d5152ff7917d164ba200a7149461eeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2008668519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &282575323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282575322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719b199fa13a1be4986ecd7b58b1fc33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 2119600865}
+  product:
+    product_id: 
+    product_name: 
+    company: 
+    width: 0
+    height: 0
+    depth: 0
+    color: 
+    category: 
+    price: 0
+    descrip: 
 --- !u!1 &283579194
 GameObject:
   m_ObjectHideFlags: 0
@@ -3770,6 +3800,7 @@ GameObject:
   - component: {fileID: 476077867}
   - component: {fileID: 476077866}
   - component: {fileID: 476077869}
+  - component: {fileID: 476077870}
   m_Layer: 5
   m_Name: CartButton
   m_TagString: Untagged
@@ -3888,6 +3919,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pan: {fileID: 202584576}
+--- !u!114 &476077870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476077864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75920f9c1e9702b4f814ea2da4cd74fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 2119600865}
 --- !u!1 &487751367
 GameObject:
   m_ObjectHideFlags: 0
@@ -4963,6 +5007,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &593082589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3618164195815355206, guid: 243eb77c939d6d14a90f469122794adb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1452454517}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &593082590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593082589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d07bac1bf4812348a55e47f4b52565d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 2119600865}
+  product:
+    product_id: 
+    product_name: 
+    company: 
+    width: 0
+    height: 0
+    depth: 0
+    color: 
+    category: 
+    price: 0
+    descrip: 
 --- !u!1 &600628889
 GameObject:
   m_ObjectHideFlags: 0
@@ -12649,6 +12723,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2008668519}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2008668521 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8908075958882824211, guid: 0d5152ff7917d164ba200a7149461eeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2008668519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2022428489 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3618164196376284871, guid: 243eb77c939d6d14a90f469122794adb,
@@ -13967,6 +14047,7 @@ GameObject:
   - component: {fileID: 2119600861}
   - component: {fileID: 2119600862}
   - component: {fileID: 2119600864}
+  - component: {fileID: 2119600865}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -14082,3 +14163,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   httpRequest: {fileID: 2119600863}
+--- !u!114 &2119600865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119600857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5902db4de21ff6944b8671e645bc0ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  http: {fileID: 2119600863}
+  cartContent: {fileID: 1658637638}
+  cartPrefab: {fileID: 2008668521}
