@@ -64,7 +64,7 @@ export default {
         password: this.form.pw
       }
       this.$store.dispatch('login', data)
-      .then(() => this.$router.push("/"))
+      .then(() => {this.$router.push("/"); this.$router.go();})
       .catch(err => console.log(err))
     },
     moveTo() {

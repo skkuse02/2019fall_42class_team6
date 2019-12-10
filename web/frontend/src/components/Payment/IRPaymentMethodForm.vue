@@ -229,6 +229,6 @@ export default {
 
 <style lang="css" scoped>
   .newForm{
-    width: 80%;
+    text-align: left;
   }
 </style>

@@ -23,10 +23,13 @@ export default {
     }
   },
   created() {
-    var paymentToken = JSON.parse(localStorage.getItem('paymentToken'))
-    console.log(paymentToken)
-    this.PIDs = Object.keys(paymentToken)
-    console.log('this.PIDs', this.PIDs)
+    if(localStorage.getItem('paymentToken') == ''){
+      this.PIDs = []
+    }else{
+      var paymentToken = JSON.parse(localStorage.getItem('paymentToken'))
+      this.PIDs = Object.keys(paymentToken)
+    }
+
   },
   computed: {
     is_empty() {
@@ -44,7 +47,7 @@ export default {
 <style lang="css" scoped>
   .form{
     display: inline-block;
-    width: 90%;
-    text-align: left;
+    width: 70%;
+    text-align: center;
   }
 </style>

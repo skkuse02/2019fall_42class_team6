@@ -21,6 +21,12 @@
         <b-form-valid-feedback v-bind:state="validation_id">
           Looks Good.
         </b-form-valid-feedback>
+        <b-button
+          v-on:click="IdDuplCheck"
+          class="mt-1"
+          size="sm"
+          variant="outline-primary"
+        >ID Duplication Check</b-button>
       </b-form-group>
 
       <b-form-group
@@ -111,10 +117,20 @@ export default {
     }
   },
   methods: {
+    IdDuplCheck(evt) {
+      evt.preventDefault()
+      let data = {
+        headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+        function: 'SearchID',
+        user_id: this.form.id
+      }
+      this.$store.dispatch('checkIdDupl', data)
+      .then()
+      .catch(err => console.log(err))
+    },
     onSubmit(evt) {
       evt.preventDefault()
-      // 추후 DB로 보내는 식으로 수정
-      console.log("회원가입")
+      //console.log("회원가입")
       let data = {
         headers: { 'Content-type': 'application/x-www-form-urlencoded' },
         function: 'RegisterID',

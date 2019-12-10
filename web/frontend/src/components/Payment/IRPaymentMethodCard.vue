@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="card">
     <b-card bg-variant="light" text-variant="black" title="Payment Method">
       <b-card-text>
         Card Number : {{ getCardNumber }}
@@ -28,7 +28,7 @@ export default {
         payment_id: this.PID
       }
       this.$store.dispatch('setDefaultPayment', data)
-      .then(() => this.$router.push("/paymentmethod"))
+      .then(() => alert("Card Number: " + this.getCardNumber + "이 기본 결제수단으로 설정되었습니다."))
       .catch(err => console.log(err))
     },
     remove() {
@@ -48,4 +48,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .card{
+    text-align: left;
+  }
 </style>
