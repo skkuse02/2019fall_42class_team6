@@ -499,7 +499,7 @@ router.get('/cart', function (req, res){
   };
   // RemoveProductFromCart
   if (req.query.function=='RemoveProductFromCart'){
-    mdbConn.removeProductfromCart(req.query.cart_id, req.query.product_id).then((result)=>{
+    mdbConn.removeProductFromCart(req.query.cart_id, req.query.product_id).then((result)=>{
       res.send(result);
       console.log("removeProductFromCart");
     }).catch((errMsg)=>{
