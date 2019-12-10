@@ -53,6 +53,18 @@ public class DragObject : MonoBehaviour
                     break;
                 }
             }
+
+            float scroll = Input.mouseScrollDelta.y;
+            if (scroll != 0) {
+                Debug.Log("scroll: " + scroll);
+                target.transform.Rotate(0, scroll * 2, 0);
+            }
+
+            if (Input.GetMouseButtonDown(1)) {
+                target.SetActive(false);
+                Detach();
+            }
+
         }
         else {
             RaycastHit hit;

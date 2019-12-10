@@ -7,11 +7,7 @@ using System.IO;
 
 public class ProductManager : MonoBehaviour
 {
-    const string username = "user1";
-    const string password = "user1";
-    string host = "34.66.144.16";
-    string port = "3000";
-
+    public LoginManager login;
     public HttpRequest http;
     public GameObject brandContent;
     public GameObject productPrefab;
@@ -31,11 +27,11 @@ public class ProductManager : MonoBehaviour
         curBrand = "DEFAULT";
     }
 
-    public string GetAllProductions() {
+    public string GetProductsByKeyword(string keyword) {
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
         parameters.Add("function", "GetProductListByKeyword");
-        parameters.Add("keyword_id", "");
+        parameters.Add("keyword_id", keyword);
 
         //StartCoroutine(http.Get("http://" + host + ":" + port + "/keyword", parameters));
         //new WaitUntil(() => http.last_text != null);
@@ -49,11 +45,11 @@ public class ProductManager : MonoBehaviour
         //        text = body.text;
         //    }));
         //return text;
-        return http.Get("http://" + host + ":" + port + "/keyword", parameters);
+        return http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/keyword", parameters);
     }
 
     public List<ProductionJSON> GetAllProductionsObj() {
-        string json = GetAllProductions();
+        string json = GetProductsByKeyword("");
 
         Debug.Log(json);
         var products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
@@ -86,12 +82,10 @@ public class ProductManager : MonoBehaviour
         return null;
     }
 
-    public void RenderProducts() {
+    public void RenderProducts(List<ProductionJSON> products) {
         GameObject productContent = GetActiveShoppingContent().transform.GetChild(2).GetChild(0).GetChild(0).gameObject;
 
         StartCoroutine(ClearContent(productContent));
-
-        var products = GetAllProductionsObj();
 
         Debug.Log("# of products: " + products.Count);
         foreach (ProductionJSON product in products) {
@@ -108,12 +102,19 @@ public class ProductManager : MonoBehaviour
 
     public void SetCategory(string category) {
         curCategory = category;
-        RenderProducts();
+        RenderProducts(GetAllProductionsObj());
     }
 
     public void SetBrand(string brand) {
         curBrand = brand;
-        RenderProducts();
+        RenderProducts(GetAllProductionsObj());
+    }
+
+    public void SetKeyword(string keyword) {
+        string json = GetProductsByKeyword(keyword);
+        var products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+        Debug.Log("Searching keyword: " + keyword);
+        RenderProducts(products);
     }
 
     //public void UpdateProducts() {
@@ -154,6 +155,7 @@ public class ProductManager : MonoBehaviour
 
         productItem.transform.GetChild(1).GetComponent<AddCart>().product = product;
         productItem.transform.GetChild(2).GetComponent<PlaceObject>().product = product;
+        productItem.transform.GetChild(3).GetComponent<Purchase>().product = product;
 
         productItem.transform.GetChild(5).GetComponent<Text>().text = product.product_name;
         productItem.transform.GetChild(6).GetComponentInChildren<Text>().text = product.descrip;

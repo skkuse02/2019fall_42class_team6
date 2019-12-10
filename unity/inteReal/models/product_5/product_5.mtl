@@ -1,1 +1,5 @@
-[{"product_file":"product_5.obj"},{"product_file":"product_5.png"},{"product_file":"product_5.mtl"}]
+newmtl product_5
+Kd 1 1 1
+map_Kd product_5.png
+illum 2
+

@@ -6,12 +6,8 @@ using Newtonsoft.Json;
 
 public class ModelManager : MonoBehaviour
 {
-    const string username = "user1";
-    const string password = "user1";
-    string host = "34.66.144.16";
-    string port = "3000";
-
-    public HttpRequest http;
+    public LoginManager login;
+    HttpRequest http;
 
     private void Start() {
         http = new HttpRequest();
@@ -23,7 +19,7 @@ public class ModelManager : MonoBehaviour
         parameters.Add("function", "GetProductfileList");
         parameters.Add("product_id", product);
 
-        string json = http.Get("http://" + host + ":" + port + "/keyword", parameters);
+        string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/keyword", parameters);
 
         Debug.Log("Model Manager: " + json);
         List<ModelFileJSON> files = JsonConvert.DeserializeObject<List<ModelFileJSON>>(json);
@@ -43,7 +39,7 @@ public class ModelManager : MonoBehaviour
             parameters.Add("filename", file.product_file);
 
             string path = Path.Combine(dir, file.product_file);
-            http.Download(path, "http://" + host + ":" + port + "/keyword", parameters);
+            http.Download(path, "http://" + LoginManager.host + ":" + LoginManager.port + "/keyword", parameters);
             //http.Get("http://" + host + ":" + port + "/keyword", parameters);
 
             //string path = Path.Combine(dir, file.product_file);

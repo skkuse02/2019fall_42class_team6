@@ -65,6 +65,23 @@ public class HttpRequest: MonoBehaviour {
         fs.Close();
     }
 
+    public void UploadString(string content, string endpoint, Dictionary<string, string> parameters) {
+        //HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp(MakeFullURL(endpoint, parameters));
+        //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //Stream stream = response.GetResponseStream();
+
+        //byte[] buff = new byte[4096];
+        //FileStream fs = new FileStream(path, FileMode.Create);
+
+        //int offset = 0;
+        //int count;
+        //do {
+        //    count = stream.Read(buff, offset, buff.Length);
+        //    fs.Write(buff, 0, count);
+        //} while (count > 0);
+        //fs.Close();
+    }
+
     //public IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
     //    /* call StartCoroutine(Get()); to where the request is needed */
     //    endpoint = MakeFullURL(endpoint, parameters);

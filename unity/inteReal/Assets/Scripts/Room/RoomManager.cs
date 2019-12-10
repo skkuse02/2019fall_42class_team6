@@ -1,17 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 using HTC.UnityPlugin.Vive;
 
 public class RoomManager : MonoBehaviour
 {
-    const string username = "user1";
-    const string password = "user1";
-    string host = "34.66.144.16";
-    string port = "3000";
-
-    //public Button btn;
+    public LoginManager login;
     private HttpRequest http;
     private RoomParser roomParser;
     public enum TeleportButton
@@ -26,7 +23,8 @@ public class RoomManager : MonoBehaviour
     public Transform pivot;
     public float fadeDuration = 0.3f;
 
-    bool loaded = false;
+    private RoomJSON roomJSON;
+    private bool loaded;
 
     void Start() {
         //btn = this.transform.GetComponent<Button>();
@@ -34,12 +32,13 @@ public class RoomManager : MonoBehaviour
 
         http = new HttpRequest();
         roomParser = new RoomParser();
+        loaded = false;
 
         //LoadRoom();
     }
 
     void Update() {
-        if (!loaded) {
+        if (login != null && login.loaded && !loaded) {
             LoadRoom();
             loaded = true;
         }
@@ -51,16 +50,17 @@ public class RoomManager : MonoBehaviour
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
         parameters.Add("function", "GetRoomInfofile");
-        parameters.Add("model_id", "model_9");
+        parameters.Add("model_id", login.model_id);
 
-        string json = http.Get("http://" + host + ":" + port + "/model", parameters);
+        string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/model", parameters);
 
         Debug.Log("new room: " + json);
         Debug.Log("old room: " + http.GetTestJSON());
 
         //string json = httpRequest.GetTestJSON();
 
-        Room room = roomParser.Convert(roomParser.Parse(json));
+        roomJSON = roomParser.Parse(json);
+        Room room = roomParser.Convert(roomJSON);
         GameObject roomObj = room.GenerateRoom();
 
         GameObject[] floors = GameObject.FindGameObjectsWithTag("floor");
@@ -72,6 +72,37 @@ public class RoomManager : MonoBehaviour
         }
 
         MoveCamera(room);
+    }
+
+    public void SaveRoom() {
+        GameObject products = GameObject.Find("Products");
+        List<RoomJSON.Product> productList = new List<RoomJSON.Product>();
+
+        if (products != null) {
+            for (int i=0; i < products.transform.childCount; i++) {
+                Transform child = products.transform.GetChild(i);
+                string product_id = child.gameObject.GetComponent<Text>().text;
+                int[] position = {(int)child.position.x, (int)child.position.y, (int)child.position.z};
+                int rotation = (int)child.rotation.y;
+
+                RoomJSON.Product product = new RoomJSON.Product(product_id, position, rotation);
+                productList.Add(product);
+            }
+        }
+
+        roomJSON.product = productList;
+        string json = JsonConvert.SerializeObject(roomJSON);
+        Debug.Log("Saving room: " + json);
+
+        //Dictionary<HttpRequestHeader, string> headerOpt = new Dictionary<HttpRequestHeader, string>();
+        //Dictionary<string, string> bodyOpt = new Dictionary<string, string>();
+
+        //headerOpt.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
+        //headerOpt.Add(HttpRequestHeader.Accept, "application/json");
+        //bodyOpt.Add("file", json);
+        //bodyOpt.Add("password", password);
+
+        //http.Post("http://" + host + ":" + port + "/upload", headerOpt, bodyOpt, new Dictionary<string, string>());
     }
 
     void MoveCamera(Room room) {

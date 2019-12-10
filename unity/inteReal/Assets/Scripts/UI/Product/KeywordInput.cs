@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class KeywordInput : MonoBehaviour {
     public InputField input;
+    public ProductManager manager;
     private Button btn;
 
     //// Start is called before the first frame update
@@ -14,13 +15,6 @@ public class KeywordInput : MonoBehaviour {
     }
 
     private void Keyword() {
-        string keyword = input.text;
-        input.text = "";
-        Debug.Log("text: " + keyword);
-        Dictionary<string, string> param = new Dictionary<string, string>();
-        param.Add("keyword", keyword);
-        string endpoint = "34.66.144.16:3000/keyword";
-        HttpRequest httpRequest = new HttpRequest();
-        httpRequest.Get(endpoint, param);
+        manager.SetKeyword(this.gameObject.GetComponent<InputField>().text);
     }
 }

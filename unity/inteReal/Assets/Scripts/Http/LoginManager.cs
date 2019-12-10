@@ -1,58 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Net;
+using System.IO;
 
 public class LoginManager : MonoBehaviour
 {
-    const string username = "user1";
-    const string password = "user1";
-    string host = "34.66.144.16";
-    string port = "3000";
+    public const string host = "34.66.144.16";
+    public const string port = "3000";
+    public const string cachedFile = "temp.txt";
 
-    public HttpRequest http;
+    public string user_id;
+    public string model_id;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //http = new HttpRequest();
-        //Login(username, password);
-        //GetRoomInfo(username, password);
-    }
+    public bool loaded;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Start() {
+        if (!File.Exists(Path.Combine(Directory.GetParent(Application.dataPath).FullName, cachedFile))) {
+            Debug.LogError("Login Failed!");
+            new WaitForSecondsRealtime(3f);
+            Application.Quit();
+            return;
+        }
 
-    public bool Login(string username, string password) {
-        Dictionary<HttpRequestHeader, string> headerOpt = new Dictionary<HttpRequestHeader, string>();
-        Dictionary<string, string> bodyOpt = new Dictionary<string, string>();
+        StreamReader reader = new StreamReader(cachedFile);
+        user_id = reader.ReadLine().Trim();
+        model_id = reader.ReadLine().Trim();
+        Debug.Log("Login Success: " + user_id);
 
-        headerOpt.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
-        headerOpt.Add(HttpRequestHeader.Accept, "application/json");
-        bodyOpt.Add("function", "CheckLogin");
-        bodyOpt.Add("user_id", username);
-        bodyOpt.Add("password", password);
-
-        http.Post("http://" + host + ":" + port + "/user", headerOpt, bodyOpt, new Dictionary<string, string>());
-        //if (http.last_code != 200) {
-        //    Debug.Log("Login Failed! code: " + http.last_code);
-        //    return false;
-        //}
-        return true;
-    }
-
-    public void GetRoomInfo(string username, string password) {
-        //if (!Login(username, password))
-        //    return;
-
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-        parameters.Add("function", "GetRoomInfofile");
-        parameters.Add("model_id", "model_5");
-
-        http.Get("http://" + host + ":" + port + "/model", parameters);
+        loaded = true;
     }
 }
