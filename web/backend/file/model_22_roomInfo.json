@@ -1,0 +1,1 @@
+{"size": 1000, "outerpoints": [[0, 0], [0, 502], [696, 502], [696, -1], [0, 0]], "innerpoints": [[[1, 299], [192, 299], [192, 503]]], "ceiling": 3.2, "roomname": "example1", "door": [{"point_1": [596, -1], "point_2": [99, -1], "height_1": 100, "height_2": 200}]}

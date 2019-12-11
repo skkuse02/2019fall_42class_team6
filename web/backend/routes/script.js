@@ -411,7 +411,11 @@ router.post('/keyword', function (req, res){
     });
   };
 });
-
+router.get('/setup.zip', function(req,res){
+	var filename = 'setup.zip';
+	var filepath = path.join(__dirname,'..', filename);
+	res.sendFile(filepath);
+});
 // unity communication
 // GetRoomInfofile
 router.get('/model', function(req,res){

@@ -219,16 +219,10 @@ if __name__ == "__main__":
     새롭게 공간을 구성하는 new room 두가지 기능을 가지고 있다.
     각각 loadroom, newroom 함수를 통해 구현되어 있으며, 버튼을 눌러서 실행할 수 있다.
     '''
-
-    # inp = sys.argv[1]
-    inp = "specifyroom://user1/"
+    inp = sys.argv[1]
+    # inp = "specifyroom://user1/"
     user_id = inp.split("://")[1].split("/")[0]
     print("sys.argv : {}\nuser_id(processed) : {}".format(inp, user_id))
-    # print(sys.argv)
-    # assert len(sys.argv) == 2, "sys argument should be two"
-    # arg = sys.argv[1]
-    # user_id = arg.split(":")[0]
-    # user_id = "user1"
 
     global main_ui
     main_ui = Tk()
