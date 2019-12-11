@@ -15,6 +15,7 @@ import requests
 import json
 import operator
 import sys
+import pathlib
 
 
 black = (0,0,0)
@@ -199,17 +200,28 @@ def start_unity(user_id, model_id):
     if model_id == "None":
         print("None clicked")
     print("start unity with {}, {}".format(user_id, model_id))
+    print("os.getcwd()")
+    print(os.getcwd())
     now_path = os.getcwd()
-    temp_path = os.path.join(now_path, "temp")
-    if not os.path.isdir(temp_path):
-        os.makedirs(temp_path)
+    # temp_path = now_path.split("\\")[:-1]
+    # print("temp path : {}".format(temp_path))
+    # parent_path = "\\".join(temp_path)
+    # temp_path = os.path.join(now_path, "temp")
+    # if not os.path.isdir(temp_path):
+    #     os.makedirs(temp_path)
     print_form = "{}\n"
-    with open(os.path.join(temp_path,"temp.txt"), "w") as f:
-        f.write(print_form.format(user_id))
-        f.write(print_form.format(model_id))
-    unity_prog = os.path.join(now_path, "unity.exe")
-    if os.path.isfile(unity_prog):
-        os.system(unity_prog)
+    # print("pathlib.Path")
+    # print("parent path : {}".format(parent_path))
+    
+    unity_intereal_path = os.path.join(now_path, "unity", "inteReal")
+    print(unity_intereal_path)
+    if os.path.isdir(unity_intereal_path):
+        with open(os.path.join(unity_intereal_path,"temp.txt"), "w") as f:
+            f.write(print_form.format(user_id))
+            f.write(print_form.format(model_id))
+    # unity_prog = os.path.join(now_path, "unity.exe")
+    # if os.path.isfile(unity_prog):
+    #     os.system(unity_prog)
     print("finish")
 
 if __name__ == "__main__":
@@ -221,6 +233,7 @@ if __name__ == "__main__":
     '''
     inp = sys.argv[1]
     # inp = "specifyroom://user1/"
+
     user_id = inp.split("://")[1].split("/")[0]
     print("sys.argv : {}\nuser_id(processed) : {}".format(inp, user_id))
 

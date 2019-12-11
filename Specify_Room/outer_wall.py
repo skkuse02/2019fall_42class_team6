@@ -1,3 +1,4 @@
+# 2019.12.11 최종 수정
 # 이 코드는 ROOMINFO의 외벽을 만들기 위한 코드이다.
 import numpy as np
 import cv2
