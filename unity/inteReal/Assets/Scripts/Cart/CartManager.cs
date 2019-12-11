@@ -86,15 +86,16 @@ public class CartManager : MonoBehaviour
 
         string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
-        Debug.Log("CART:" + json);
+        // Debug.Log("CART:" + json);
         List<ProductIDJSON> cartList = JsonConvert.DeserializeObject<List<ProductIDJSON>>(json);
+        //List<ProductIDJSON> cartList = JsonUtility.FromJson<List<ProductIDJSON>>(json);
         List<ProductionJSON> products = productManager.GetAllProductionsObj();
 
         List<string> cartIDs = new List<string>();
         foreach (var item in cartList) {
             cartIDs.Add(item.product_id);
         }
-        Debug.Log("CartIDs: " + string.Join(", ", cartIDs));
+        // Debug.Log("CartIDs: " + string.Join(", ", cartIDs));
 
         List<ProductionJSON> productsInCart = new List<ProductionJSON>();
         foreach (var product in products) {
@@ -125,7 +126,7 @@ public class CartManager : MonoBehaviour
 
         cartItem.transform.GetChild(2).GetComponent<Text>().text = product.product_name;
         cartItem.transform.GetChild(3).GetComponent<Text>().text = product.price + "원";
-
+        cartItem.transform.GetChild(4).GetComponent<Purchase>().product = product;
         cartItem.transform.GetChild(5).GetComponent<RemoveCart>().product = product;
         cartItem.SetActive(true);
 

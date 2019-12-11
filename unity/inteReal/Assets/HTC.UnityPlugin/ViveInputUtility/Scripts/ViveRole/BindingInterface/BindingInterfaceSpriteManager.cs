@@ -107,7 +107,7 @@ namespace HTC.UnityPlugin.Vive.BindingInterface
             }
 
             var sprite = GetSprite(spriteName);
-            //Debug.Log("SetupTrackingDeviceIcon " + deviceModel + " " + bound + " " + spriteName + " null?" + (sprite == null));
+            // Debug.Log("SetupTrackingDeviceIcon " + deviceModel + " " + bound + " " + spriteName + " null?" + (sprite == null));
             if (sprite == null)
             {
                 image.enabled = false;

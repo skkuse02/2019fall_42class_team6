@@ -9,7 +9,7 @@ public class PurchaseManager : MonoBehaviour
     public GameObject purchaseContent;
     
     public void AddPurchase(ProductionJSON product) {
-        Debug.Log("Purchased! product: " + product.product_id);
+        // Debug.Log("Purchased! product: " + product.product_id);
         GameObject purchaseItem = MakePurchaseItem(product);
         purchaseItem.transform.parent = purchaseContent.transform;
         purchaseItem.transform.localScale = new Vector3(1.4f, 1, 1);

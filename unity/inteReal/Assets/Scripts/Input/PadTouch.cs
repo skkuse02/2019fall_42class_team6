@@ -17,6 +17,6 @@ public class PadTouch : MonoBehaviour
         float theta = Mathf.Atan2(pos.y, pos.x);
         float sign = Mathf.Sign(Mathf.Sin(angle));
         angle = sign * theta;
-        Debug.Log("Pad angle: " + angle);
+        // Debug.Log("Pad angle: " + angle);
     }
 }

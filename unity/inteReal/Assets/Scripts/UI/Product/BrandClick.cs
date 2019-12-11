@@ -30,7 +30,7 @@ public class BrandClick : MonoBehaviour {
             if (i == btnNum) {
                 shoppingPanelList[i - 1].SetActive(true);
                 string brandName = GetBrandName();
-                Debug.Log("Brand: " + brandName);
+                // Debug.Log("Brand: " + brandName);
                 continue;
             }
             shoppingPanelList[i-1].SetActive(false);

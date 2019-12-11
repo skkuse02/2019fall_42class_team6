@@ -20,6 +20,7 @@ public class ProductionLoader : MonoBehaviour
     public List<ProductionJSON> LoadTestProducts() {
         string json = GetTestJSON();
         return JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+        //return JsonUtility.FromJson<List<ProductionJSON>>(json);
     }
 
     //[MenuItem("Tools/Read file")]

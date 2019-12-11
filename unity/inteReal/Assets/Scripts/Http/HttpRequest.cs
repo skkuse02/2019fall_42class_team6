@@ -14,7 +14,7 @@ public class HttpRequest: MonoBehaviour {
     //    IEnumerator e = _Get(endpoint, parameters);
     //    while (e.MoveNext())
     //        if (e.Current != null)
-    //            Debug.Log(e.Current as string);
+    //            // Debug.Log(e.Current as string);
     //}
 
     public string Get(string endpoint, Dictionary<string, string> parameters) {
@@ -92,7 +92,7 @@ public class HttpRequest: MonoBehaviour {
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string text = reader.ReadToEnd();
-        Debug.Log("upload response: " + text);
+        // Debug.Log("upload response: " + text);
     }
 
     //public IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {
@@ -103,14 +103,14 @@ public class HttpRequest: MonoBehaviour {
     //    yield return uwr.SendWebRequest();
 
     //    if (uwr.isNetworkError) {
-    //        Debug.Log("Error while GET: " + uwr.error);
+    //        // Debug.Log("Error while GET: " + uwr.error);
     //    }
     //    else {
     //        last_code = uwr.responseCode;
     //        last_text = uwr.downloadHandler.text;
     //        last_data = uwr.downloadHandler.data;
     //        cookie = uwr.GetResponseHeaders();
-    //        Debug.Log("in get function: " + uwr.downloadHandler.text);
+    //        // Debug.Log("in get function: " + uwr.downloadHandler.text);
     //        yield return null;
     //    }
     //    yield return new WaitForSeconds(1f);
@@ -120,12 +120,12 @@ public class HttpRequest: MonoBehaviour {
     //    IEnumerator e = _Post(endpoint, headerData, bodyData, parameters);
     //    while (e.MoveNext())
     //        if (e.Current != null)
-    //            Debug.Log(e.Current as string);
+    //            // Debug.Log(e.Current as string);
     //}
 
     //public IEnumerator Post(string endpoint, Dictionary<string, string> headerData, Dictionary<string, string> bodyData, Dictionary<string, string> parameters) {
     //    endpoint = MakeFullURL(endpoint, parameters);
-    //    Debug.Log("endpoint: " + endpoint);
+    //    // Debug.Log("endpoint: " + endpoint);
 
     //    WWWForm form = new WWWForm();
     //    foreach (var p in bodyData) {
@@ -144,15 +144,15 @@ public class HttpRequest: MonoBehaviour {
     //    yield return uwr.SendWebRequest();
 
     //    if (uwr.isNetworkError || uwr.isHttpError) {
-    //        Debug.Log("Error while POST: " + uwr.error + uwr.responseCode);
+    //        // Debug.Log("Error while POST: " + uwr.error + uwr.responseCode);
     //    }
     //    else {
     //        last_code = uwr.responseCode;
     //        last_text = uwr.downloadHandler.text;
     //        last_data = uwr.downloadHandler.data;
     //        cookie = uwr.GetResponseHeaders();
-    //        Debug.Log("in post function: " + uwr.downloadHandler.text);
-    //        //Debug.Log("in post function-data: " + uwr.downloadHandler.data);
+    //        // Debug.Log("in post function: " + uwr.downloadHandler.text);
+    //        //// Debug.Log("in post function-data: " + uwr.downloadHandler.data);
     //        yield return null;
     //    }
     //    yield return new WaitForSeconds(1f);
@@ -174,13 +174,13 @@ public class HttpRequest: MonoBehaviour {
     }
 
     //[MenuItem("Tools/Read file")]
-    public string GetTestJSON() {
-        string path = "Assets/Resources/test_room.json";
+    //public string GetTestJSON() {
+    //    string path = "Assets/Resources/test_room.json";
 
-        StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
-        reader.Close();
+    //    StreamReader reader = new StreamReader(path);
+    //    string json = reader.ReadToEnd();
+    //    reader.Close();
 
-        return json;
-    }
+    //    return json;
+    //}
 }

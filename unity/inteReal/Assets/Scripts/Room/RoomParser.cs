@@ -7,7 +7,7 @@ public class RoomParser {
     // JSON을 가져와서 RoomJSON 객체로 change
     public RoomJSON Parse(string json) {
         //return JsonUtility.FromJson<RoomJSON> (json);
-        return JsonConvert.DeserializeObject<RoomJSON> (json);
+        return JsonConvert.DeserializeObject<RoomJSON>(json);
     }
 
     public Room Convert(RoomJSON roomJSON) {
@@ -37,7 +37,7 @@ public class RoomParser {
                         //int x2 = door.point_2[0];
                         //int z1 = door.point_1[1];
                         //int z2 = door.point_2[1];
-                        //Debug.Log(string.Format("wall: [({0}, {1}), ({2}, {3})]\ndoor: [({4}, {5}), ({6}, {7})]", 
+                        //// Debug.Log(string.Format("wall: [({0}, {1}), ({2}, {3})]\ndoor: [({4}, {5}), ({6}, {7})]", 
                         //    p1[0], p1[1], p2[0], p2[1], x1, z1, x2, z2));
                         if (door.height_1 == 0)     wall.addDoor(door);
                         else                        wall.addWindow(door);

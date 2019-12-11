@@ -45,7 +45,7 @@ public class DragObject : MonoBehaviour
 
                     //Transform child = target.transform.GetChild(0);
                     //Vector3 diff = child.position - 
-                    //Debug.Log("localscale: " + collider.transform.localPosition);
+                    //// Debug.Log("localscale: " + collider.transform.localPosition);
                     //target.transform.position = hit.point - collider.transform.localPosition;
                     //Debug.DrawLine(ray.origin, hit.point);
 
@@ -58,7 +58,7 @@ public class DragObject : MonoBehaviour
 
             float scroll = Input.mouseScrollDelta.y;
             if (scroll != 0) {
-                Debug.Log("scroll: " + scroll);
+                // Debug.Log("scroll: " + scroll);
                 target.transform.Rotate(0, scroll * 2, 0);
             }
 
@@ -72,7 +72,7 @@ public class DragObject : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit)) {
                 GameObject target = hit.collider.gameObject;
-                //Debug.Log(target);
+                //// Debug.Log(target);
                 if(Input.GetMouseButtonDown(0) && !target.CompareTag("wall") && !target.CompareTag("floor")) {
                     Attach(target);
                 }
@@ -104,7 +104,7 @@ public class DragObject : MonoBehaviour
 
             float scroll = padTouch.angle;
             if (scroll != 0) {
-                Debug.Log("VR scroll: " + scroll);
+                // Debug.Log("VR scroll: " + scroll);
                 target.transform.rotation = new Quaternion(0, scroll, 0, 1);
             }
 
@@ -119,7 +119,7 @@ public class DragObject : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(origin, forward, out hit, 100.0f)) {
                 GameObject target = hit.collider.gameObject;
-                //Debug.Log(target);
+                //// Debug.Log(target);
                 if(holdTrigger.isHold && !target.CompareTag("wall") && !target.CompareTag("floor")) {
                     Attach(target);
                 }

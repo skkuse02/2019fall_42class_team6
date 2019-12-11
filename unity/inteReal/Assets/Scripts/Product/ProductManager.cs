@@ -36,7 +36,7 @@ public class ProductManager : MonoBehaviour
         //StartCoroutine(http.Get("http://" + host + ":" + port + "/keyword", parameters));
         //new WaitUntil(() => http.last_text != null);
 
-        //Debug.Log("GET received: " + http.last_text);
+        //// Debug.Log("GET received: " + http.last_text);
         //return http.last_text;
 
         //string text = null;
@@ -51,8 +51,9 @@ public class ProductManager : MonoBehaviour
     public List<ProductionJSON> GetAllProductionsObj() {
         string json = GetProductsByKeyword("");
 
-        Debug.Log(json);
+        // Debug.Log(json);
         var products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
+        //var products = JsonUtility.FromJson<List<ProductionJSON>>(json);
         return products;
     }
 
@@ -65,10 +66,10 @@ public class ProductManager : MonoBehaviour
     //    bodyOpt.Add("function", "SearchByCategory");
     //    bodyOpt.Add("category", category);
 
-    //    //Debug.Log("gpbc check: " + http.last_text);
+    //    //// Debug.Log("gpbc check: " + http.last_text);
     //    StartCoroutine(http.Post("http://" + host + ":" + port + "/product", headerOpt, bodyOpt, new Dictionary<string, string>()));
 
-    //    //Debug.Log(http.last_text);
+    //    //// Debug.Log(http.last_text);
     //    return http.last_text;
     //}
 
@@ -87,14 +88,14 @@ public class ProductManager : MonoBehaviour
 
         StartCoroutine(ClearContent(productContent));
 
-        Debug.Log("# of products: " + products.Count);
+        // Debug.Log("# of products: " + products.Count);
         foreach (ProductionJSON product in products) {
-            Debug.Log("category: "+curCategory+"    brand: "+curBrand);
+            // Debug.Log("category: "+curCategory+"    brand: "+curBrand);
             if ((curCategory.Equals("") || product.category.Equals(curCategory)) &&
                 (curBrand.Equals("DEFAULT") || product.company.Equals(curBrand))) {
                 GameObject productItem = MakeProductionItem(product);
                 productItem.transform.parent = productContent.transform;
-                Debug.Log(productItem.transform.localPosition.z);
+                // Debug.Log(productItem.transform.localPosition.z);
                 productItem.transform.localScale = Vector3.one;
                 productItem.transform.localPosition = new Vector3(productItem.transform.localPosition.x,
                                                           productItem.transform.localPosition.y, 0);
@@ -115,7 +116,8 @@ public class ProductManager : MonoBehaviour
     public void SetKeyword(string keyword) {
         string json = GetProductsByKeyword(keyword);
         var products = JsonConvert.DeserializeObject<List<ProductionJSON>>(json);
-        Debug.Log("Searching keyword: " + keyword);
+        //var products = JsonUtility.FromJson<List<ProductionJSON>>(json);
+        // Debug.Log("Searching keyword: " + keyword);
         RenderProducts(products);
     }
 
@@ -137,9 +139,9 @@ public class ProductManager : MonoBehaviour
 
     //    ClearContent(productContent);
 
-    //    Debug.Log("# of products: " + products.Count);
+    //    // Debug.Log("# of products: " + products.Count);
     //    foreach (ProductionJSON product in products) {
-    //        Debug.Log(string.Format("category: {0}, product: {1} / brand: {2}, product: {3}", curCategory, product.category, curBrand, product.company));
+    //        // Debug.Log(string.Format("category: {0}, product: {1} / brand: {2}, product: {3}", curCategory, product.category, curBrand, product.company));
 
     //        if ((curCategory.Equals("") || product.category.Equals(curCategory)) &&
     //            (curBrand.Equals("DEFAULT") || product.company.Equals(curBrand))) {
@@ -148,7 +150,7 @@ public class ProductManager : MonoBehaviour
     //            productItem.transform.localScale = Vector3.one;
     //        }
     //    }
-    //    Debug.Log(string.Format("Render products: category[{0}] - brand[{1}]", curCategory, curBrand));
+    //    // Debug.Log(string.Format("Render products: category[{0}] - brand[{1}]", curCategory, curBrand));
     //}
 
     public GameObject MakeProductionItem(ProductionJSON product) {

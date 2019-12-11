@@ -16,7 +16,7 @@ public class LoginManager : MonoBehaviour
 
     void Start() {
         if (!File.Exists(Path.Combine(Directory.GetParent(Application.dataPath).FullName, cachedFile))) {
-            Debug.LogError("Login Failed!");
+            // Debug.LogError("Login Failed!");
             new WaitForSecondsRealtime(3f);
             Application.Quit();
             return;
@@ -25,7 +25,7 @@ public class LoginManager : MonoBehaviour
         StreamReader reader = new StreamReader(cachedFile);
         user_id = reader.ReadLine().Trim();
         model_id = reader.ReadLine().Trim();
-        Debug.Log("Login Success: " + user_id);
+        // Debug.Log("Login Success: " + user_id);
 
         loaded = true;
     }

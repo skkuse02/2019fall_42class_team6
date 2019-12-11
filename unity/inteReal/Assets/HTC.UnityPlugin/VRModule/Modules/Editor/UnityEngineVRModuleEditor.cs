@@ -39,7 +39,7 @@ namespace HTC.UnityPlugin.VRModuleManagement
             }
             catch (Exception e)
             {
-                Debug.LogError(e + " Failed to apply Vive Input Utility input manager bindings.");
+                // Debug.LogError(e + " Failed to apply Vive Input Utility input manager bindings.");
             }
         }
 

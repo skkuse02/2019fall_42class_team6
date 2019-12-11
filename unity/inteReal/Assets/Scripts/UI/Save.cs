@@ -28,7 +28,7 @@ public class Save : MonoBehaviour {
 
         //http.Post("http://" + host + ":" + port + "/user", headerOpt, bodyOpt, new Dictionary<string, string>());
         ////if (http.last_code != 200) {
-        ////    Debug.Log("Login Failed! code: " + http.last_code);
+        ////    // Debug.Log("Login Failed! code: " + http.last_code);
         ////    return false;
         ////}
         //return true;

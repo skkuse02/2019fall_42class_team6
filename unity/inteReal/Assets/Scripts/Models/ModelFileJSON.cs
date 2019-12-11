@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ModelFileJSON : MonoBehaviour
+public class ModelFileJSON
 {
     public string product_file;
 

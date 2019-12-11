@@ -31,7 +31,7 @@ public class Room {
         foreach (Hole hole in holes) {
             int middle = hole.GetOffset();
             int end = middle + hole.width;
-            //Debug.Log(string.Format("start: {0}, middle: {1}, end: {2}", start, middle, end));
+            //// Debug.Log(string.Format("start: {0}, middle: {1}, end: {2}", start, middle, end));
 
             subWalls.Add(wall.GetSubWall(start, 0, middle - start, wall.height));
             if (hole is Window w) {

@@ -16,6 +16,6 @@ public class CategoryClick : MonoBehaviour {
     void SetCategory() {
         string category = btn.GetComponentInChildren<Text>().text;
         manager.SetCategory(category);
-        Debug.Log("Select category: " + category);
+        // Debug.Log("Select category: " + category);
     }   
 }

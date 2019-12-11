@@ -188,7 +188,7 @@ namespace HTC.UnityPlugin.Vive.SteamVRExtension
 
         private void LoadModel(string renderModelName)
         {
-            //Debug.Log(transform.parent.parent.name + " Try LoadModel " + renderModelName);
+            // Debug.Log(transform.parent.parent.name + " Try LoadModel " + renderModelName);
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
@@ -206,7 +206,7 @@ namespace HTC.UnityPlugin.Vive.SteamVRExtension
 
             if (!m_isAppQuit && !string.IsNullOrEmpty(renderModelName))
             {
-                //Debug.Log(transform.parent.parent.name + " LoadModel " + renderModelName);
+                // Debug.Log(transform.parent.parent.name + " LoadModel " + renderModelName);
                 m_loadingRenderModels.Add(renderModelName);
                 VIUSteamVRRenderModelLoader.Load(renderModelName, OnLoadModelComplete);
             }
@@ -219,7 +219,7 @@ namespace HTC.UnityPlugin.Vive.SteamVRExtension
             if (loadedModelName == renderModelName) { return; }
             if (preferedModelName != renderModelName) { return; }
             if (!isActiveAndEnabled) { return; }
-            //Debug.Log(transform.parent.parent.name + " OnLoadModelComplete " + renderModelName);
+            // Debug.Log(transform.parent.parent.name + " OnLoadModelComplete " + renderModelName);
             ClearModel();
 
             VIUSteamVRRenderModelLoader.RenderModel renderModel;
@@ -360,7 +360,7 @@ namespace HTC.UnityPlugin.Vive.SteamVRExtension
 
         public void SetDeviceIndex(uint index)
         {
-            //Debug.Log(transform.parent.parent.name + " SetDeviceIndex " + index);
+            // Debug.Log(transform.parent.parent.name + " SetDeviceIndex " + index);
             m_deviceIndex = index;
             LoadPreferedModel();
         }

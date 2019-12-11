@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CartIDJSON : MonoBehaviour
+public class CartIDJSON
 {
     public string cart_id;
 }

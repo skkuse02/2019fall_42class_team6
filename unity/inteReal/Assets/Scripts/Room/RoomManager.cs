@@ -45,8 +45,6 @@ public class RoomManager : MonoBehaviour
     }
 
     void LoadRoom() {
-        Debug.Log("Room is Loading...");
-
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
         parameters.Add("function", "GetRoomInfofile");
@@ -54,8 +52,8 @@ public class RoomManager : MonoBehaviour
 
         string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/model", parameters);
 
-        Debug.Log("new room: " + json);
-        Debug.Log("old room: " + http.GetTestJSON());
+        //// Debug.Log("new room: " + json);
+        //// Debug.Log("old room: " + http.GetTestJSON());
 
         //string json = httpRequest.GetTestJSON();
 
@@ -77,7 +75,7 @@ public class RoomManager : MonoBehaviour
             GameObject obj = loader.LoadModelFromDir(p.product_id);
             obj.transform.position = new Vector3(p.position[0], p.position[1], p.position[2]);
             obj.transform.Rotate(new Vector3(0, p.rotation, 0));
-            Debug.Log("Load product: " + p.product_id);
+            //// Debug.Log("Load product: " + p.product_id);
         }
 
         MoveCamera(room);
@@ -101,7 +99,8 @@ public class RoomManager : MonoBehaviour
 
         roomJSON.product = productList;
         string json = JsonConvert.SerializeObject(roomJSON);
-        Debug.Log("Saving room: " + json);
+        //string json = JsonUtility.ToJson(roomJSON);
+        //// Debug.Log("Saving room: " + json);
 
         http.UploadJSON(login.model_id + "_roomInfo.json", json, "http://" + LoginManager.host + ":" + LoginManager.port + "/upload", new Dictionary<string, string>());
 
@@ -131,6 +130,6 @@ public class RoomManager : MonoBehaviour
         }
 
         player.transform.position = new Vector3(maxX / 200.0f, 2, -maxZ / 200.0f);
-        Debug.Log("transform: " + player.transform.position.x);
+        //// Debug.Log("transform: " + player.transform.position.x);
     }
 }

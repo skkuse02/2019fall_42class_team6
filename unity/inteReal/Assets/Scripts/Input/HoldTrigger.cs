@@ -19,10 +19,10 @@ public class HoldTrigger : MonoBehaviour
 
     private IEnumerator HoldTriggerButton() {
         if (isHold) {
-            Debug.Log("trigger button PRESSED");
+            // Debug.Log("trigger button PRESSED");
         }
         else {
-            Debug.Log("trigger button RELEASED");
+            // Debug.Log("trigger button RELEASED");
         }
         yield return null;
     }

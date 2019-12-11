@@ -41,7 +41,8 @@ public class ModelLoader : MonoBehaviour
     }
 
     public GameObject LoadModelFromDir(string product_id) {
-        string dir = Path.Combine("models", product_id);
+        string dir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "models", product_id);
+        Debug.Log("MODEL_DIR:" + dir);
 
         GameObject obj = new OBJLoader().Load(Path.Combine(dir, product_id + ".obj"));
 

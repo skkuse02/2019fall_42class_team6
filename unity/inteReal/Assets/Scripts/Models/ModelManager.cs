@@ -21,8 +21,9 @@ public class ModelManager : MonoBehaviour
 
         string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/keyword", parameters);
 
-        Debug.Log("Model Manager: " + json);
+        // Debug.Log("Model Manager: " + json);
         List<ModelFileJSON> files = JsonConvert.DeserializeObject<List<ModelFileJSON>>(json);
+        //List<ModelFileJSON> files = JsonUtility.FromJson<List<ModelFileJSON>>(json);
 
         if (!Directory.Exists("models")) {
             Directory.CreateDirectory("models");

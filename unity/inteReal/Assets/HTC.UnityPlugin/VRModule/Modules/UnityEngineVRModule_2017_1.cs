@@ -105,7 +105,7 @@ namespace HTC.UnityPlugin.VRModuleManagement
         {
             // only tracking certain type of node (some nodes share same uniqueID)
             if (!IsTrackingDeviceNode(nodeState)) { deviceIndex = INVALID_DEVICE_INDEX; return false; }
-            //Debug.Log(Time.frameCount + " TryGetNodeDeviceIndex " + nodeState.nodeType + " tracked=" + nodeState.tracked + " id=" + nodeState.uniqueID + " name=" + (InputTracking.GetNodeName(nodeState.uniqueID) ?? string.Empty));
+            // Debug.Log(Time.frameCount + " TryGetNodeDeviceIndex " + nodeState.nodeType + " tracked=" + nodeState.tracked + " id=" + nodeState.uniqueID + " name=" + (InputTracking.GetNodeName(nodeState.uniqueID) ?? string.Empty));
             if (!m_node2Index.TryGetValue(nodeState.uniqueID, out deviceIndex))
             {
                 // FIXME: 0ul is invalid id?
@@ -117,7 +117,7 @@ namespace HTC.UnityPlugin.VRModuleManagement
                 {
                     if (m_index2nodeValidity[0])
                     {
-                        //Debug.LogWarning("[" + Time.frameCount + "] Multiple Head node found! drop node id:" + nodeState.uniqueID.ToString("X8") + " type:" + nodeState.nodeType + " name:" + InputTracking.GetNodeName(nodeState.uniqueID) + " tracked=" + nodeState.tracked);
+                        // Debug.LogWarning("[" + Time.frameCount + "] Multiple Head node found! drop node id:" + nodeState.uniqueID.ToString("X8") + " type:" + nodeState.nodeType + " name:" + InputTracking.GetNodeName(nodeState.uniqueID) + " tracked=" + nodeState.tracked);
                         deviceIndex = INVALID_DEVICE_INDEX;
                         return false;
                     }
@@ -152,7 +152,7 @@ namespace HTC.UnityPlugin.VRModuleManagement
                     return false;
                 }
 
-                //Debug.Log("[" + Time.frameCount + "] Add node device index [" + deviceIndex + "] id=" + nodeState.uniqueID.ToString("X8") + " type=" + nodeState.nodeType + " tracked=" + nodeState.tracked);
+                // Debug.Log("[" + Time.frameCount + "] Add node device index [" + deviceIndex + "] id=" + nodeState.uniqueID.ToString("X8") + " type=" + nodeState.nodeType + " tracked=" + nodeState.tracked);
             }
 
             m_index2nodeTouched[deviceIndex] = true;
@@ -237,7 +237,7 @@ namespace HTC.UnityPlugin.VRModuleManagement
                     currState.deviceClass = s_nodeType2DeviceClass[(int)m_nodeStateList[i].nodeType];
                     // FIXME: getting wrong name in Unity 2017.1f1
                     //currDeviceState.serialNumber = InputTracking.GetNodeName(m_nodeStateList[i].uniqueID) ?? string.Empty;
-                    //Debug.Log("connected " + InputTracking.GetNodeName(m_nodeStateList[i].uniqueID));
+                    // Debug.Log("connected " + InputTracking.GetNodeName(m_nodeStateList[i].uniqueID));
 
                     if (!XRDevice.model.Equals("None"))
                     {
