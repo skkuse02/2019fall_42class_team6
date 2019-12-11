@@ -1,7 +1,6 @@
-# 2019.12.06 최종 수정
+# 2019.12.11 최종 수정
 # 외부모듈 : opencv, tkinter
 # 내부모듈 : outer_wall, innter_wall, door
-# v0 : 
 
 import os
 from tkinter import *
@@ -15,6 +14,9 @@ from door import saveroom
 import requests
 import json
 import operator
+import sys
+
+
 black = (0,0,0)
 
 class RoomInfo():
@@ -36,6 +38,8 @@ class RoomInfo():
        h2 : 창문의 윗단과 바닥과의 거리 int type를 value로 갖는다.
     
     5. ceiling 천장의 높이를 저장한다. float type (m 단위)
+
+    6. web으로부터 입력받은 user_id
     '''    
     def __init__(self, ceiling = 2.5):
         self.name = None
@@ -43,8 +47,9 @@ class RoomInfo():
         self.inner_points = []
         self.door = []
         self.ceiling = ceiling
+        self.user_id = None
         
-def newroom():
+def newroom(user_id):
     '''
     main UI에서 new room 버튼을 누르면 실행된다.
     main UI를 종료하고, 새로운 방을 만들 때에 방의 이름과 천장의 높이를 입력받는다.
@@ -59,6 +64,8 @@ def newroom():
     main_ui.destroy()
     # initialize object for new room
     newinfo = RoomInfo()
+    newinfo.user_id = user_id
+    print("newroom : newinfo.user_id : {}".format(newinfo.user_id))
 
     # window for input(room name, ceiling) 
     sub_root = Tk()
@@ -86,7 +93,6 @@ def step(event):
     '''
     global newinfo
     global sub_root
-    newinfo = RoomInfo()
     newinfo.name = tk.Entry.get(roomname)
     newinfo.ceiling = tk.Entry.get(ceil)
     sub_root.destroy()
@@ -114,10 +120,12 @@ def put_roominfo():
     save_btn.pack()
     room_input.mainloop()
 
-def loadroom():
+def loadroom(user_id):
+    print("user_id : {}".format(user_id))
     """
     DB와 연동하여 가장 최근에 생성된 ROOM을 호출하고, Unity 프로그램을 실행한다.
     """
+    # 유저가 만든 방의 정보를 호출
     URL = 'http://34.66.144.16:3000/model'
     headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -125,45 +133,85 @@ def loadroom():
     }
     n_data = {
         "function" : "LoadModelList", 
-        "user_id" : "user1"
+        "user_id" : user_id
     }
     res = requests.post(URL, data=n_data, headers=headers)
     
-    now_path = os.getcwd()
-    usermodel_dir = os.path.join(now_path, "usermodel")
-    if not os.path.isdir(usermodel_dir):
-        os.makedirs(usermodel_dir)
-    
+    # 백엔드으로부터 받아온 모델들의 리스트
     room_model_info = json.loads(res.text)
-    print(room_model_info)
+    # print(room_model_info)
 
     roommodel_dict = {}
     for modelinfo in room_model_info:
         temp_model = modelinfo["model_id"]
         temp_roomname = modelinfo["roomname"]
         roommodel_dict[temp_model] = temp_roomname
-        # modelroom_dict[]
-    
+    # print("roommodel_dict")
+    # print(roommodel_dict)
     model_ids = list(roommodel_dict.keys())
-    print(model_ids)
+    # print(model_ids)
     sorted_ids = sorted(model_ids, key = (lambda x: int(x.split("_")[1])), reverse=True)
-    print(sorted_ids)
+    # print(sorted_ids)
     if len(sorted_ids) > 10:
         sorted_ids = sorted_ids[:10]
-    sorted_roomname= [roommodel_dict[id] for id in sorted_ids]
-    print(sorted_roomname)
+    elif len(sorted_ids) < 10:
+        tempNone = ["None" for i in range(10-len(sorted_ids))]
+        sorted_ids.extend(tempNone)
+    roommodel_dict["None"] = "None"
+    # print("sorted_ids : ")
+    # print(sorted_ids)
+    sorted_roomname= [roommodel_dict[sortid] for sortid in sorted_ids]
+    # print(sorted_roomname)
 
+    # 최근에 생성한 방 10개를 선택할 수 있다.
+    # 해당하는 방 모델을 버튼을 선택할 수 있는 UI 창을 만든다.
+    loadroom_ui = Tk()
+    loadroom_ui.title("Load Room")
+    loadroom_ui.geometry("300x300")
+    btn1 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[0]], command=lambda:start_unity(user_id, sorted_ids[0]))
+    btn1.pack()
+    btn2 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[1]], command=lambda:start_unity(user_id, sorted_ids[1]))
+    btn2.pack()
+    btn3 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[2]], command=lambda:start_unity(user_id, sorted_ids[2]))
+    btn3.pack()
+    btn4 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[3]], command=lambda:start_unity(user_id, sorted_ids[3]))
+    btn4.pack()
+    btn5 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[4]], command=lambda:start_unity(user_id, sorted_ids[4]))
+    btn5.pack()
+    btn6 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[5]], command=lambda:start_unity(user_id, sorted_ids[5]))
+    btn6.pack()
+    btn7 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[6]], command=lambda:start_unity(user_id, sorted_ids[6]))
+    btn7.pack()
+    btn8 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[7]], command=lambda:start_unity(user_id, sorted_ids[7]))
+    btn8.pack()
+    btn9 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[8]], command=lambda:start_unity(user_id, sorted_ids[8]))
+    btn9.pack()
+    btn10 = ttk.Button(loadroom_ui, text=roommodel_dict[sorted_ids[9]], command=lambda:start_unity(user_id, sorted_ids[9]))
+    btn10.pack()
+    loadroom_ui.mainloop()    
+
+
+def start_unity(user_id, model_id):
+    '''
+    user id와 선택된 방 모델의 정보를 가지고, 이를 temp.txt 파일을 만들어 저장하고
+    unity program을 실행한다.
+    '''
+    if model_id == "None":
+        print("None clicked")
+    print("start unity with {}, {}".format(user_id, model_id))
+    now_path = os.getcwd()
     temp_path = os.path.join(now_path, "temp")
     if not os.path.isdir(temp_path):
         os.makedirs(temp_path)
-    
-    user_id = "user1"
-    model_id = sorted_ids[0]
     print_form = "{}\n"
     with open(os.path.join(temp_path,"temp.txt"), "w") as f:
         f.write(print_form.format(user_id))
         f.write(print_form.format(model_id))
-  
+    unity_prog = os.path.join(now_path, "unity.exe")
+    if os.path.isfile(unity_prog):
+        os.system(unity_prog)
+    print("finish")
+
 if __name__ == "__main__":
     '''
     main_ui를 실행한다.
@@ -171,6 +219,17 @@ if __name__ == "__main__":
     새롭게 공간을 구성하는 new room 두가지 기능을 가지고 있다.
     각각 loadroom, newroom 함수를 통해 구현되어 있으며, 버튼을 눌러서 실행할 수 있다.
     '''
+
+    # inp = sys.argv[1]
+    inp = "specifyroom://user1/"
+    user_id = inp.split("://")[1].split("/")[0]
+    print("sys.argv : {}\nuser_id(processed) : {}".format(inp, user_id))
+    # print(sys.argv)
+    # assert len(sys.argv) == 2, "sys argument should be two"
+    # arg = sys.argv[1]
+    # user_id = arg.split(":")[0]
+    # user_id = "user1"
+
     global main_ui
     main_ui = Tk()
     main_ui.title("Specify Room")
@@ -179,10 +238,10 @@ if __name__ == "__main__":
     label = Label(main_ui, text = 'Specify Room')
     label.pack()
 
-    load_button = ttk.Button(main_ui, text="load room", command=lambda:loadroom())
+    load_button = ttk.Button(main_ui, text="load room", command=lambda:loadroom(user_id))
     load_button.pack()
 
-    newroom_button = ttk.Button(main_ui, text="new room", command=lambda:newroom())
+    newroom_button = ttk.Button(main_ui, text="new room", command=lambda:newroom(user_id))
     newroom_button.pack()
 
     main_ui.mainloop()
