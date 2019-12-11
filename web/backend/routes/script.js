@@ -32,6 +32,8 @@ router.post('/user', parser, function (req, res){
   };
   if (req.body.function=='RegisterID'){
     mdbConn.registerID(req.body.user_id, req.body.password, req.body.user_name, req.body.address, req.body.email_address, null, req.body.role).then((result)=>{
+      mdbConn.createCart(req.body.user_id,req.body.user_id).then((result)=>{
+      }).catch((errMsg)=>{res.send(errMsg)});
       res.send(result);
       console.log('register ID');
     }).catch((errMsg)=>{

@@ -510,7 +510,7 @@ async function GetCartid(user_id){
     try{
         conn = await pool.getConnection();
         conn.query('Use intereal');
-        var query = `SELECT cart_id FROM cart WHERE user_id = '`+user_id+`';`;
+        var query = `SELECT cart_id FROM cart WHERE user_id = '`+user_id+`' LIMIT 1;`;
         rows = await conn.query(query);
     }
     catch(err){
