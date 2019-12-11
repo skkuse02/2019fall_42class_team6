@@ -45,11 +45,23 @@ export default {
       this.$router.push(path).catch(err => {});
     },
     downloadfile() {
+      /*
       this.$http.get('/setup.zip')
-      .then(() => {})
+      .then(resp => {console.log(resp);})
       .catch(err => {
         console.log(err)
-      })
+      })*/
+      this.$http.get('/setup.zip', {responseType: 'blob'})
+      .then((response) => {
+        var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+        var fileLink = document.createElement('a');
+
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'setup.zip');
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      }).catch(err => console.log(err))
     }
   }
 }
