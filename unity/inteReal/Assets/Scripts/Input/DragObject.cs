@@ -13,6 +13,8 @@ public class DragObject : MonoBehaviour
     public ViveRaycaster viveRay;
     public GameObject target;
     public HoldTrigger holdTrigger;
+    public PrimaryButtonClick primaryButton;
+    public PadTouch padTouch;
 
     public void Attach(GameObject obj) {
         target = obj;
@@ -60,11 +62,11 @@ public class DragObject : MonoBehaviour
                 target.transform.Rotate(0, scroll * 2, 0);
             }
 
-            if (Input.GetMouseButtonDown(1)) {
+            if (Input.GetMouseButtonDown(1))
+            {
                 target.SetActive(false);
                 Detach();
             }
-
         }
         else {
             RaycastHit hit;
@@ -98,6 +100,19 @@ public class DragObject : MonoBehaviour
                     }
                     break;
                 }
+            }
+
+            float scroll = padTouch.angle;
+            if (scroll != 0) {
+                Debug.Log("VR scroll: " + scroll);
+                target.transform.rotation = new Quaternion(0, scroll, 0, 1);
+            }
+
+            if (primaryButton.isClicked)
+            {
+                primaryButton.isClicked = false;
+                target.SetActive(false);
+                Detach();
             }
         }
         else {

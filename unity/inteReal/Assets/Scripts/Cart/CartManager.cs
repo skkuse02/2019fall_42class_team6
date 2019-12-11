@@ -33,6 +33,8 @@ public class CartManager : MonoBehaviour
             GameObject cartItem = MakeCartItem(product);
             cartItem.transform.parent = cartContent.transform;
             cartItem.transform.localScale = new Vector3(1.4f, 1, 1);
+            cartItem.transform.localPosition = new Vector3(cartItem.transform.localPosition.x,
+                                                           cartItem.transform.localPosition.y, 0);
         }
     }
 
@@ -105,16 +107,17 @@ public class CartManager : MonoBehaviour
     }
 
     public string GetCartId(string username) {
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        //Dictionary<string, string> parameters = new Dictionary<string, string>();
 
-        parameters.Add("function", "GetCartid");
-        parameters.Add("user_id", username);
+        //parameters.Add("function", "GetCartid");
+        //parameters.Add("user_id", username);
 
-        string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
+        //string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
-        List<CartIDJSON> cart_ids = JsonConvert.DeserializeObject<List<CartIDJSON>>(json);
-        string cart_id = cart_ids[0].cart_id;
-        return cart_id;
+        //List<CartIDJSON> cart_ids = JsonConvert.DeserializeObject<List<CartIDJSON>>(json);
+        //string cart_id = cart_ids[0].cart_id;
+        //return cart_id;
+        return username;
     }
 
     public GameObject MakeCartItem(ProductionJSON product) {

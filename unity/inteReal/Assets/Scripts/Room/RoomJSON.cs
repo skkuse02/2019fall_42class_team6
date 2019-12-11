@@ -31,10 +31,10 @@ public class RoomJSON {
 
     public class Product {
         public string product_id;
-        public int[] position;
-        public int rotation;
+        public float[] position;
+        public float rotation;
 
-        public Product (string product_id, int[] position, int rotation) {
+        public Product (string product_id, float[] position, float rotation) {
             this.product_id = product_id;
             this.position = position;
             this.rotation = rotation;

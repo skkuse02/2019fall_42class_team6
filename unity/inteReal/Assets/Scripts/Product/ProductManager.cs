@@ -94,8 +94,10 @@ public class ProductManager : MonoBehaviour
                 (curBrand.Equals("DEFAULT") || product.company.Equals(curBrand))) {
                 GameObject productItem = MakeProductionItem(product);
                 productItem.transform.parent = productContent.transform;
-                Debug.Log(productItem.transform.parent.name);
+                Debug.Log(productItem.transform.localPosition.z);
                 productItem.transform.localScale = Vector3.one;
+                productItem.transform.localPosition = new Vector3(productItem.transform.localPosition.x,
+                                                          productItem.transform.localPosition.y, 0);
             }
         }
     }

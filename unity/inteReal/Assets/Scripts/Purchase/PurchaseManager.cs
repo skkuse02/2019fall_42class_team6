@@ -13,6 +13,8 @@ public class PurchaseManager : MonoBehaviour
         GameObject purchaseItem = MakePurchaseItem(product);
         purchaseItem.transform.parent = purchaseContent.transform;
         purchaseItem.transform.localScale = new Vector3(1.4f, 1, 1);
+        purchaseItem.transform.localPosition = new Vector3(purchaseItem.transform.localPosition.x,
+                                                           purchaseItem.transform.localPosition.y, 0);
     }
 
     public GameObject MakePurchaseItem(ProductionJSON product) {
