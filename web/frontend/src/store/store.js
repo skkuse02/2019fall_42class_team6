@@ -10,7 +10,8 @@ export default new Vuex.Store({
 		status: '',
 		userToken: localStorage.getItem('userToken') || '',
 		paymentToken: localStorage.getItem('paymentToken') || '',
-		user: JSON.parse(localStorage.getItem('userToken')).user_id || '',
+		user: localStorage.getItem('userToken') == null?
+						'' : JSON.parse(localStorage.getItem('userToken')).user_id
 	},
 	getters: {
 		isLoggedIn: state => !!state.userToken,
@@ -25,6 +26,9 @@ export default new Vuex.Store({
 			state.status = 'success'
 			state.userToken = userToken
 			state.user = user
+		},
+		auth_simple_success(state){
+			state.status = 'success'
 		},
 		auth_error(state){
 			state.status = 'error'
@@ -94,6 +98,8 @@ export default new Vuex.Store({
 					}else{
 						// update userToken in localStorage
 						delete user.password
+						delete user.headers
+						delete user.function
 						let userToken = JSON.parse(localStorage.getItem('userToken'))
 						for(var key in user) {
 								userToken[key] = user[key] ;
@@ -113,6 +119,28 @@ export default new Vuex.Store({
 				})
 			})
 		},
+		checkIdDupl({commit}, user){
+			return new Promise((resolve, reject) => {
+				commit('auth_request')
+				axios({url: '/user', data: user, method: 'POST' })
+				.then(resp => {
+					if (resp.data){
+						commit('auth_error')
+						alert("이미 id가 존재합니다. 다른 id를 사용해주세요.")
+						reject(resp)
+					}else{
+						commit('auth_simple_success')
+						alert("사용가능한 id입니다!")
+						resolve(resp)
+					}
+				})
+				.catch(err => {
+					commit('auth_error')
+					alert("통신에 실패했습니다.")
+					reject(err)
+				})
+			})
+		},
 		register({commit}, user){
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
@@ -121,19 +149,11 @@ export default new Vuex.Store({
 					//console.log(resp.data)
 					if (!resp.data){
 						commit('auth_error')
-						alert("회원가입에 실패했습니다.")
+						alert("회원가입에 실패했습니다.\n필수항목은 다 채웠는지, ID 중복체크는 했는지 다시 한번 확인해주세요!")
 						reject(resp)
 					}else{
-						let userToken = user
-						let user = userToken.user_id
-						delete userToken.password
-
-						// update userToken in localStorage
-						localStorage.setItem('userToken', JSON.stringify(userToken))
-
-						// Add the following line:
-						axios.defaults.headers.common['Authorization'] = userToken
-						commit('auth_success', {userToken, user})
+						commit('auth_simple_success')
+						alert("회원가입에 성공했습니다. 가입한 계정으로 로그인해주세요.")
 						resolve(resp)
 					}
 				})
@@ -202,7 +222,7 @@ export default new Vuex.Store({
 						reject(resp)
 					}else{
 						dispatch('getPaymentList')
-						resolve(resp)
+						setTimeout(function(){resolve(resp);}, 50);
 					}
 				})
 				.catch(err => {

@@ -10,6 +10,7 @@ public class RoomJSON {
     public float ceiling;
     public string roomname;
     public List<Door> door;
+    public List<Product> product;
 
     public class Point {
         public int x;
@@ -26,5 +27,17 @@ public class RoomJSON {
         public int[] point_2;
         public int height_1;
         public int height_2;
+    }
+
+    public class Product {
+        public string product_id;
+        public int[] position;
+        public int rotation;
+
+        public Product (string product_id, int[] position, int rotation) {
+            this.product_id = product_id;
+            this.position = position;
+            this.rotation = rotation;
+        }
     }
 }

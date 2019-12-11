@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Dummiesman;
 using System.IO;
 
@@ -35,13 +36,13 @@ public class ModelLoader : MonoBehaviour
         return loadedObj;
     }
 
-    public GameObject LoadModelFromDir(string product_id) {
-        string dir = Path.Combine("models", product_id);
+    public GameObject LoadModelFromDir(ProductionJSON product) {
+        string dir = Path.Combine("models", product.product_id);
 
-        GameObject obj = new OBJLoader().Load(Path.Combine(dir, product_id + ".obj"));
+        GameObject obj = new OBJLoader().Load(Path.Combine(dir, product.product_id + ".obj"));
 
         MTLLoader mtl = new MTLLoader();
-        Dictionary<string, Material> textures = mtl.Load(Path.Combine(dir, product_id + ".mtl"));
+        Dictionary<string, Material> textures = mtl.Load(Path.Combine(dir, product.product_id + ".mtl"));
 
         FitCollider(obj);
         //obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
@@ -54,6 +55,17 @@ public class ModelLoader : MonoBehaviour
         //foreach (var p in textures) {
         //    obj.GetComponent<Renderer>().material.SetTexture(p.Key, p.Value.mainTexture);
         //}
+        Vector3 size = new Vector3(product.height, product.depth, product.width);
+        obj.transform.localScale *= 20;
+
+        Text text = obj.AddComponent<Text>();
+        text.text = product.product_id;
+
+        GameObject productObj = GameObject.Find("Products");
+        if (productObj == null) {
+             productObj = new GameObject("Products");
+        }
+        obj.transform.parent = productObj.transform;
 
         return obj;
 

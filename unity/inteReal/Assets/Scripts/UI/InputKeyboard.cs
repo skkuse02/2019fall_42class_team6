@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class InputKeyboard : MonoBehaviour {
     private InputField inputfield;
     public GameObject keyboardScreen;
+
     void Start() {
         inputfield = this.GetComponent<InputField>();
     }
@@ -17,7 +18,7 @@ public class InputKeyboard : MonoBehaviour {
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData) {
-        keyboardScreen.SetActive(true);
-    }
+    //public void OnPointerClick(PointerEventData eventData) {
+    //    keyboardScreen.SetActive(true);
+    //}
 }

@@ -10,6 +10,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#" v-if="isLoggedIn">Download</b-nav-item>
+          <b-nav-item :href="specifyroomPath" v-if="isLoggedIn">Run SpecifyRoom</b-nav-item>
           <b-nav-item-dropdown text="User" right v-if="isLoggedIn">
             <b-dropdown-item v-on:click="moveTo('/userinfo')">Account Information</b-dropdown-item>
             <b-dropdown-item v-on:click="moveTo('/paymentmethod')">Payment Methods</b-dropdown-item>
@@ -30,6 +31,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
+    },
+    specifyroomPath(){
+      return "specifyroom://" + JSON.parse(localStorage.getItem('userToken')).user_id
     }
   },
   methods: {

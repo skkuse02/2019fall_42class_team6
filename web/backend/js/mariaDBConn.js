@@ -55,7 +55,7 @@ async function RegisterID(user_id, password, name, address, email_address, payme
         await conn.query(query);
         result = true;
     }
-    catch(err){z
+    catch(err){
         result = false;
         throw err;
     }

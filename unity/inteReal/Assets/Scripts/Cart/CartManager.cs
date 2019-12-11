@@ -6,11 +6,7 @@ using Newtonsoft.Json;
 
 public class CartManager : MonoBehaviour
 {
-    const string username = "user1";
-    const string password = "user1";
-    string host = "34.66.144.16";
-    string port = "3000";
-
+    public LoginManager login;
     public HttpRequest http;
     public ProductManager productManager;
     public GameObject cartContent;
@@ -30,26 +26,33 @@ public class CartManager : MonoBehaviour
     public void RenderCart() {
         StartCoroutine(ClearContent(cartContent));
 
-        GetCartList(GetCartId(username));
+        List<ProductionJSON> products = GetCartList(GetCartId(login.user_id));
+
+
+        foreach (ProductionJSON product in products) {
+            GameObject cartItem = MakeCartItem(product);
+            cartItem.transform.parent = cartContent.transform;
+            cartItem.transform.localScale = new Vector3(1.4f, 1, 1);
+        }
     }
 
     public void AddToCart(string product) {
-        string cart_id = GetCartId(username);
+        string cart_id = GetCartId(login.user_id);
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
         parameters.Add("function", "AddProductToCart");
         parameters.Add("cart_id", cart_id);
-        parameters.Add("user_id", username);
+        parameters.Add("user_id", login.user_id);
         parameters.Add("product_id", product);
 
-        http.Get("http://" + host + ":" + port + "/cart", parameters);
+        http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
         RenderCart();
     }
 
     public void RemoveFromCart(string product) {
-        string cart_id = GetCartId(username);
+        string cart_id = GetCartId(login.user_id);
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
@@ -57,12 +60,12 @@ public class CartManager : MonoBehaviour
         parameters.Add("cart_id", cart_id);
         parameters.Add("product_id", product);
 
-        http.Get("http://" + host + ":" + port + "/cart", parameters);
+        http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
         RenderCart();
     }
 
-    public void GetCartList(string cart_id) {
+    public List<ProductionJSON> GetCartList(string cart_id) {
         Dictionary<string, string> parameters = new Dictionary<string, string>();
 
         parameters.Add("function", "GetProductListByCartid");
@@ -79,7 +82,7 @@ public class CartManager : MonoBehaviour
         //        json = body.text;
         //    }));
 
-        string json = http.Get("http://" + host + ":" + port + "/cart", parameters);
+        string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
         Debug.Log("CART:" + json);
         List<ProductIDJSON> cartList = JsonConvert.DeserializeObject<List<ProductIDJSON>>(json);
@@ -91,14 +94,14 @@ public class CartManager : MonoBehaviour
         }
         Debug.Log("CartIDs: " + string.Join(", ", cartIDs));
 
-        foreach (ProductionJSON product in products) {
+        List<ProductionJSON> productsInCart = new List<ProductionJSON>();
+        foreach (var product in products) {
             if (cartIDs.Contains(product.product_id)) {
-                GameObject cartItem = MakeCartItem(product);
-                cartItem.transform.parent = cartContent.transform;
-                cartItem.transform.localScale = new Vector3(1.4f, 1, 1);
+                productsInCart.Add(product);
             }
         }
-        // need to change
+
+        return productsInCart;
     }
 
     public string GetCartId(string username) {
@@ -107,7 +110,7 @@ public class CartManager : MonoBehaviour
         parameters.Add("function", "GetCartid");
         parameters.Add("user_id", username);
 
-        string json = http.Get("http://" + host + ":" + port + "/cart", parameters);
+        string json = http.Get("http://" + LoginManager.host + ":" + LoginManager.port + "/cart", parameters);
 
         List<CartIDJSON> cart_ids = JsonConvert.DeserializeObject<List<CartIDJSON>>(json);
         string cart_id = cart_ids[0].cart_id;
