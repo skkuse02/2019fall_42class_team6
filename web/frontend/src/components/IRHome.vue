@@ -10,22 +10,16 @@
         indicators
         background="#ababab"
         img-width="1024"
-        img-height="550"
+        img-height="768"
         style="text-shadow: 1px 1px 2px #333;"
         @sliding-start="onSlideStart"
         @sliding-end="onSlideEnd"
       >
         <!-- Text slides with image -->
         <b-carousel-slide
-          caption="코비1"
-          text="일단 임의로 넣어뒀습니다."
-          img-src="../assets/kovi1.png"
-        ></b-carousel-slide>
-
-        <b-carousel-slide
-          caption="코비2"
-          text="일단 임의로 넣어뒀습니다."
-          img-src="../assets/kovi2.png"
+          caption="팀플의 현장"
+          text="열심히 개발하는 모습이 보기 좋습니다."
+          img-src="../assets/pic3.jpg"
         ></b-carousel-slide>
 
         <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -38,7 +32,7 @@
       </b-carousel>
     </div>
     <br>
-    <p>적당히 쓸 내용을 생각해봅시다.</p>
+    <p>Software Engineering - InteReal</p>
   </div>
 </template>
 
