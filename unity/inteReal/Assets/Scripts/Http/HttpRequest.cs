@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.IO;
 using System.Net;
+using System.Text;
+using System;
 
 public class HttpRequest: MonoBehaviour {
 
@@ -35,7 +37,7 @@ public class HttpRequest: MonoBehaviour {
             bodyList.Add(string.Format("{0}={1}", p.Key, p.Value));
         }
         string form = string.Join("&amp;", bodyList);
-        byte[] data = System.Text.Encoding.UTF8.GetBytes(form);
+        byte[] data = Encoding.UTF8.GetBytes(form);
         request.ContentLength = data.Length;
 
         Stream stream = request.GetRequestStream();
@@ -65,21 +67,32 @@ public class HttpRequest: MonoBehaviour {
         fs.Close();
     }
 
-    public void UploadString(string content, string endpoint, Dictionary<string, string> parameters) {
-        //HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp(MakeFullURL(endpoint, parameters));
-        //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        //Stream stream = response.GetResponseStream();
+    public void UploadJSON(string filename, string json, string endpoint, Dictionary<string, string> parameters) {
+        HttpWebRequest request = (HttpWebRequest)WebRequest.CreateHttp(MakeFullURL(endpoint, parameters));
+        request.Method = "POST";
 
-        //byte[] buff = new byte[4096];
-        //FileStream fs = new FileStream(path, FileMode.Create);
+        string boundary = "------------------------" + DateTime.Now.Ticks.ToString("x");
+        request.ContentType = "multipart/form-data; boundary=" + boundary;
+        request.Accept = "application/json";
 
-        //int offset = 0;
-        //int count;
-        //do {
-        //    count = stream.Read(buff, offset, buff.Length);
-        //    fs.Write(buff, 0, count);
-        //} while (count > 0);
-        //fs.Close();
+        string content = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n{3}\r\n--{0}--\r\n",
+                                       boundary, filename, "application/x-www-form-urlencoded", json);
+        request.ContentLength = content.Length;
+
+        Stream stream = request.GetRequestStream();
+
+        byte[] buff = new byte[4096];
+        Stream stringStream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+
+        int count = 0;
+        while ((count = stringStream.Read(buff, 0, buff.Length)) > 0) {
+            stream.Write(buff, 0, count);
+        }
+
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        StreamReader reader = new StreamReader(response.GetResponseStream());
+        string text = reader.ReadToEnd();
+        Debug.Log("upload response: " + text);
     }
 
     //public IEnumerator Get(string endpoint, Dictionary<string, string> parameters) {

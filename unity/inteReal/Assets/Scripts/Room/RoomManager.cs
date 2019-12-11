@@ -71,6 +71,15 @@ public class RoomManager : MonoBehaviour
             fo.AddComponent<Teleportable>().fadeDuration = fadeDuration;
         }
 
+        ModelLoader loader = new ModelLoader();
+
+        foreach (RoomJSON.Product p in roomJSON.product) {
+            GameObject obj = loader.LoadModelFromDir(p.product_id);
+            obj.transform.position = new Vector3(p.position[0], p.position[1], p.position[2]);
+            obj.transform.Rotate(new Vector3(0, p.rotation, 0));
+            Debug.Log("Load product: " + p.product_id);
+        }
+
         MoveCamera(room);
     }
 
@@ -82,8 +91,8 @@ public class RoomManager : MonoBehaviour
             for (int i=0; i < products.transform.childCount; i++) {
                 Transform child = products.transform.GetChild(i);
                 string product_id = child.gameObject.GetComponent<Text>().text;
-                int[] position = {(int)child.position.x, (int)child.position.y, (int)child.position.z};
-                int rotation = (int)child.rotation.y;
+                float[] position = {child.position.x, child.position.y, child.position.z};
+                float rotation = child.rotation.y;
 
                 RoomJSON.Product product = new RoomJSON.Product(product_id, position, rotation);
                 productList.Add(product);
@@ -93,6 +102,8 @@ public class RoomManager : MonoBehaviour
         roomJSON.product = productList;
         string json = JsonConvert.SerializeObject(roomJSON);
         Debug.Log("Saving room: " + json);
+
+        http.UploadJSON(login.model_id + "_roomInfo.json", json, "http://" + LoginManager.host + ":" + LoginManager.port + "/upload", new Dictionary<string, string>());
 
         //Dictionary<HttpRequestHeader, string> headerOpt = new Dictionary<HttpRequestHeader, string>();
         //Dictionary<string, string> bodyOpt = new Dictionary<string, string>();

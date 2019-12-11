@@ -469,7 +469,7 @@ router.get('/keyword', function(req,res){
       res.send(errMsg);
     });
   };
-  // GetFile : request file 
+  // GetFile : request file
   if(req.query.function=='GetFile'){
     var filename = path.join(__dirname,'..','file',req.query.filename);
     res.sendFile(filename);
