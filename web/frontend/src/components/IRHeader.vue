@@ -9,7 +9,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#" v-if="isLoggedIn">Download</b-nav-item>
+          <b-nav-item :click="downloadfile" v-if="isLoggedIn">Download</b-nav-item>
           <b-nav-item :href="specifyroomPath" v-if="isLoggedIn">Run SpecifyRoom</b-nav-item>
           <b-nav-item-dropdown text="User" right v-if="isLoggedIn">
             <b-dropdown-item v-on:click="moveTo('/userinfo')">Account Information</b-dropdown-item>
@@ -43,6 +43,13 @@ export default {
     },
     moveTo(path){
       this.$router.push(path).catch(err => {});
+    },
+    downloadfile() {
+      this.$axios.get('/setup.zip')
+      .then(() => {})
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }

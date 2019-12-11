@@ -7,7 +7,6 @@ import IRSignUp from '../components/Login/IRSignUp.vue'
 import IRUserInfo from '../components/Login/IRUserInfo.vue'
 import IRModifyUserInfo from '../components/Login/IRModifyUserInfo.vue'
 import IRPaymentMethod from '../components/Payment/IRPaymentMethod.vue'
-import IRDownload from '../components/Download/IRDownload.vue'
 import Secure from '../components/Secure.vue'
 
 Vue.use(VueRouter)
@@ -29,11 +28,6 @@ let router = new VueRouter({
       path: '/login',
       name: 'login',
       component: IRLogin
-    },
-    {
-      path: '/download',
-      name: 'download',
-      component: IRDownload
     },
     {
       path: '/userinfo',
